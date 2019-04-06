@@ -1,10 +1,124 @@
+h1 {
+  word-wrap: break-word;
+}
+
+
 .scenario-description {
-    display: grid;
-    grid-template-columns: minmax(250px, 4fr) 3fr;
+  display: grid;
 }
 
 .submission {
+  display: grid;
+  /*align-items: center;*/
+  grid-template-columns: 1fr 8fr 5fr;
+}
+
+.score {
+  font-weight: bold;
+}
+
+.rank {
+  font-weight: bold;
+  align-self: center;
+  text-align: left;
+  color: #555;
+}
+
+.team {
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.stats {
+}
+
+
+@media (max-width: 700px) {
+  h1 {
+    font-size: 50px;
+  }
+
+  h2 {
+    font-size: 30px;
+  }
+
+  .scenario-description {
     display: grid;
-    grid-template-columns: 1fr 3fr 5fr;
+    grid-template-columns: minmax(125px, 4fr) 17px 8fr;
+    font-size: 13px;
+    padding-left: 0;
+  }
+  .scenario-description iframe {
+    height: 200px;
+  }
+
+  .submission {
+    grid-template-columns: 1fr 6fr 1fr;
+  }
+
+  .submission iframe {
+    height: 200px;
+  }
+
+  .score {
+    font-size: 17px;
+  }
+
+  .rank {
+    font-size: 40px;
+    padding-right: 20px;
+  }
+
+  .team {
+    padding-top: 25px;
+    padding-bottom: 10px;
+    font-size: 20px;
+  }
+
+  .stats {
+    padding-top: 57px;
+    padding-left: 15px;
+    font-size: 11px;
+  }
+}
+
+@media (min-width: 701px) {
+  h1 {
+    font-size: 100px;
+  }
+
+  h2 {
+    font-size: 60px;
+  }
+
+  .scenario-description {
+    display: grid;
+    grid-template-columns: minmax(250px, 4fr) 35px 5fr;
+    font-size: 25px;
+  }
+
+  .submission {
+    grid-template-columns: 1fr 8fr 5fr;
+  }
+
+  .score {
+    font-size: 35px;
+  }
+
+  .rank {
+    font-size: 90px;
+  }
+
+  .team {
+    padding-top: 50px;
+    padding-bottom: 20px;
+    font-size: 40px;
+  }
+
+  .stats {
+    padding-top: 115px;
+    padding-left: 30px;
+    font-size: 25px;
+  }
 }
 

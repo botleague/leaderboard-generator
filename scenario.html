@@ -11,6 +11,8 @@
   <link rel="apple-touch-icon" href="icon.png">
   <!-- Place favicon.ico in the root directory -->
 
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300'
+        rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/scenario.css">
@@ -31,11 +33,13 @@
 
   <div class="scenario-description">
     <div>
-      One of the most difficult situations for self-driving cars, unprotected
-      lefts involve taking a left turn across lanes of oncoming traffic
-      which are not required to stop (i.e. by a left-hand turn arrow or stop
-      sign).
+      Unprotected lefts involve taking a left turn across
+      lanes of oncoming traffic that do not have a stop sign or traffic-light
+      to "protect" the left turn. These are one of the most difficult situations
+      to navigate as it requires dealing with oncoming cars taking left turns,
+      right turns, and going straight.
     </div>
+    <div></div>
     <div class="video">
       <iframe width="560" height="315"
               src="https://www.youtube.com/embed/Un8_yXtTAps" frameborder="0"
@@ -45,10 +49,11 @@
 
   </div>
 
+  <h2>Leaderboard</h2>
   <div class="submission">
-    <div># 1</div>
+    <div class="rank">1</div>
     <div>
-      <div>drewjgray</div>
+      <div class="team">drewjgray</div>
       <div class="video">
         <iframe width="560" height="315"
                 src="https://www.youtube.com/embed/Un8_yXtTAps"
@@ -57,18 +62,18 @@
                 allowfullscreen></iframe>
       </div>
     </div>
-    <div>
-      <div>Score: 5.6k</div>
-      <div>3 days ago</div>
+    <div class="stats">
+      <div class="score">Score: 5.6k</div>
+      <div>moments ago</div>
       <div>GitHub: <a href="https://github.com/deepdrive/deepdrive">drewjgray/SuperAgent</a>
       </div>
     </div>
   </div>
 
   <div class="submission">
-    <div># 2</div>
+    <div class="rank">2</div>
     <div>
-      <div>drewjgray</div>
+      <div class="team">crizcraig</div>
       <div class="video">
         <iframe width="560" height="315"
                 src="https://www.youtube.com/embed/Un8_yXtTAps"
@@ -77,18 +82,18 @@
                 allowfullscreen></iframe>
       </div>
     </div>
-    <div>
-      <div>Score: 5.6k</div>
+    <div class="stats">
+      <div class="score">Score: 5.2k</div>
       <div>3 days ago</div>
-      <div>GitHub: <a href="https://github.com/deepdrive/deepdrive">drewjgray/SuperAgent</a>
+      <div>GitHub: <a href="https://github.com/deepdrive/deepdrive">crizcraig/myagent</a>
       </div>
     </div>
   </div>
 
   <div class="submission">
-    <div># 3</div>
+    <div class="rank">3</div>
     <div>
-      <div>forward-agent</div>
+      <div class="team">forward-agent</div>
       <div class="video">
         <iframe width="560" height="315"
                 src="https://www.youtube.com/embed/Un8_yXtTAps"
@@ -97,15 +102,17 @@
                 allowfullscreen></iframe>
       </div>
     </div>
-    <div>
-      <div>Score: -1k</div>
-      <div>10 days ago</div>
+    <div class="stats">
+      <div class="score">Score: -1k</div>
+      <div>2 weeks ago</div>
       <div>GitHub: <a href="https://github.com/deepdrive/deepdrive">deepdrive/forward_agent_cpp</a>
       </div>
     </div>
   </div>
 
 </div>
+
+<div class="footer"></div>
 
 <script src="js/vendor/modernizr-{{MODERNIZR_VERSION}}.min.js"></script>
 <script src="https://code.jquery.com/jquery-{{JQUERY_VERSION}}.min.js"
@@ -127,6 +134,7 @@
 </script>
 <script src="https://www.google-analytics.com/analytics.js" async
         defer></script>
+
 </body>
 
 </html>
