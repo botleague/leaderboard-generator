@@ -1,23 +1,34 @@
 from __future__ import (absolute_import, division,
                         print_function, unicode_literals)
 
+import json
+import time
 
 from future.builtins import (dict, input,
                              str)
 
 import os
+import os.path as p
 import shutil
 from distutils.dir_util import copy_tree
 from jinja2 import Environment, PackageLoader, select_autoescape
 
 
-DIR = os.path.dirname(os.path.realpath(__file__))
+DIR = p.dirname(p.realpath(__file__))
 APP = 'leaderboard'
-APP_DIR = os.path.join(DIR, APP)
-GEN_DIR = os.path.join(APP_DIR, 'generated')
+APP_DIR = p.join(DIR, APP)
+GEN_DIR = p.join(APP_DIR, 'generated')
 
 
 def main():
+
+    last_gen_filename = p.join(GEN_DIR, 'last-generation-time.json')
+    if p.exists(last_gen_filename):
+        with open(last_gen_filename) as last_gen_file:
+            last_gen = json.load(last_gen_file)['last_gen_time']
+            if time.time() - last_gen < 1:
+                # print('Skipping generation, too soon!@')
+                return
 
     env = Environment(
         loader=PackageLoader(APP, 'templates'),
@@ -42,14 +53,15 @@ def main():
     page = 'leaderboard.html'
     env.get_template(page)
     template = env.get_template(page)
-    if os.path.exists(GEN_DIR):
+    if p.exists(GEN_DIR):
         shutil.rmtree(GEN_DIR)
     os.makedirs(GEN_DIR)
-    with open(os.path.join(GEN_DIR, page), 'w') as outfile:
+
+    with open(p.join(GEN_DIR, page), 'w') as outfile:
         outfile.write(template.render(
             scenario_name='Unprotected left scenario',
             submissions=[dict(
-                user='drewjgray',
+                user='drewjgray3',
                 score='5.6k',
                 time='86400000',
                 github_url='https://github.com/deepdrive/deepdrive',
@@ -57,7 +69,12 @@ def main():
                 youtube_url='https://www.youtube.com/embed/Un8_yXtTAps'
             )]
         ),)
-    copy_tree(os.path.join(APP_DIR, 'static'), GEN_DIR)
+
+    with open(p.join(GEN_DIR, 'last-generation-time.json'), 'w') as outtime:
+        json.dump(dict(last_gen_time=time.time()), outtime)
+
+    copy_tree(p.join(APP_DIR, 'static'), GEN_DIR)
+    print('Generated new leaderboard\n')
 
 
 if __name__ == '__main__':
