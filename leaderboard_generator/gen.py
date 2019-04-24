@@ -36,7 +36,7 @@ def main():
 
     # TODO:
     #  - Trigger on PR to agent_zoo
-    #  - Test this with forward-agent --- do we need
+    #  - Test this with forward-agent
     #  - Go through uploaded-artifacts.json files on gist stored since last
     #    date stamp stored in generated/data/last-result-time.json
     #  - If new artifacts in api request, https://api.github.com/users/deepdrive-results/gists?since=2019-04-03T23:31:31Z then regen
