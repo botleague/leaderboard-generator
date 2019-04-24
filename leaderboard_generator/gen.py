@@ -21,12 +21,12 @@ def main():
 
     env = Environment(
         loader=PackageLoader(APP, 'templates'),
-        autoescape=select_autoescape(['html', 'xml'])
-    )
+        autoescape=select_autoescape(['html', 'xml']))
+
     # TODO:
     #  - Trigger on PR to agent_zoo
     #  - Test this with forward-agent --- do we need
-    #  - Go through artifact-inventory.json files on gist stored since last
+    #  - Go through uploaded-artifacts.json files on gist stored since last
     #    date stamp stored in generated/data/last-result-time.json
     #  - If new artifacts in api request, https://api.github.com/users/deepdrive-results/gists?since=2019-04-03T23:31:31Z then regen
     #  - Keep some raw and processed data
@@ -34,6 +34,11 @@ def main():
     #       data/agents.json
     #       data/scenario/scenario_name.json
     #       data/results
+    #  - Scenarios will reference a sim binary / container.
+    #  - Challenges will be collections of scenario instances.
+    #  - Fuzzing of the scenario will be part of the implementation.
+    #    - Fuzzing requires some rethinking of how recording and visualization happens
+
     page = 'leaderboard.html'
     env.get_template(page)
     template = env.get_template(page)
@@ -42,7 +47,16 @@ def main():
     os.makedirs(GEN_DIR)
     with open(os.path.join(GEN_DIR, page), 'w') as outfile:
         outfile.write(template.render(
-            scenario_name='Unprotected left scenario'))
+            scenario_name='Unprotected left scenario',
+            submissions=[dict(
+                user='drewjgray',
+                score='5.6k',
+                time='86400000',
+                github_url='https://github.com/deepdrive/deepdrive',
+                github_name='drewjgray/SuperAgent',
+                youtube_url='https://www.youtube.com/embed/Un8_yXtTAps'
+            )]
+        ),)
     copy_tree(os.path.join(APP_DIR, 'static'), GEN_DIR)
 
 
