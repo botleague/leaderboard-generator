@@ -12,7 +12,7 @@ from jinja2 import Environment, PackageLoader, select_autoescape
 
 
 DIR = os.path.dirname(os.path.realpath(__file__))
-APP = 'deepdrive-leaderboard'
+APP = 'leaderboard'
 APP_DIR = os.path.join(DIR, APP)
 GEN_DIR = os.path.join(APP_DIR, 'generated')
 
