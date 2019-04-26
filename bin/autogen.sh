@@ -7,8 +7,6 @@ eval "${gen_cmd}"
 
 watch_cmd="echo file changed \${watch_src_path}; ${gen_cmd}"
 
-echo watch_cmd "${watch_cmd}"
-
 # Generate on file change
 watchmedo shell-command \
   --ignore-pattern="*/generated*;*/.idea*;*___*;./.git*" \
