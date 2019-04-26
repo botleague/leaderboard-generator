@@ -21,13 +21,12 @@ GEN_DIR = p.join(APP_DIR, 'generated')
 
 
 def main():
-
     last_gen_filename = p.join(GEN_DIR, 'last-generation-time.json')
     if p.exists(last_gen_filename):
         with open(last_gen_filename) as last_gen_file:
             last_gen = json.load(last_gen_file)['last_gen_time']
             if time.time() - last_gen < 1:
-                # print('Skipping generation, too soon!@')
+                print('Skipping generation, too soon!')
                 return
 
     env = Environment(
@@ -74,7 +73,7 @@ def main():
         json.dump(dict(last_gen_time=time.time()), outtime)
 
     copy_tree(p.join(APP_DIR, 'static'), GEN_DIR)
-    print('Generated new leaderboard\n')
+    print('\n********** Generated new leaderboard **********\n')
 
 
 if __name__ == '__main__':
