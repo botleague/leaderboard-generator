@@ -42,11 +42,11 @@ def main():
     #  - Keep some raw and processed data
     #       data/users.json
     #       data/agents.json
-    #       data/scenario/scenario_name.json
+    #       data/problem/problem_name.json
     #       data/results
-    #  - Scenarios will reference a sim binary / container.
-    #  - Challenges will be collections of scenario instances.
-    #  - Fuzzing of the scenario will be part of the implementation.
+    #  - Problems will reference a sim binary / container.
+    #  - Challenges will be collections of problems.
+    #  - Fuzzing of the problem will be part of the implementation.
     #    - Fuzzing requires some rethinking of how recording and visualization happens
 
     page = 'leaderboard.html'
@@ -58,7 +58,7 @@ def main():
 
     with open(p.join(GEN_DIR, page), 'w') as outfile:
         outfile.write(template.render(
-            scenario_name='Unprotected left scenario',
+            problem_name='Unprotected left scenario',
             submissions=[dict(
                 user='drewjgray3',
                 score='5.6k',

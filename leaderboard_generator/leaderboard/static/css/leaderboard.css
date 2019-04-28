@@ -3,7 +3,7 @@ h1 {
 }
 
 
-.scenario-description {
+.problem-description {
   display: grid;
 }
 
@@ -45,13 +45,13 @@ h1 {
     font-size: 30px;
   }
 
-  .scenario-description {
+  .problem-description {
     display: grid;
     grid-template-columns: minmax(125px, 4fr) 17px 8fr;
     font-size: 13px;
     padding-left: 0;
   }
-  .scenario-description iframe {
+  .problem-description iframe {
     height: 300px;
   }
 
@@ -94,7 +94,7 @@ h1 {
     font-size: 60px;
   }
 
-  .scenario-description {
+  .problem-description {
     display: grid;
     grid-template-columns: minmax(250px, 4fr) 35px 5fr;
     font-size: 25px;
