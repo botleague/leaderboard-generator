@@ -36,7 +36,7 @@ def main():
     # TODO:
     #  - Trigger on PR to agent_zoo
     #  - Test this with forward-agent
-    #  - Go through uploaded-artifacts.json files on gist stored since last
+    #  - Go through results.json files on gist stored since last
     #    date stamp stored in generated/data/last-result-time.json
     #  - If new artifacts in api request, https://api.github.com/users/deepdrive-results/gists?since=2019-04-03T23:31:31Z then regen
     #  - Keep some raw and processed data
@@ -57,6 +57,17 @@ def main():
     os.makedirs(GEN_DIR)
 
     with open(p.join(GEN_DIR, page), 'w') as outfile:
+        # After results are returned to ci-hooks with the correct key, they
+        # are uploaded to a special gist account that this will be polling.
+
+        # TODO: Act as if the 2 test/data/ files were just detected
+        # on github.
+
+        # TODO: Use the gist time (not the results time) as the official time
+        # to avoid weirdness.
+
+        # TODO: The two files should be aggregated into the problem data,
+        # where only the top scores are preserved.
         outfile.write(template.render(
             problem_name='Unprotected left scenario',
             submissions=[dict(
