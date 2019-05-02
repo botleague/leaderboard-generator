@@ -1,0 +1,20 @@
+{
+  "bots": [
+    {
+      "botname": "MPCINATOR",
+      "username": "drewjgray",
+      "time": 86400000,
+      "score": 5642,
+      "github_url": "https://github.com/drewjgray/MPCINATOR",
+      "youtube_url": "https://www.youtube.com/embed/Un8_yXtTAps"
+    },
+    {
+      "botname": "centrality",
+      "username": "crizcraig",
+      "time": 86500000,
+      "score": 5218,
+      "github_url": "https://github.com/crizcraig/centrality",
+      "youtube_url": "https://www.youtube.com/embed/Un8_yXtTAps"
+    }
+  ]
+}

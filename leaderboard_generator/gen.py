@@ -4,6 +4,7 @@ from __future__ import (absolute_import, division,
 import json
 import time
 
+import requests
 from future.builtins import (dict, input,
                              str)
 
@@ -13,8 +14,12 @@ import shutil
 from distutils.dir_util import copy_tree
 from jinja2 import Environment, PackageLoader, select_autoescape
 
+import logging as log
+log.basicConfig(level=log.INFO)
+
 
 DIR = p.dirname(p.realpath(__file__))
+PROBLEM_DIR = p.join(DIR, 'leaderboard', 'data', 'problems')
 APP = 'leaderboard'
 APP_DIR = p.join(DIR, APP)
 GEN_DIR = p.join(APP_DIR, 'generated')
@@ -59,15 +64,6 @@ def main():
     with open(p.join(GEN_DIR, page), 'w') as outfile:
         # After results are returned to ci-hooks with the correct key, they
         # are uploaded to a special gist account that this will be polling.
-
-        # TODO: Act as if the 2 test/data/ files were just detected
-        # on github.
-
-        # TODO: Use the gist time (not the results time) as the official time
-        # to avoid weirdness.
-
-        # TODO: The two files should be aggregated into the problem data,
-        # where only the top scores are preserved.
         outfile.write(template.render(
             problem_name='Unprotected left scenario',
             submissions=[dict(
@@ -85,6 +81,58 @@ def main():
 
     copy_tree(p.join(APP_DIR, 'static'), GEN_DIR)
     print('\n********** Generated new leaderboard **********\n')
+
+
+def get_best_result_for_bot(results):
+
+    # Keep older bots if tie
+    results.sort(key=lambda x: x['time'])
+
+    ret = {}
+    for result in results:
+        if result['botname'] in ret:
+            current = ret['botname']
+            if current['score'] < result['score']:
+                ret['botname'] = result
+        else:
+            ret['botname'] = result
+
+    ret = list(ret.values())
+    ret.sort(key=lambda x: x['score'])
+    return ret
+
+
+def update_problem_leaderboards(gists):
+    """We only keep the top score from each bot in the problem leaderboards"""
+    results = {}
+    for gist in gists:
+        # Download the gist results
+        result_json = requests.get(url=gist['url']).json()
+        if 'problem' not in result_json:
+            log.error('No "problem" in this gist, skipping')
+        else:
+            # Map results JSON into {problem: [results...]}
+            results.setdefault(result_json['problem'], []).append(result_json)
+
+    # For each problem, load the current leaderboard
+    for problem_name, new_results in results.items():
+        new_results = get_best_result_for_bot(new_results)
+        problem_filename = '%s/%s.json' % (PROBLEM_DIR, problem_name)
+        if p.exists(problem_filename):
+            # Incorporate new scores into leaderboard
+            with open(problem_filename) as file:
+                old_results = json.loads(file)['bots']
+                new_results = get_best_result_for_bot(new_results + old_results)
+
+        # Sort bots by score
+        new_results.sort(key=lambda x: x['score'])
+
+        # Write new bots
+        with open(problem_filename, 'w') as file:
+            json.dump(file, {"bots": new_results})
+
+        # Regenerate by calling main
+        main()
 
 
 if __name__ == '__main__':
