@@ -25,7 +25,7 @@ APP_DIR = p.join(DIR, APP)
 GEN_DIR = p.join(APP_DIR, 'generated')
 
 
-def main():
+def regenerate_html():
     last_gen_filename = p.join(GEN_DIR, 'last-generation-time.json')
     if p.exists(last_gen_filename):
         with open(last_gen_filename) as last_gen_file:
@@ -114,26 +114,31 @@ def update_problem_leaderboards(gists):
             # Map results JSON into {problem: [results...]}
             results.setdefault(result_json['problem'], []).append(result_json)
 
-    # For each problem, load the current leaderboard
+    # For each problem, integrate results into leaderboard
     for problem_name, new_results in results.items():
+
+        # Dedupe new results, in case the same bot has two new scores since
+        # the last update
         new_results = get_best_result_for_bot(new_results)
+
+        # Each problem has one JSON file
         problem_filename = '%s/%s.json' % (PROBLEM_DIR, problem_name)
+
+        # Incorporate new scores into existing ones
         if p.exists(problem_filename):
-            # Incorporate new scores into leaderboard
             with open(problem_filename) as file:
                 old_results = json.loads(file)['bots']
                 new_results = get_best_result_for_bot(new_results + old_results)
 
-        # Sort bots by score
+        # Sort results by score
         new_results.sort(key=lambda x: x['score'])
 
-        # Write new bots
+        # Write new results
         with open(problem_filename, 'w') as file:
             json.dump(file, {"bots": new_results})
 
-        # Regenerate by calling main
-        main()
+        regenerate_html()
 
 
 if __name__ == '__main__':
-    main()
+    regenerate_html()
