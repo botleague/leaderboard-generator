@@ -86,28 +86,47 @@ def regenerate_html():
 def get_best_result_for_bot(results):
 
     # Keep older bots if tie
-    results.sort(key=lambda x: x['time'])
+    results.sort(key=lambda x: x['utc_timestamp'])
 
     ret = {}
+    url_prefix = 'https://github.com/'
     for result in results:
-        if result['botname'] in ret:
-            current = ret['botname']
-            if current['score'] < result['score']:
-                ret['botname'] = result
+        url = result['agent_source_commit']
+        if not url.startswith(url_prefix):
+            log.error('Skipping submission with github url in incorrect '
+                      'format: %s' % url)
         else:
-            ret['botname'] = result
+            botname = url[len(url_prefix):].split('/')[1]
+            if botname in ret:
+                current = ret[botname]
+                if current['score'] < result['score']:
+                    ret[botname] = result
+            else:
+                ret[botname] = result
+
+    # Add botname to result
+    for r in ret:
+        ret[r]['botname'] = r
 
     ret = list(ret.values())
-    ret.sort(key=lambda x: x['score'])
+    ret.sort(key=lambda x: x['score'], reverse=True)
     return ret
 
 
+def exists_and_unempty(problem_filename):
+    return p.exists(problem_filename) and os.stat(problem_filename).st_size != 0
+
+
 def update_problem_leaderboards(gists):
-    """We only keep the top score from each bot in the problem leaderboards"""
+    """
+    Integrate new gists into our current leaderboard data.
+    Note: We only keep the top score from each bot in the problem leaderboards
+    """
     results = {}
     for gist in gists:
         # Download the gist results
         result_json = requests.get(url=gist['url']).json()
+        result_json['gist_time'] = gist['created_at']
         if 'problem' not in result_json:
             log.error('No "problem" in this gist, skipping')
         else:
@@ -125,9 +144,9 @@ def update_problem_leaderboards(gists):
         problem_filename = '%s/%s.json' % (PROBLEM_DIR, problem_name)
 
         # Incorporate new scores into existing ones
-        if p.exists(problem_filename):
+        if exists_and_unempty(problem_filename):
             with open(problem_filename) as file:
-                old_results = json.loads(file)['bots']
+                old_results = json.load(file)['bots']
                 new_results = get_best_result_for_bot(new_results + old_results)
 
         # Sort results by score
@@ -135,9 +154,9 @@ def update_problem_leaderboards(gists):
 
         # Write new results
         with open(problem_filename, 'w') as file:
-            json.dump(file, {"bots": new_results})
+            json.dump({"bots": new_results}, file)
 
-        regenerate_html()
+        # regenerate_html()
 
 
 if __name__ == '__main__':
