@@ -39,11 +39,15 @@ def regenerate_html():
         autoescape=select_autoescape(['html', 'xml']))
 
     # TODO:
-    #  - Trigger on PR to agent_zoo
-    #  - Test this with forward-agent
-    #  - Go through results.json files on gist stored since last
-    #    date stamp stored in generated/data/last-result-time.json
+    #  - Move this into a docker image that pulls latest from github on start
+    #  - Every 10 seconds, results.json files on gist stored since last
+    #    date stamp stored in generated/data/last-generation-time.json
     #  - If new artifacts in api request, https://api.github.com/users/deepdrive-results/gists?since=2019-04-03T23:31:31Z then regen
+    #  - Commit to github on successful generation
+    #  - Push out to Google Cloud Storage static site on success
+    #  - Poll dead man's snitch every so often
+
+    # TODO ideas:
     #  - Keep some raw and processed data
     #       data/users.json
     #       data/agents.json
@@ -52,7 +56,8 @@ def regenerate_html():
     #  - Problems will reference a sim binary / container.
     #  - Challenges will be collections of problems.
     #  - Fuzzing of the problem will be part of the implementation.
-    #    - Fuzzing requires some rethinking of how recording and visualization happens
+    #  - Fuzzing requires some rethinking of how recording and visualization happens,
+    #    but that can be handled problem side
 
     page = 'leaderboard.html'
     env.get_template(page)
