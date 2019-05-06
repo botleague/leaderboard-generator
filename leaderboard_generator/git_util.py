@@ -13,7 +13,8 @@ class GitUtil(object):
         self.git_cmd = self.repo.git
 
     def commit_and_push_leaderboard(self):
-        self.git_cmd.commit('-am "autogen" leaderboard')
+        self.git_cmd.add('leaderboard_generator/leaderboard')
+        self.git_cmd.commit('-m autogen')
         self.git_cmd.push('origin', 'master')
 
 
