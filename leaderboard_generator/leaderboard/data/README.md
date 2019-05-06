@@ -1,4 +1,5 @@
-Aggregated results are stored here in the name of providing an open data leaderboard site.
+Aggregated results are stored here in the name of providing an open data 
+leaderboard site.
 
 In the event json files exceed git limits, we can store them in a public s3
 bucket. In order to speed things up we can use simdjson and query parts of 

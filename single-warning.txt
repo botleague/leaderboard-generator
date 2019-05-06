@@ -1,0 +1,5 @@
+Only run one of these processes at a time!!!
+This is designed to run as a single process
+event loop. Multiple instances will probably
+not cause any problems, so long as they're
+in different places, but I wouldn't try it.

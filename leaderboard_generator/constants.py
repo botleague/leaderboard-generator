@@ -6,7 +6,7 @@ import os
 SHOULD_USE_FIRESTORE = os.environ.get('SHOULD_USE_FIRESTORE', 'true') == 'true'
 SHOULD_GEN_KEY = 'should_gen_leaderboard'
 
-TOKEN_NAME = 'CI_HOOKS_GITHUB_TOKEN'
+TOKEN_NAME = 'LEADERBOARD_GITHUB_TOKEN'
 if SHOULD_USE_FIRESTORE:
     import firebase_admin
     from firebase_admin import firestore
@@ -16,6 +16,5 @@ if SHOULD_USE_FIRESTORE:
 else:
     # For local testing a single instance of this server
     if TOKEN_NAME not in os.environ:
-        raise RuntimeError('No github token in env')
+        raise RuntimeError('%s not in env' % TOKEN_NAME)
     GITHUB_TOKEN = os.environ[TOKEN_NAME]
-    os.environ['should_gen_leaderboard'] = False

@@ -5,9 +5,28 @@ from github import Github
 import leaderboard_generator.constants as c
 from leaderboard_generator.key_value_store import get_key_value_store
 
-if c.SHOULD_USE_FIRESTORE:
-    import firebase_admin
-    firebase_admin.initialize_app()
+r"""
+                  _ ._  _ , _ ._
+                (_ ' ( `  )_  .__)
+              ( (  (    )   `)  ) _)
+             (__ (_   (_ . _) _) ,__)
+                 `~~`\ ' . /`~~`
+                 ,::: ;   ; :::,
+                ':::::::::::::::'
+ ____________________/_ __ \___________________
+|                                              |
+| Only run one of these processes at a time!   |
+| This is designed to run as a single process  |
+| event loop. Multiple instances will probably |
+| not cause any problems, so long as they're   |
+| in different places, but I wouldn't try it.  |
+|______________________________________________|
+"""
+
+# https://boxes.thomasjensen.com
+# boxes -l #  list options
+# sudo apt-get install boxes
+# cat ../single-warning.txt | boxes -d nuke
 
 
 def main():
@@ -17,15 +36,21 @@ def main():
         # Check Firestore for should gen trigger
         should_gen = kv.get(c.SHOULD_GEN_KEY)
         if should_gen:
-            pass
+            # TODO:
+            #  - If Firestore, ask results.json files on gist stored since last
+            #    date stamp stored in generated/data/last-generation-time.json
+            #  - If new artifacts in api request, https://api.github.com/users/deepdrive-results/gists?since=2019-04-03T23:31:31Z then regen
+            print(requests.get(
+                'https://api.github.com/users/deepdrive-results/gists?since=2019-04-02T23:31:31Z'))
 
-        # TODO:
-        #  - Check for latest leaderboard/ from github on start,
-        #  - If Firestore, ask results.json files on gist stored since last
-        #    date stamp stored in generated/data/last-generation-time.json
-        #  - If new artifacts in api request, https://api.github.com/users/deepdrive-results/gists?since=2019-04-03T23:31:31Z then regen
+            # Commit leaderboard/ to github on successful generation
+            github_client = Github(c.GITHUB_TOKEN)
+            repo = github_client
+
+
         #  - Commit leaderboard/ to github on successful generation
         #  - Push out to Google Cloud Storage static site on success
+        #  - Set should_gen to false
         #  - Poll dead man's snitch every so often
         #  - To auto-deploy python changes, setup GCR build from GitHub and restart instance
 
