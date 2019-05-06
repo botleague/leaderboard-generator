@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+# Run this if you're developing HTML changes locally to avoid running generate
+# all the time.
+
+set -e
+
 gen_cmd="python leaderboard_generator/gen.py"
 
 # Generate on start

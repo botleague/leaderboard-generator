@@ -39,13 +39,15 @@ def regenerate_html():
         autoescape=select_autoescape(['html', 'xml']))
 
     # TODO:
-    #  - Move this into a docker image that pulls latest from github on start
-    #  - Every 10 seconds, results.json files on gist stored since last
+    #  - Check for latest leaderboard/ from github on start,
+    #  - Poll Firestore
+    #  - If Firestore, ask results.json files on gist stored since last
     #    date stamp stored in generated/data/last-generation-time.json
     #  - If new artifacts in api request, https://api.github.com/users/deepdrive-results/gists?since=2019-04-03T23:31:31Z then regen
-    #  - Commit to github on successful generation
+    #  - Commit leaderboard/ to github on successful generation
     #  - Push out to Google Cloud Storage static site on success
     #  - Poll dead man's snitch every so often
+    #  - To auto-deploy python changes, setup GCR build from GitHub and restart instance
 
     # TODO ideas:
     #  - Keep some raw and processed data

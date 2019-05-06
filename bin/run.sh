@@ -4,5 +4,7 @@ set -e
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+cd DIR../
 
-pytest ${DIR}/../leaderboard_generator/run_tests.py
+git fetch
+git checkout HEAD leaderboard_generator/leaderboard
