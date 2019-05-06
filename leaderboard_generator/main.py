@@ -22,7 +22,6 @@ r"""
 | in different places, but I wouldn't try it.  |
 |______________________________________________|
 """
-
 # https://boxes.thomasjensen.com
 # boxes -l #  list options
 # sudo apt-get install boxes
@@ -44,8 +43,8 @@ def main():
                 'https://api.github.com/users/deepdrive-results/gists?since=2019-04-02T23:31:31Z'))
 
             # Commit leaderboard/ to github on successful generation
-            github_client = Github(c.GITHUB_TOKEN)
-            repo = github_client
+            # github_client = Github(c.GITHUB_TOKEN)
+            # repo = github_client
 
 
         #  - Commit leaderboard/ to github on successful generation
