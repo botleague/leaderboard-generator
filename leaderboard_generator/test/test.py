@@ -8,7 +8,7 @@ from leaderboard_generator.botleague_gcp.key_value_store import \
     get_key_value_store
 from leaderboard_generator.generate_html import update_problem_leaderboards
 from leaderboard_generator.main import main
-from leaderboard_generator.tally import set_ranks
+from leaderboard_generator.tally import set_ranks, tally_bot_scores
 
 DIR = p.dirname(p.realpath(__file__))
 
@@ -30,8 +30,8 @@ def test_new_problem():
     pass
 
 
-def test_tie_score_different_bot():
-    bots = [
+def test_tie_score_ranking():
+    results = [
         {'score': 10},
         {'score': 10},
         {'score': 0},
@@ -40,17 +40,31 @@ def test_tie_score_different_bot():
         {'score': -1},
         {'score': -1},
     ]
-    set_ranks(bots)
-    assert bots[0]['rank'] == 1
-    assert bots[1]['rank'] == 1
-    assert bots[2]['rank'] == 3
-    assert bots[3]['rank'] == 3
-    assert bots[4]['rank'] == 3
-    assert bots[5]['rank'] == 6
-    assert bots[6]['rank'] == 6
+    set_ranks(results)
+    assert results[0]['rank'] == 1
+    assert results[1]['rank'] == 1
+    assert results[2]['rank'] == 3
+    assert results[3]['rank'] == 3
+    assert results[4]['rank'] == 3
+    assert results[5]['rank'] == 6
+    assert results[6]['rank'] == 6
 
-# TODO: Test tie scores same bot (should keep older one)
 
+def test_tie_score_same_bot():
+    c = 'https://github.com/u1/%s/blah'
+    a = 'agent_source_commit'
+    u = 'utc_timestamp'
+    bots = [
+        {a: c % 'point8predict', 'score': 10, u: 1234},
+        {a: c % 'point8predict', 'score': 10, u: 1233},
+        {a: c % 'point9predict', 'score': 20, u: 1000},
+        {a: c % 'point9predict', 'score': 20, u: 1001},
+    ]
+    bots = tally_bot_scores(bots)
+    assert bots[0]['score'] == 20
+    assert bots[1]['score'] == 10
+    assert bots[0][u] == 1000
+    assert bots[1][u] == 1233
 
 
 def test_main():

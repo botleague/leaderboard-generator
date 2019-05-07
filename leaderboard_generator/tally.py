@@ -1,9 +1,11 @@
 import logging as log
+from copy import deepcopy
 
 
 def tally_bot_scores(results):
 
-    # Keep older bots if tie
+    results = deepcopy(results)
+
     results.sort(key=lambda x: x['utc_timestamp'])
 
     ret = {}
@@ -19,6 +21,10 @@ def tally_bot_scores(results):
                 current = ret[botname]
                 if current['score'] < result['score']:
                     ret[botname] = result
+                elif current['score'] == result['score']:
+                    if result['utc_timestamp'] < current['utc_timestamp']:
+                        # Keep older result if tie
+                        ret[botname] = result
             else:
                 ret[botname] = result
 
