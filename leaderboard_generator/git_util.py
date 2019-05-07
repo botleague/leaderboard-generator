@@ -2,8 +2,6 @@ import os.path as p
 
 import git
 
-import leaderboard_generator.constants as c
-
 ROOT_DIR = p.dirname(p.dirname(p.realpath(__file__)))
 
 

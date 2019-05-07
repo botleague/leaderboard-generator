@@ -1,19 +1,20 @@
+from datetime import datetime
+import json
 import time
-import requests
-from github import Github
+import logging as log
 
+import requests
+
+import leaderboard_generator.botleague_gcp.constants as gcp_constants
+from leaderboard_generator.botleague_gcp import key_value_store
+from leaderboard_generator.generate_html import update_problem_leaderboards
+from leaderboard_generator.git_util import GitUtil
 import leaderboard_generator.constants as c
-from leaderboard_generator.key_value_store import get_key_value_store
+
+log.basicConfig(level=log.INFO)
 
 r"""
-                  _ ._  _ , _ ._
-                (_ ' ( `  )_  .__)
-              ( (  (    )   `)  ) _)
-             (__ (_   (_ . _) _) ,__)
-                 `~~`\ ' . /`~~`
-                 ,::: ;   ; :::,
-                ':::::::::::::::'
- ____________________/_ __ \___________________
+ ______________________________________________
 |                                              |
 | Only run one of these processes at a time!   |
 | This is designed to run as a single process  |
@@ -28,34 +29,42 @@ r"""
 # cat ../single-warning.txt | boxes -d nuke
 
 
-def main():
-    kv = get_key_value_store()
+def main(kv=None):
+    kv = kv or key_value_store.get_key_value_store()
     while True:
-
-        # Check Firestore for should gen trigger
-        should_gen = kv.get(c.SHOULD_GEN_KEY)
+        # Check for should gen trigger
+        should_gen = kv.get(gcp_constants.SHOULD_GEN_KEY)
         if should_gen:
-            # TODO:
-            #  - If Firestore, ask results.json files on gist stored since last
-            #    date stamp stored in generated/data/last-generation-time.json
-            #  - If new artifacts in api request, https://api.github.com/users/deepdrive-results/gists?since=2019-04-03T23:31:31Z then regen
-            print(requests.get(
-                'https://api.github.com/users/deepdrive-results/gists?since=2019-04-02T23:31:31Z'))
+            gists = check_for_new_results()
+            if gists:
+                update_problem_leaderboards(gists)
+                # Commit leaderboard/ to github on successful generation
+                git_util = GitUtil()
+                git_util.commit_and_push_leaderboard()
 
-            # Commit leaderboard/ to github on successful generation
-            # github_client = Github(c.GITHUB_TOKEN)
-            # repo = github_client
-
-
-        #  - Commit leaderboard/ to github on successful generation
         #  - Push out to Google Cloud Storage static site on success
         #  - Set should_gen to false
         #  - Poll dead man's snitch every so often
         #  - To auto-deploy python changes, setup GCR build from GitHub and restart instance
+        time.sleep(1)
 
-        print(requests.get(
-            'https://api.github.com/users/deepdrive-results/gists?since=2019-04-02T23:31:31Z'))
-        time.sleep(10)
+
+def check_for_new_results():
+    with open(c.LAST_GEN_FILEPATH) as last_gen_file:
+        last_gen_str = json.load(last_gen_file)['last_gen_time']
+        gen_time = datetime.strptime(last_gen_str, '%Y-%m-%dT%H:%M:%SZ')
+        search_url = c.GIST_SEARCH.format(time=last_gen_str)
+        log.info('Checking gist for new results at %s', search_url)
+        gists = None
+        while not gists:
+            res = requests.get(search_url)
+            if res.status_code == 200:
+                gists = res.json()
+            else:
+                log.info('Could not get gist, will retry in a 10 seconds')
+                time.sleep(10)
+
+        return gists
 
 
 if __name__ == '__main__':

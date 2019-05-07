@@ -5,8 +5,7 @@ import json
 import time
 
 import requests
-from future.builtins import (dict, input,
-                             str)
+from future.builtins import (dict)
 
 import os
 import os.path as p
@@ -15,6 +14,9 @@ from distutils.dir_util import copy_tree
 from jinja2 import Environment, PackageLoader, select_autoescape
 
 import logging as log
+
+from leaderboard_generator.tally import tally_bot_scores
+
 log.basicConfig(level=log.INFO)
 
 
@@ -90,36 +92,6 @@ def regenerate_html():
     print('\n********** Generated new leaderboard **********\n')
 
 
-def get_best_result_for_bot(results):
-
-    # Keep older bots if tie
-    results.sort(key=lambda x: x['utc_timestamp'])
-
-    ret = {}
-    url_prefix = 'https://github.com/'
-    for result in results:
-        url = result['agent_source_commit']
-        if not url.startswith(url_prefix):
-            log.error('Skipping submission with github url in incorrect '
-                      'format: %s' % url)
-        else:
-            botname = url[len(url_prefix):].split('/')[1]
-            if botname in ret:
-                current = ret[botname]
-                if current['score'] < result['score']:
-                    ret[botname] = result
-            else:
-                ret[botname] = result
-
-    # Add botname to result
-    for r in ret:
-        ret[r]['botname'] = r
-
-    ret = list(ret.values())
-    ret.sort(key=lambda x: x['score'], reverse=True)
-    return ret
-
-
 def exists_and_unempty(problem_filename):
     return p.exists(problem_filename) and os.stat(problem_filename).st_size != 0
 
@@ -129,23 +101,10 @@ def update_problem_leaderboards(gists):
     Integrate new gists into our current leaderboard data.
     Note: We only keep the top score from each bot in the problem leaderboards
     """
-    results = {}
-    for gist in gists:
-        # Download the gist results
-        result_json = requests.get(url=gist['url']).json()
-        result_json['gist_time'] = gist['created_at']
-        if 'problem' not in result_json:
-            log.error('No "problem" in this gist, skipping')
-        else:
-            # Map results JSON into {problem: [results...]}
-            results.setdefault(result_json['problem'], []).append(result_json)
+    problem_map = get_problem_map(gists)
 
     # For each problem, integrate results into leaderboard
-    for problem_name, new_results in results.items():
-
-        # Dedupe new results, in case the same bot has two new scores since
-        # the last update
-        new_results = get_best_result_for_bot(new_results)
+    for problem_name, results in problem_map.items():
 
         # Each problem has one JSON file
         problem_filename = '%s/%s.json' % (PROBLEM_DIR, problem_name)
@@ -154,16 +113,32 @@ def update_problem_leaderboards(gists):
         if exists_and_unempty(problem_filename):
             with open(problem_filename) as file:
                 old_results = json.load(file)['bots']
-                new_results = get_best_result_for_bot(new_results + old_results)
+                results += old_results
 
-        # Sort results by score
-        new_results.sort(key=lambda x: x['score'])
+        results = tally_bot_scores(results)
 
         # Write new results
         with open(problem_filename, 'w') as file:
-            json.dump({"bots": new_results}, file)
+            json.dump({"bots": results}, file)
 
         # regenerate_html()
+
+
+def get_problem_map(gists):
+    problem_map = {}
+    for gist in gists:
+        # Download the gist results
+        gist_json = requests.get(url=gist['url']).json()
+        result_json = json.loads(
+            gist_json['files']['results.json']['content'])
+        result_json['gist_time'] = gist['created_at']
+        if 'problem' not in result_json:
+            log.error('No "problem" in this gist, skipping')
+        else:
+            # Map results JSON into {problem: [results...]}
+            problem_map.setdefault(result_json['problem'], []).append(
+                result_json)
+    return problem_map
 
 
 if __name__ == '__main__':

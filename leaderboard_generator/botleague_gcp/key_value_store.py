@@ -1,8 +1,6 @@
 from __future__ import print_function
 
-import os
-
-import leaderboard_generator.constants as c
+import leaderboard_generator.botleague_gcp.constants as c
 
 
 def get_key_value_store():
