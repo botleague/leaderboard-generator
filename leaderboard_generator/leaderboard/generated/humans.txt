@@ -3,14 +3,13 @@
 
 # TEAM
 
-    Craig Quiter -- author -- @crizcraig
+    <name> -- <role> -- <twitter>
 
 # THANKS
 
-    Mom
+    <name>
 
 # TECHNOLOGY COLOPHON
 
     CSS3, HTML5
     Apache Server Configs, jQuery, Modernizr, Normalize.css
-

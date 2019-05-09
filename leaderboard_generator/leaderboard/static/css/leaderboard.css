@@ -45,13 +45,16 @@ h1 {
     font-size: 30px;
   }
 
-  .problem-description {
+  .problem-description, .problem-description-with-video {
+      font-size: 13px;
+      padding-left: 0;
+  }
+
+  .problem-description-with-video {
     display: grid;
     grid-template-columns: minmax(125px, 4fr) 17px 8fr;
-    font-size: 13px;
-    padding-left: 0;
   }
-  .problem-description iframe {
+  .problem-description-with-video iframe {
     height: 300px;
   }
 

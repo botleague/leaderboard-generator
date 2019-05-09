@@ -7,15 +7,15 @@
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="manifest" href="site.webmanifest">
-  <link rel="apple-touch-icon" href="icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="apple-touch-icon" href="/icon.png">
   <!-- Place favicon.ico in the root directory -->
 
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300'
         rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="css/normalize.css">
-  <link rel="stylesheet" href="css/main.css">
-  <link rel="stylesheet" href="css/leaderboard.css">
+  <link rel="stylesheet" href="/css/normalize.css">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/leaderboard.css">
 
   <meta name="theme-color" content="#fafafa">
 </head>
@@ -31,21 +31,26 @@
 
   <h1>{{ problem_name }}</h1>
 
+  {% if problem_video %}
+  <div class="problem-description-with-video">
+  {% else %}
   <div class="problem-description">
+  {% endif %}
     <div>
-      Unprotected lefts involve taking a left turn across
-      lanes of oncoming traffic that do not have a stop sign or traffic-light
-      to "protect" the left turn. These are one of the most difficult situations
-      to navigate as it requires dealing with oncoming cars taking left turns,
-      right turns, and going straight.
+    Unprotected lefts involve taking a left turn across
+    lanes of oncoming traffic that do not have a stop sign or traffic-light
+    to "protect" the left turn. These are one of the most difficult
+    situations
+    to navigate as it requires dealing with oncoming cars taking left turns,
+    right turns, and going straight.
     </div>
-    <div></div>
-    <div class="video">
-      <iframe width="560" height="315"
-              src="https://www.youtube.com/embed/Un8_yXtTAps" frameborder="0"
-              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen></iframe>
-    </div>
+{#    <div></div>#}
+{#    <div class="video">#}
+{#      <iframe width="560" height="315"#}
+{#              src="{{ problem_video }}" frameborder="0"#}
+{#              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"#}
+{#              allowfullscreen></iframe>#}
+{#    </div>#}
 
   </div>
 
@@ -55,10 +60,10 @@
   <div class="submission">
       <div class="rank">{{ loop.index }}</div>
       <div>
-        <div class="team">{{ s.user }}</div>
+        <div class="team">{{ s.username }}</div>
         <div class="video">
           <iframe width="560" height="315"
-                  src="{{ s.youtube_url }}"
+                  src="{{ s.youtube_embed }}"
                   frameborder="0"
                   allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                   allowfullscreen></iframe>
@@ -66,8 +71,8 @@
       </div>
       <div class="stats">
         <div class="score">Score: {{ s.score }}</div>
-        <div class="time">{{ s.time }}</div>
-        <div>GitHub: <a href="{{ s.github_url }}">{{ s.github_name }}</a>
+        <div class="time">{{ s.utc_timestamp }}</div>
+        <div>GitHub: <a href="{{ s.agent_source_commit }}">{{ s.username }}/"{{ s.botname }}</a>
         </div>
       </div>
     </div>
@@ -137,12 +142,12 @@
 
 <div class="footer"></div>
 
-<script src="js/vendor/modernizr-3.7.1.min.js"></script>
+<script src="/js/vendor/modernizr-3.7.1.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"
         integrity="{{JQUERY_SRI_HASH}}" crossorigin="anonymous"></script>
 <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.3.1.min.js"><\/script>')</script>
-<script src="js/plugins.js"></script>
-<script src="js/main.js"></script>
+<script src="/js/plugins.js"></script>
+<script src="/js/main.js"></script>
 
 <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
 <script>
