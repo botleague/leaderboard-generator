@@ -6,5 +6,7 @@ PyGithub==1.43.6
 GitPython==2.1.11
 firebase-admin==2.16.0
 google-cloud-firestore==0.32.1
+google-cloud-storage==1.15.0
 cryptography==2.6.1
 pytest==4.4.1
+

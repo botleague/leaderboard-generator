@@ -27,41 +27,15 @@ APP_DIR = p.join(DIR, APP)
 GEN_DIR = p.join(APP_DIR, 'generated')
 
 
-def regenerate_html():
-    last_gen_filename = p.join(GEN_DIR, 'last-generation-time.json')
-    if p.exists(last_gen_filename):
-        with open(last_gen_filename) as last_gen_file:
-            last_gen = json.load(last_gen_file)['last_gen_time']
-            if time.time() - last_gen < 1:
-                print('Skipping generation, too soon!')
-                return
+def regenerate_html(last_gen_time):
+    if time.time() - last_gen_time < 1:
+        # Avoid regen loop locally via watchdog
+        print('Skipping generation, too soon!')
+        return
 
     env = Environment(
         loader=PackageLoader(APP, 'templates'),
         autoescape=select_autoescape(['html', 'xml']))
-
-    # TODO:
-    #  - Check for latest leaderboard/ from github on start,
-    #  - Poll Firestore
-    #  - If Firestore, ask results.json files on gist stored since last
-    #    date stamp stored in generated/data/last-generation-time.json
-    #  - If new artifacts in api request, https://api.github.com/users/deepdrive-results/gists?since=2019-04-03T23:31:31Z then regen
-    #  - Commit leaderboard/ to github on successful generation
-    #  - Push out to Google Cloud Storage static site on success
-    #  - Poll dead man's snitch every so often
-    #  - To auto-deploy python changes, setup GCR build from GitHub and restart instance
-
-    # TODO ideas:
-    #  - Keep some raw and processed data
-    #       data/users.json
-    #       data/agents.json
-    #       data/problem/problem_name.json
-    #       data/results
-    #  - Problems will reference a sim binary / container.
-    #  - Challenges will be collections of problems.
-    #  - Fuzzing of the problem will be part of the implementation.
-    #  - Fuzzing requires some rethinking of how recording and visualization happens,
-    #    but that can be handled problem side
 
     page = 'leaderboard.html'
     env.get_template(page)
@@ -120,8 +94,6 @@ def update_problem_leaderboards(gists):
         # Write new results
         with open(problem_filename, 'w') as file:
             json.dump({"bots": results}, file)
-
-        # regenerate_html()
 
 
 def get_problem_map(gists):
