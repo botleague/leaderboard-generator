@@ -46,14 +46,15 @@ h1 {
   }
 
   .problem-description, .problem-description-with-video {
-      font-size: 13px;
-      padding-left: 0;
+    font-size: 13px;
+    padding-left: 0;
   }
 
   .problem-description-with-video {
     display: grid;
     grid-template-columns: minmax(125px, 4fr) 17px 8fr;
   }
+
   .problem-description-with-video iframe {
     height: 300px;
   }
@@ -97,10 +98,17 @@ h1 {
     font-size: 60px;
   }
 
-  .problem-description {
+  .problem-description, .problem-description-with-video {
+    font-size: 25px;
+  }
+
+  .problem-description-with-video {
     display: grid;
     grid-template-columns: minmax(250px, 4fr) 35px 5fr;
-    font-size: 25px;
+  }
+
+  .problem-description-with-video iframe {
+    height: 300px;
   }
 
   .submission {
