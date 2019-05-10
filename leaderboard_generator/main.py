@@ -14,6 +14,7 @@ from leaderboard_generator.git_util import GitUtil
 import leaderboard_generator.config as c
 from leaderboard_generator import logs
 from leaderboard_generator.process_results import update_problem_results
+from leaderboard_generator.util import read_file, read_lines, append_file
 
 log = logs.get_log(__name__)
 
@@ -90,13 +91,18 @@ def main(kv=None):
                 # Push to Google Cloud Storage where static site is hosted
                 push_to_gcs(changed_filenames)
 
-                # Set should gen to false in db
-                kv.set(gcp_constants.SHOULD_GEN_KEY, False)
+                # Store processed gist ids
+                gist_ids = [g['id'] for g in gists]
+                append_file(c.RESULTS_GIST_IDS_FILEPATH, gist_ids)
+
+        # Set should gen to false in db
+        kv.set(gcp_constants.SHOULD_GEN_KEY, False)
 
         # Ping cronitor complete
         last_ping_time = ping_cronitor(start, last_ping_time, 'complete')
 
         time.sleep(1)
+
 
 
 def ping_cronitor(now, ping_time, state):
@@ -140,6 +146,7 @@ def check_for_new_results(last_gen_time):
     search_url = c.GIST_SEARCH.format(time=last_gen_time)
     log.info('Checking gist for new results at %s', search_url)
     gists = None
+    already_processed_gist_ids = set(read_lines(c.RESULTS_GIST_IDS_FILEPATH))
     while not gists:
         res = requests.get(search_url)
         if res.status_code == 200:
@@ -149,7 +156,8 @@ def check_for_new_results(last_gen_time):
             time.sleep(10)
 
     gists.sort(key=lambda x: x['created_at'])
-    return gists
+    ret = [g for g in gists if g['id'] not in already_processed_gist_ids]
+    return ret
 
 
 if __name__ == '__main__':

@@ -21,7 +21,7 @@ class SimpleKeyValueStoreFirestore(object):
         return value
 
     def set(self, key, value):
-        self.kv.document(key).set({key: value})
+        self.kv.document(self.collection_name).set({key: value})
 
 
 class SimpleKeyValueStoreLocal(object):

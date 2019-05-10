@@ -1,6 +1,7 @@
 import json
 import os
 import os.path as p
+import leaderboard_generator.config as c
 
 
 def load_json(filename):
@@ -18,6 +19,17 @@ def read_file(path):
     with open(path) as f:
         ret = f.read()
     return ret
+
+
+def read_lines(path):
+    content = read_file(path)
+    lines = content.split()
+    return lines
+
+
+def append_file(path, strings):
+    with open(path, 'a') as f:
+        f.writelines(strings)
 
 
 def exists_and_unempty(problem_filename):
