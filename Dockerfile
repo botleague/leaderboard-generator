@@ -8,3 +8,6 @@ COPY requirements.txt ./requirements.txt
 RUN pip install -r ./requirements.txt
 COPY . .
 CMD python ./leaderboard_generator/main.py
+
+# TODO: To auto-deploy python changes, setup GCR build from GitHub and
+#   restart instance

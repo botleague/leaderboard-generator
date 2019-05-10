@@ -3,22 +3,18 @@ import os.path as p
 from datetime import datetime
 import json
 import time
-import logging as log
-from glob import glob
 
 import requests
 from google.cloud import storage
 
 import leaderboard_generator.botleague_gcp.constants as gcp_constants
 from leaderboard_generator.botleague_gcp import key_value_store
-from leaderboard_generator.generate_html import update_problem_leaderboards, \
-    regenerate_html
+from leaderboard_generator.generate_html import HtmlGenerator
 from leaderboard_generator.git_util import GitUtil
 import leaderboard_generator.constants as c
+from leaderboard_generator import logs
 
-
-log.basicConfig(level=log.INFO,
-                format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+log = logs.get_log(__name__)
 
 
 r"""
@@ -39,7 +35,7 @@ r"""
 
 def get_last_gen_time():
     with open(c.LAST_GEN_FILEPATH) as last_gen_file:
-        last_gen_time = json.load(last_gen_file)['last_gen_time']
+        last_gen_time = last_gen_file.read()
         # gen_time = datetime.strptime(last_gen_str, '%Y-%m-%dT%H:%M:%SZ')
     return last_gen_time
 
@@ -48,6 +44,7 @@ def main(kv=None):
     log.info('Starting leaderboard generator')
     kv = kv or key_value_store.get_key_value_store()
     git_util = GitUtil()
+    generator = HtmlGenerator()
     last_ping_time = -1
     while True:
         start = time.time()
@@ -69,16 +66,8 @@ def main(kv=None):
                 log.info('%r new results found, updating leaderboards',
                          len(gists))
 
-                # Integrate and aggregate gist results into local /data
-                update_problem_leaderboards(gists)
-
-                # TODO: Other pages
-                #   Users
-                #   Challenges
-                #   Bots
-
                 # Update HTML with results
-                regenerate_html(last_gen_time)
+                generator.regenerate_html()
 
                 # Set last-generation-time.json
                 with open(c.LAST_GEN_FILEPATH, 'w') as last_gen_file:
@@ -96,11 +85,6 @@ def main(kv=None):
 
         # Ping cronitor complete
         last_ping_time = ping_cronitor(start, last_ping_time, 'complete')
-
-
-
-        # TODO: To auto-deploy python changes, setup GCR build from GitHub and
-        #     restart instance
 
         time.sleep(1)
 

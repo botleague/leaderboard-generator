@@ -28,6 +28,7 @@ class GitUtil(object):
             log.warning('No changes detected to leaderboard! - Not pushing')
         return ret
 
+
 def main():
     git_util = GitUtil()
     git_util.commit_and_push_leaderboard()

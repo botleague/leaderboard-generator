@@ -26,11 +26,9 @@ h1 {
 
 .team {
   font-weight: bold;
-  white-space: nowrap;
 }
 
 .stats {
-  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -133,7 +131,6 @@ h1 {
     padding-top: 115px;
     padding-left: 30px;
     font-size: 25px;
-
   }
 }
 

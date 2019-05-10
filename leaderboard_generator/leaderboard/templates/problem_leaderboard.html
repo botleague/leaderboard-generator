@@ -41,6 +41,13 @@
     to navigate as it requires dealing with oncoming cars taking left turns,
     right turns, and going straight.
     </div>
+    <div></div>
+    <div class="video">
+      <iframe width="560" height="315"
+              src="{{ problem_video }}" frameborder="0"
+              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen></iframe>
+    </div>
   {% else %}
   <div class="problem-description">
     Unprotected lefts involve taking a left turn across
@@ -49,13 +56,7 @@
     situations
     to navigate as it requires dealing with oncoming cars taking left turns,
     right turns, and going straight.
-    <div></div>
-    <div class="video">
-      <iframe width="560" height="315"
-              src="{{ problem_video }}" frameborder="0"
-              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen></iframe>
-    </div>
+  </div>
   {% endif %}
 
 
@@ -80,7 +81,7 @@
       <div class="stats">
         <div class="score">Score: {{ s.score }}</div>
         <div class="time">{{ s.utc_timestamp }}</div>
-        <div>GitHub: <a href="{{ s.agent_source_commit }}">{{ s.username }}/"{{ s.botname }}</a>
+        <div>GitHub: <a href="{{ s.agent_source_commit }}">{{ s.username }}/{{ s.botname }}</a>
         </div>
       </div>
     </div>

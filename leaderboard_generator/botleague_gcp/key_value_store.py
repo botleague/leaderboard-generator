@@ -17,7 +17,7 @@ class SimpleKeyValueStoreFirestore(object):
         self.kv = firestore.client().collection(self.collection_name)
 
     def get(self, key):
-        value = self.kv.document(key).get().to_dict()[key]
+        value = self.kv.document(self.collection_name).get().to_dict()[key]
         return value
 
     def set(self, key, value):
