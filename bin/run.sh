@@ -7,7 +7,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd ${DIR}/..
 
 # Setup git auth
-GITHUB_PASSWORD=`python -c 'import leaderboard_generator.constants as c; print(c.GITHUB_TOKEN)'`
+GITHUB_PASSWORD=`python -c 'import leaderboard_generator.config as c; print(c.GITHUB_TOKEN)'`
 if [[ ${GITHUB_PASSWORD} = *[!\ ]* ]]; then
     echo Changing git remote to authorized HTTPS
     git remote rm origin

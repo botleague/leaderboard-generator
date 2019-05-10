@@ -3,15 +3,15 @@ import os
 
 import requests
 
-
-from leaderboard_generator.generate_html import PROBLEM_DATA_DIR
+from leaderboard_generator.models.problem import Problem
 from leaderboard_generator.tally import tally_bot_scores
 from leaderboard_generator import logs
+from leaderboard_generator.util import exists_and_unempty
 
 log = logs.get_log(__name__)
 
 
-def update_problem_leaderboards(gists):
+def update_problem_results(gists):
     """
     Integrate new gists into our current leaderboard data.
     Note: We only keep the top score from each bot in the problem leaderboards
@@ -19,21 +19,19 @@ def update_problem_leaderboards(gists):
     problem_map = get_problem_map(gists)
 
     # For each problem, integrate results into leaderboard
-    for problem_name, results in problem_map.items():
-
-        # Each problem has one JSON file
-        problem_filename = '%s/%s.json' % (PROBLEM_DATA_DIR, problem_name)
+    for problem_id, results in problem_map.items():
+        problem = Problem(problem_id)
 
         # Incorporate new scores into existing ones
-        if exists_and_unempty(problem_filename):
-            with open(problem_filename) as file:
+        if exists_and_unempty(problem.results_filepath):
+            with open(problem.results_filepath) as file:
                 old_results = json.load(file)['bots']
                 results += old_results
 
         results = tally_bot_scores(results)
 
         # Write new results
-        with open(problem_filename, 'w') as file:
+        with open(problem.results_filepath, 'w') as file:
             json.dump({"bots": results}, file, indent=2)
 
 
@@ -54,5 +52,3 @@ def get_problem_map(gists):
     return problem_map
 
 
-def exists_and_unempty(problem_filename):
-    return p.exists(problem_filename) and os.stat(problem_filename).st_size != 0

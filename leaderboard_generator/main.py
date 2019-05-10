@@ -1,6 +1,6 @@
 import os
 import os.path as p
-from datetime import datetime
+from datetime import datetime, timedelta
 import json
 import time
 
@@ -9,10 +9,11 @@ from google.cloud import storage
 
 import leaderboard_generator.botleague_gcp.constants as gcp_constants
 from leaderboard_generator.botleague_gcp import key_value_store
-from leaderboard_generator.generate_html import HtmlGenerator
+from leaderboard_generator.generate_site import SiteGenerator
 from leaderboard_generator.git_util import GitUtil
-import leaderboard_generator.constants as c
+import leaderboard_generator.config as c
 from leaderboard_generator import logs
+from leaderboard_generator.process_results import update_problem_results
 
 log = logs.get_log(__name__)
 
@@ -32,19 +33,21 @@ r"""
 # sudo apt-get install boxes
 # cat ../single-warning.txt | boxes -d nuke
 
+GIST_DATE_FMT = '%Y-%m-%dT%H:%M:%SZ'
+
 
 def get_last_gen_time():
     with open(c.LAST_GEN_FILEPATH) as last_gen_file:
-        last_gen_time = last_gen_file.read()
-        # gen_time = datetime.strptime(last_gen_str, '%Y-%m-%dT%H:%M:%SZ')
-    return last_gen_time
+        gen_str = last_gen_file.read()
+        gen_time = datetime.strptime(gen_str, GIST_DATE_FMT)
+    return gen_time
 
 
 def main(kv=None):
     log.info('Starting leaderboard generator')
     kv = kv or key_value_store.get_key_value_store()
     git_util = GitUtil()
-    generator = HtmlGenerator()
+    generator = SiteGenerator()
     last_ping_time = -1
     while True:
         start = time.time()
@@ -60,16 +63,23 @@ def main(kv=None):
 
             # Check for new results posted to gist by liaison since last gen
             last_gen_time = get_last_gen_time()
-            gists = check_for_new_results(last_gen_time)
+
+            # Not adding seconds here to avoid race conditions
+            search_after_time = last_gen_time + timedelta(seconds=0)
+
+            gists = check_for_new_results(datetime.strftime(search_after_time,
+                                                            GIST_DATE_FMT))
 
             if gists:
                 log.info('%r new results found, updating leaderboards',
                          len(gists))
 
-                # Update HTML with results
-                generator.regenerate_html()
+                update_problem_results(gists)
 
-                # Set last-generation-time.json
+                # Update HTML with results
+                generator.regenerate()
+
+                # Write last generation time to file
                 with open(c.LAST_GEN_FILEPATH, 'w') as last_gen_file:
                     gen_time = gists[-1]['created_at']
                     last_gen_file.write(gen_time)

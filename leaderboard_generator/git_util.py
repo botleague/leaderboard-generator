@@ -3,7 +3,7 @@ import logging as log
 
 import git
 
-import leaderboard_generator.constants as c
+import leaderboard_generator.config as c
 
 ROOT_DIR = p.dirname(p.dirname(p.realpath(__file__)))
 
@@ -19,9 +19,11 @@ class GitUtil(object):
         @:return list of pushed filenames
         """
         ret = []
+        self.git_cmd.reset()  # Unstage any dev changes
+        self.git_cmd.add(c.SITE_DIR)
         if self.repo.is_dirty(path=c.SITE_DIR):
-            self.git_cmd.add(c.SITE_DIR)
-            ret = self.git_cmd.diff('--name-only', '--cached').split()
+            ret = self.git_cmd.diff(
+                '--name-only', '--cached', c.SITE_DIR).split()
             self.git_cmd.commit('-m autogen')
             self.git_cmd.push('origin', 'master')
         else:
