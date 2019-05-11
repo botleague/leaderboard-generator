@@ -53,7 +53,7 @@ h1 {
     grid-template-columns: minmax(125px, 4fr) 17px 8fr;
   }
 
-  .problem-description-with-video iframe {
+  .video iframe {
     height: 300px;
   }
 
@@ -97,20 +97,20 @@ h1 {
   }
 
   .problem-description, .problem-description-with-video {
-    font-size: 13px;
+    font-size: 14px;
   }
 
   .problem-description-with-video {
     display: grid;
-    grid-template-columns: minmax(125px, 4fr) 17px 5fr;
+    grid-template-columns: minmax(125px, 5fr) 17px 4fr;
   }
 
-  .problem-description-with-video iframe {
-    height: 150px;
+  .video iframe {
+    height: 200px;
   }
 
   .submission {
-    grid-template-columns: 1fr 8fr 5fr;
+    grid-template-columns: 1fr 6fr 5fr;
   }
 
   .score {

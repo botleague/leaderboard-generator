@@ -298,11 +298,10 @@ body {font-family: 'Open Sans', sans-serif; padding: 20px;}
   .content {
     width: 485px;
   }
-
 }
 @media (min-width: 701px) {
   .content {
-    width: 650px;
+    width: 701px;
   }
 }
 
