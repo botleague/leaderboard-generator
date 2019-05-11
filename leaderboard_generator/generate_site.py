@@ -8,43 +8,34 @@ import json
 import time
 from urllib.parse import urlparse
 
-import github
-import requests
 from future.builtins import (dict)
 
 import os.path as p
 import shutil
-from distutils.dir_util import copy_tree
 
-from github import Github
 from jinja2 import Environment, PackageLoader, select_autoescape
+from leaderboard_generator import config as c
 from leaderboard_generator import logs
 
-import leaderboard_generator.config as c
 from leaderboard_generator.models.problem import Problem
-from leaderboard_generator.util import load_json, write_file, read_file
+from leaderboard_generator.util import load_json, exists_and_unempty, read_file, \
+    write_file
 
 log = logs.get_log(__name__)
 
-
-DIR = p.dirname(p.realpath(__file__))
 APP = 'leaderboard'
+DIR = p.dirname(p.realpath(__file__))
 APP_DIR = p.join(DIR, APP)
 
 
 class SiteGenerator:
     def __init__(self):
         self.env = Environment(
-            loader=PackageLoader(APP, 'templates'),
+            loader=PackageLoader('leaderboard_generator.leaderboard',
+                                 'templates'),
             autoescape=select_autoescape(['html', 'xml']))
-        self.last_run = -1
 
     def regenerate(self):
-        if self.last_run != -1 and time.time() - self.last_run < 1:
-            # Avoid regen loop locally via watchdog
-            print('Skipping generation, too soon!')
-            return
-
         # Remove the old generated files and replace with static/
         self.create_clean_gen_dir()
 
@@ -55,12 +46,7 @@ class SiteGenerator:
         #   Challenges
         #   Bots
 
-        with open(c.LAST_GEN_FILEPATH, 'w') as outtime:
-            json.dump(dict(last_gen_time=time.time()), outtime)
-
         print('\n********** Generated new leaderboard **********\n')
-
-        self.last_run = time.time()
 
     def regenerate_problem_pages(self):
         """Write all problem leaderboards"""
@@ -92,7 +78,7 @@ class SiteGenerator:
     def create_clean_gen_dir():
         if p.exists(c.GEN_DIR):
             shutil.rmtree(c.GEN_DIR)
-        copy_tree(p.join(APP_DIR, 'static'), c.GEN_DIR)
+        shutil.copytree(p.join(APP_DIR, 'static'), c.GEN_DIR)
 
 
 def write_template(out_html_filename, template, data):
@@ -117,5 +103,9 @@ def get_youtube_embed_url(url):
     return embed_url
 
 
-if __name__ == '__main__':
+def generate():
     SiteGenerator().regenerate()
+
+
+if __name__ == '__main__':
+    generate()

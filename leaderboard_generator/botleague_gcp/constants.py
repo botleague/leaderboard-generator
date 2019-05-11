@@ -1,5 +1,9 @@
 import os
 
+from leaderboard_generator import logs
+
+log = logs.get_log(__name__)
+
 # TODO: Move this and key_value_store into shared botleague-gcp pypi package
 
 # For local testing, set SHOULD_USE_FIRESTORE=false in your environment
@@ -10,6 +14,7 @@ SHOULD_GEN_KEY = 'should_gen_leaderboard'
 
 TOKEN_NAME = 'LEADERBOARD_GITHUB_TOKEN'
 if SHOULD_USE_FIRESTORE:
+    log.info('Connecting to Firestore')
     import firebase_admin
     from firebase_admin import firestore
 
@@ -19,6 +24,7 @@ if SHOULD_USE_FIRESTORE:
         raise RuntimeError(
             'Could not initialize firestore, set SHOULD_USE_FIRESTORE=false'
             ' locally to use temp storage.')
+    log.info('Obtaining secrets from Firestore')
     SECRETS = firestore.client().collection('secrets')
     GITHUB_TOKEN = SECRETS.document(TOKEN_NAME).get().to_dict()['token']
 else:

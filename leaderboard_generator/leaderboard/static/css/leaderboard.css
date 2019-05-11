@@ -89,24 +89,24 @@ h1 {
 
 @media (min-width: 701px) {
   h1 {
-    font-size: 100px;
+    font-size: 50px;
   }
 
   h2 {
-    font-size: 60px;
+    font-size: 30px;
   }
 
   .problem-description, .problem-description-with-video {
-    font-size: 25px;
+    font-size: 13px;
   }
 
   .problem-description-with-video {
     display: grid;
-    grid-template-columns: minmax(250px, 4fr) 35px 5fr;
+    grid-template-columns: minmax(125px, 4fr) 17px 5fr;
   }
 
   .problem-description-with-video iframe {
-    height: 300px;
+    height: 150px;
   }
 
   .submission {
@@ -114,23 +114,23 @@ h1 {
   }
 
   .score {
-    font-size: 35px;
+    font-size: 18px;
   }
 
   .rank {
-    font-size: 90px;
+    font-size: 45px;
   }
 
   .team {
-    padding-top: 50px;
-    padding-bottom: 20px;
-    font-size: 40px;
+    padding-top: 25px;
+    padding-bottom: 10px;
+    font-size: 20px;
   }
 
   .stats {
-    padding-top: 115px;
-    padding-left: 30px;
-    font-size: 25px;
+    padding-top: 57px;
+    padding-left: 15px;
+    font-size: 13px;
   }
 }
 

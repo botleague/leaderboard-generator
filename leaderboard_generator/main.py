@@ -104,7 +104,6 @@ def main(kv=None):
         time.sleep(1)
 
 
-
 def ping_cronitor(now, ping_time, state):
     if ping_time == -1 or now - ping_time > 60:
         # Ping cronitor every minute

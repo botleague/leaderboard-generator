@@ -294,19 +294,15 @@ textarea {
 
 body {font-family: 'Open Sans', sans-serif; padding: 20px;}
 
-@media (min-width: 768px) {
+@media (max-width: 700px) {
   .content {
-    width: 750px;
+    width: 485px;
   }
+
 }
-@media (min-width: 992px) {
+@media (min-width: 701px) {
   .content {
-    width: 970px;
-  }
-}
-@media (min-width: 1200px) {
-  .content {
-    width: 1170px;
+    width: 650px;
   }
 }
 
