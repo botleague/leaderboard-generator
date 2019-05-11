@@ -21,3 +21,5 @@ fi
 # image.
 git fetch
 git checkout master leaderboard_generator/leaderboard
+
+python -c "import leaderboard_generator as g; g.main.main()"

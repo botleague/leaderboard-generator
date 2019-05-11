@@ -1,4 +1,5 @@
 import json
+import os
 import os.path as p
 
 import leaderboard_generator.config as c
@@ -34,6 +35,7 @@ class Problem:
         """
         self.id = problem_id
         self.dir = p.join(Problem.DIR, problem_id)
+        os.makedirs(self.dir, exist_ok=True)
         self.relative_dir = p.join(Problem.RELATIVE_DIR, problem_id)
         self.results_filepath = p.join(self.dir, Problem.RESULTS_FILENAME)
         self.definition_filepath = p.join(self.dir, Problem.DEFINITION_FILENAME)

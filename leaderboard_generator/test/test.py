@@ -16,9 +16,9 @@ DIR = p.dirname(p.realpath(__file__))
 def test_two_files():
     gists = [
         dict(created_at='2019-04-03T23:29:31Z',
-             url='https://gist.githubusercontent.com/crizCraig/982145a5cc6103a3ba35cc6a3b5ea721/raw/0b2dc9a70cb0b5bff1d4ca9e7591910fe21bed03/results.json'),
+             url='https://gist.githubusercontent.com/crizCraig/982145a5cc6103a3ba35cc6a3b5ea721/raw/1fea7fb385d972162d7ac884c105890057230b9a/results.json'),
         dict(created_at='2019-04-03T23:31:31Z',
-             url='https://gist.githubusercontent.com/crizCraig/534fc0629382351565ccc390ede9064e/raw/3ab5e5680948bcf0eb07a3c32551f5157c3a8a59/results.json')
+             url='https://gist.githubusercontent.com/crizCraig/534fc0629382351565ccc390ede9064e/raw/060caa50c71962ebaa9146948528fbc4d2bed4e2/results.json')
     ]
     update_problem_results(gists)
 
@@ -66,11 +66,6 @@ def test_tie_score_same_bot():
     assert bots[0][u] == 1000
     assert bots[1][u] == 1233
 
-
-def test_main():
-    kv = get_key_value_store()
-    kv.set(SHOULD_GEN_KEY, True)
-    main(kv)
 
 
 if __name__ == '__main__':

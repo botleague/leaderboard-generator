@@ -9,6 +9,8 @@ from google.cloud import storage
 
 import leaderboard_generator.botleague_gcp.constants as gcp_constants
 from leaderboard_generator.botleague_gcp import key_value_store
+from leaderboard_generator.botleague_gcp.key_value_store import \
+    get_key_value_store
 from leaderboard_generator.generate_site import SiteGenerator
 from leaderboard_generator.git_util import GitUtil
 import leaderboard_generator.config as c
@@ -157,6 +159,12 @@ def check_for_new_results(last_gen_time):
     gists.sort(key=lambda x: x['created_at'])
     ret = [g for g in gists if g['id'] not in already_processed_gist_ids]
     return ret
+
+
+def run_locally():
+    kv = get_key_value_store()
+    kv.set(gcp_constants.SHOULD_GEN_KEY, True)
+    main(kv)
 
 
 if __name__ == '__main__':

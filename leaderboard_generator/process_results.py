@@ -39,9 +39,7 @@ def get_problem_map(gists):
     problem_map = {}
     for gist in gists:
         # Download the gist results
-        gist_json = requests.get(url=gist['url']).json()
-        result_json = json.loads(
-            gist_json['files']['results.json']['content'])
+        result_json = requests.get(url=gist['url']).json()
         result_json['gist_time'] = gist['created_at']
         if 'problem' not in result_json:
             log.error('No "problem" in this gist, skipping')
