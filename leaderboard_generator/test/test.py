@@ -6,8 +6,8 @@ import os.path as p
 from leaderboard_generator.botleague_gcp.constants import SHOULD_GEN_KEY
 from leaderboard_generator.botleague_gcp.key_value_store import \
     get_key_value_store
-from leaderboard_generator.generate_html import update_problem_leaderboards
 from leaderboard_generator.main import main
+from leaderboard_generator.process_results import update_problem_results
 from leaderboard_generator.tally import set_ranks, tally_bot_scores
 
 DIR = p.dirname(p.realpath(__file__))
@@ -20,7 +20,7 @@ def test_two_files():
         dict(created_at='2019-04-03T23:31:31Z',
              url='https://gist.githubusercontent.com/crizCraig/534fc0629382351565ccc390ede9064e/raw/3ab5e5680948bcf0eb07a3c32551f5157c3a8a59/results.json')
     ]
-    update_problem_leaderboards(gists)
+    update_problem_results(gists)
 
     # TODO: Asserts!
     pass
