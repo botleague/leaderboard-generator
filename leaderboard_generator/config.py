@@ -8,6 +8,7 @@ import github
 ROOT_DIR = p.dirname(p.dirname(p.realpath(__file__)))
 LEADERBOARD_DIR = p.join(ROOT_DIR, 'leaderboard_generator', 'leaderboard')
 STATIC_DIR = p.join(LEADERBOARD_DIR, 'static')
+TEMPLATE_DIR = p.join(LEADERBOARD_DIR, 'templates')
 GEN_DIR = p.join(LEADERBOARD_DIR, 'generated')
 GEN_PROBLEM_DIR = p.join('problems', 'generated')
 GEN_USERS_DIR = p.join('users', 'generated')

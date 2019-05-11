@@ -28,6 +28,14 @@ def main():
     observer.join()
 
 
+def in_html_dir(path):
+    from leaderboard_generator import config
+    in_static = path.startswith(config.STATIC_DIR)
+    in_templates = path.startswith(config.TEMPLATE_DIR)
+    ret = in_static or in_templates
+    return ret
+
+
 class AutoGenTrigger(FileSystemEventHandler):
     def __init__(self):
         super(AutoGenTrigger, self).__init__()
@@ -59,8 +67,7 @@ class AutoGenTrigger(FileSystemEventHandler):
         logging.debug("Modified %s: %s", what, event.src_path)
         if event.is_directory:
             return
-        from leaderboard_generator import config
-        if not event.src_path.startswith(config.STATIC_DIR):
+        if not in_html_dir(event.src_path):
             return
         if any(x in event.src_path for x in ['___jb']):
             return
