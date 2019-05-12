@@ -45,6 +45,11 @@ def get_last_gen_time():
         gen_time = datetime.strptime(gen_str, GIST_DATE_FMT)
     return gen_time
 
+# TODO: Deploy this to the VM
+# TODO: Post some results to gist locally and watch the magic happen!
+# TODO: Make add allUsers:objectViewer to botleague bucket
+# TODO: Get liaison pushing results.json on pull request to gist and GCS
+
 
 def main(kv=None):
     log.info('Starting leaderboard generator')
