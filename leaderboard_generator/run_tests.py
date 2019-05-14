@@ -1,4 +1,11 @@
 import sys
+import os
+
+os.environ['SHOULD_USE_FIRESTORE'] = 'false'
+os.environ['SHOULD_MOCK_GIT'] = 'true'
+os.environ['SHOULD_MOCK_GCS'] = 'true'
+os.environ['IS_TEST'] = 'true'
+
 from leaderboard_generator.test import test
 
 

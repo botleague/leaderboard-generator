@@ -4,7 +4,7 @@ import os.path as p
 import leaderboard_generator.config as c
 
 
-def load_json(filename):
+def read_json(filename):
     with open(filename) as file:
         results = json.load(file)
     return results

@@ -22,6 +22,9 @@ class AutoGitBase(object):
     def push(self):
         raise NotImplementedError()
 
+    def commit(self, commit_args):
+        raise NotImplementedError()
+
     def commit_and_push(self):
         """
         Pushes automatically generated/created files so that data & code
@@ -29,16 +32,14 @@ class AutoGitBase(object):
         @:return list of pushed filenames
         """
         ret = []
-        self.git.reset(paths=self.PATHS)  # Unstage any dev changes
         for relative_path in self.PATHS:
             self.git.add(relative_path)
             if self.repo.is_dirty(path=relative_path):
-                filenames = self.git.diff(
-                    '--name-only', '--cached', relative_path).split()
-                commit_args = '-m "autogen %s"' % relative_path
+                filenames = self.get_changed_filenames(relative_path)
+                commit_args = '-m autogen %s' % relative_path
                 log.info('Running git commit on:\n\t%s', '\n\t'.join(filenames))
                 log.info('git commit %s', commit_args)
-                self.git.commit(commit_args)
+                self.commit(commit_args)
                 ret += filenames
             else:
                 log.warning('No changes detected to %s, not committing',
@@ -58,10 +59,21 @@ class AutoGitBase(object):
 
         return ret
 
+    def get_changed_filenames(self, relative_path):
+        filenames = self.git.diff(
+            '--name-only', '--cached', relative_path).split()
+        return filenames
+
+    def reset(self, hard=False):
+        self.repo.head.reset(paths=self.PATHS)
+
 
 class AutoGit(AutoGitBase):
     def __init__(self):
         super().__init__()
+
+    def commit(self, commit_args):
+        return self.git.commit(commit_args)
 
     def push(self):
         return self.git.push('origin', 'master')
@@ -69,10 +81,12 @@ class AutoGit(AutoGitBase):
 
 class AutoGitMock(AutoGitBase):
     """Runs things locally then resets for testing purposes"""
+    def commit(self, commit_args):
+        log.info('Would have committed with args %s, but we are testing!',
+                 commit_args)
 
     def push(self):
-        log.info('Would have pushed, but we are testing, so resetting instead!')
-        self.git.reset(paths=self.PATHS, kwargs={'hard': 'true'})
+        log.info('Would have pushed, but we are testing!')
 
     def __init__(self):
         super().__init__()

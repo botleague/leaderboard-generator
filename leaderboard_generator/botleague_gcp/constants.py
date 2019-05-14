@@ -28,7 +28,10 @@ if SHOULD_USE_FIRESTORE:
     SECRETS = firestore.client().collection('secrets')
     GITHUB_TOKEN = SECRETS.document(TOKEN_NAME).get().to_dict()['token']
 else:
-    # For local testing a single instance of this server
-    if TOKEN_NAME not in os.environ:
-        raise RuntimeError('%s not in env' % TOKEN_NAME)
-    GITHUB_TOKEN = os.environ[TOKEN_NAME]
+    # We want botleague_gcp to be extractable as a standalone module,
+    # so don't import leaderboard_generator.config
+    if 'IS_TEST' not in os.environ:
+        # For local testing against GitHub
+        if TOKEN_NAME not in os.environ:
+            raise RuntimeError('%s not in env' % TOKEN_NAME)
+        GITHUB_TOKEN = os.environ[TOKEN_NAME]

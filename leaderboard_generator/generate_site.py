@@ -18,7 +18,7 @@ from leaderboard_generator import config as c
 from leaderboard_generator import logs
 
 from leaderboard_generator.models.problem import Problem
-from leaderboard_generator.util import load_json, exists_and_unempty, read_file, \
+from leaderboard_generator.util import read_json, exists_and_unempty, read_file, \
     write_file
 
 log = logs.get_log(__name__)
@@ -36,6 +36,8 @@ class SiteGenerator:
             autoescape=select_autoescape(['html', 'xml']))
 
     def regenerate(self):
+        log.info('Regenerating site')
+
         # Remove the old generated files and replace with static/
         self.create_clean_gen_dir()
 
@@ -46,10 +48,12 @@ class SiteGenerator:
         #   Challenges
         #   Bots
 
-        print('\n********** Generated new leaderboard **********\n')
+        log.info('********** Generated new leaderboard **********')
 
     def regenerate_problem_pages(self):
         """Write all problem leaderboards"""
+
+        log.info('Regenerating problem pages')
 
         # TODO: Create a problem home page design in problems/index.html
 
@@ -60,24 +64,39 @@ class SiteGenerator:
         problem_files = glob(c.LEADERBOARD_DIR + '/data/problems/*/' +
                              Problem.RESULTS_FILENAME)
         for filename in problem_files:
-            results = load_json(filename)
-            if results:
+            log.info('Regenerating HTML from: %s', filename)
+            results = read_json(filename)
+            if not results:
+                log.error('No results found in %s', filename)
+            else:
                 problem_id = results['bots'][0]['problem']
-                problem = Problem(problem_id).fetch()
-                out_filename = p.join(c.GEN_DIR, 'problems',
-                                      problem_id + '.html')
-                submissions = results['bots']
-                add_youtube_embed(submissions)
-                write_template(out_filename, template, data=dict(
-                    problem_name=problem.definition['display_name'],
-                    problem_readme=problem.readme,
-                    problem_video='https://www.youtube.com/embed/Q57rzaHHO0k',
-                    submissions=submissions))
+                problem = Problem(problem_id)
+                fetched = problem.fetch()
+                if fetched:
+                    self.write_problem_page(problem, results, template)
+                    log.info('Regenerated %s page', problem.id)
+                else:
+                    log.error('Skipping problem page generation for %s',
+                              problem_id)
+
+    @staticmethod
+    def write_problem_page(problem, results, template):
+        out_filename = p.join(c.GEN_DIR, 'problems',
+                              problem.id + '.html')
+        submissions = results['bots']
+        add_youtube_embed(submissions)
+        write_template(out_filename, template, data=dict(
+            problem_name=problem.definition['display_name'],
+            problem_readme=problem.readme,
+            problem_video='https://www.youtube.com/embed/Q57rzaHHO0k',
+            submissions=submissions))
 
     @staticmethod
     def create_clean_gen_dir():
         if p.exists(c.GEN_DIR):
+            log.info('Removing %s', c.GEN_DIR)
             shutil.rmtree(c.GEN_DIR)
+        log.info('Copying static files to %s', c.GEN_DIR)
         shutil.copytree(p.join(APP_DIR, 'static'), c.GEN_DIR)
 
 

@@ -3,14 +3,32 @@ import pytest
 # pytest ../test
 
 import os.path as p
-from leaderboard_generator.botleague_gcp.constants import SHOULD_GEN_KEY
+import os
+
+# Duplicated in case someone puts stuff in package __init__.py
+from leaderboard_generator.auto_git import get_auto_git
+from leaderboard_generator.config import IS_TEST
+from leaderboard_generator.util import read_json
+
+os.environ['SHOULD_USE_FIRESTORE'] = 'false'
+os.environ['SHOULD_MOCK_GIT'] = 'true'
+os.environ['SHOULD_MOCK_GCS'] = 'true'
+os.environ['IS_TEST'] = 'true'
+
+from leaderboard_generator.botleague_gcp.constants import SHOULD_USE_FIRESTORE
+
+assert IS_TEST
+assert SHOULD_USE_FIRESTORE is False
+
 from leaderboard_generator.botleague_gcp.key_value_store import \
     get_key_value_store
-from leaderboard_generator.main import main
+from leaderboard_generator import main
 from leaderboard_generator.process_results import update_problem_results
 from leaderboard_generator.tally import set_ranks, tally_bot_scores
+import leaderboard_generator.config as c
 
 DIR = p.dirname(p.realpath(__file__))
+MOCK_GIST_SEARCH = read_json(p.join(c.DATA_DIR, 'gists', 'searches.json'))
 
 
 def test_two_files():
@@ -66,6 +84,19 @@ def test_tie_score_same_bot():
     assert bots[0][u] == 1000
     assert bots[1][u] == 1233
 
+
+def test_main():
+    main.run_locally(max_iters=1)
+
+    # TODO: assert a bunch of stuff
+    # TODO: Get changed files
+
+    git = get_auto_git()
+    changed_files = []
+    for path in git.PATHS:
+        changed_files += git.get_changed_filenames(path)
+
+    git.reset()
 
 
 if __name__ == '__main__':
