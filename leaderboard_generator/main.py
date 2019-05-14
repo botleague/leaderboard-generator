@@ -13,7 +13,7 @@ from leaderboard_generator.botleague_gcp import key_value_store
 from leaderboard_generator.botleague_gcp.key_value_store import \
     get_key_value_store, SimpleKeyValueStore
 from leaderboard_generator.generate_site import SiteGenerator
-import leaderboard_generator.config as c
+from leaderboard_generator.config import c
 from leaderboard_generator import logs
 from leaderboard_generator.process_results import update_problem_results
 from leaderboard_generator.util import read_file, read_lines, append_file, \
@@ -41,7 +41,7 @@ GIST_DATE_FMT = '%Y-%m-%dT%H:%M:%SZ'
 
 
 def get_last_gen_time():
-    return datetime.strptime(read_file(c.LAST_GEN_FILEPATH), GIST_DATE_FMT)
+    return datetime.strptime(read_file(c.last_gist_time_filepath), GIST_DATE_FMT)
 
 # TODO: Deploy this to the VM
 # TODO: Post some results to gist locally and watch the magic happen!
@@ -92,6 +92,8 @@ def main(kv: SimpleKeyValueStore = None, max_iters=-1):
 
         if not done:
             time.sleep(1)
+
+    return num_iters
 
 
 def generate(generator, git_util, should_retry):
@@ -146,11 +148,11 @@ def process_new_results(generator, gists, git_util):
 def store_processed_gist_ids(gists):
     gist_ids = [g['id'] for g in gists]
     log.info('Marking gist ids as processed %s', '\n'.join(gist_ids))
-    append_file(c.RESULTS_GIST_IDS_FILEPATH, gist_ids)
+    append_file(c.results_gist_ids_filepath, gist_ids)
 
 
 def write_last_gen_time(time_str):
-    path = c.LAST_GEN_FILEPATH
+    path = c.last_gist_time_filepath
     log.info('Writing last generation time to %s', path)
     write_file(time_str, path)
 
@@ -169,7 +171,7 @@ def wait_for_gists_index(should_retry):
         log.error('No new results found on gist, despite should gen'
                   ' being set! Trying again in 10 seconds.')
         should_retry = True
-        if c.IS_TEST:
+        if c.is_test:
             log.info('Not sleeping in tests')
         else:
             time.sleep(10)
@@ -177,7 +179,7 @@ def wait_for_gists_index(should_retry):
 
 
 def ping_cronitor(now, ping_time, state):
-    if not c.IS_TEST and (ping_time == -1 or now - ping_time > 60):
+    if not c.is_test and (ping_time == -1 or now - ping_time > 60):
         log.debug('Pinging cronitor with %s', state)
         # Ping cronitor every minute
         requests.get('https://cronitor.link/mtbC2O/%s' % state, timeout=10)
@@ -188,8 +190,9 @@ def ping_cronitor(now, ping_time, state):
 def push_to_gcs(changed_filenames):
     if not changed_filenames:
         log.info('Nothing to push to GCS')
-    elif c.SHOULD_MOCK_GCS:
-        log.info('Would push to GCS, but we are testing.')
+    elif c.should_mock_gcs:
+        log.info('Would push the following to GCS, but we are testing:'
+                 '\n\t%s', '\n\t'.join(changed_filenames))
     else:
         log.info('Pushing changed site files to gcs')
         storage_client = storage.Client()
@@ -197,14 +200,14 @@ def push_to_gcs(changed_filenames):
         folder = 'leaderboard'
         maybe_backup_manually(bucket, folder)
         for relative_path in changed_filenames:
-            path = p.join(c.ROOT_DIR, relative_path)
+            path = p.join(c.root_dir, relative_path)
 
-            if path.startswith(c.SITE_DIR):
+            if path.startswith(c.gen_dir):
                 # Make generated directory root of bucket
-                blob_name = path[len(c.DATA_DIR)+1:]
-            elif path.startswith(c.DATA_DIR):
+                blob_name = path[len(c.data_dir) + 1:]
+            elif path.startswith(c.data_dir):
                 # Put data in data
-                blob_name = 'data/' + path[len(c.DATA_DIR) + 1:]
+                blob_name = 'data/' + path[len(c.data_dir) + 1:]
             else:
                 log.error('Path not in data or site dir, skipping upload of %s',
                           path)
@@ -239,7 +242,7 @@ def backup_old_leaderboard(bucket, folder):
 
 
 def check_for_new_results(last_gen_time):
-    search_url = c.GIST_SEARCH.format(time=last_gen_time)
+    search_url = c.gist_search_template.format(time=last_gen_time)
     log.info('Checking gist for new results at %s', search_url)
     gists = None
     already_processed_gist_ids = get_processed_gist_ids()
@@ -252,9 +255,8 @@ def check_for_new_results(last_gen_time):
 
 
 def search_gist(url) -> dict:
-    if c.IS_TEST:
-        from leaderboard_generator.test.test import MOCK_GIST_SEARCH
-        gists = MOCK_GIST_SEARCH[url]
+    if c.is_test:
+        gists = c.mock_gist_search[url]
     else:
         res = requests.get(url)
         if res.status_code == 200:
@@ -267,22 +269,17 @@ def search_gist(url) -> dict:
 
 
 def get_processed_gist_ids() -> set:
-    if exists_and_unempty(c.RESULTS_GIST_IDS_FILEPATH):
-        ret = set(read_lines(c.RESULTS_GIST_IDS_FILEPATH))
+    if exists_and_unempty(c.results_gist_ids_filepath):
+        ret = set(read_lines(c.results_gist_ids_filepath))
     else:
         ret = set()
     return ret
 
 
-def run_locally(max_iters):
+def run_locally(kv, max_iters):
     assert gcp_constants.SHOULD_USE_FIRESTORE is False
-    assert c.SHOULD_MOCK_GIT and c.SHOULD_MOCK_GCS
-    # TODO: Mock GitHub / Gist - should require no token
-    #   Store search results in test/data
-    #   Store some new problems in test/data
-    kv = get_key_value_store()
-    kv.set(gcp_constants.SHOULD_GEN_KEY, True)
-    main(kv, max_iters)
+    assert c.should_mock_git and c.should_mock_gcs
+    return main(kv, max_iters)
 
 
 if __name__ == '__main__':

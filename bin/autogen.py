@@ -15,7 +15,7 @@ def main():
     os.environ['SHOULD_USE_FIRESTORE'] = 'false'
 
     from leaderboard_generator import config
-    path = config.ROOT_DIR
+    path = config.root_dir
     event_handler = AutoGenTrigger()
     observer = Observer()
     observer.schedule(event_handler, path, recursive=True)
@@ -30,8 +30,8 @@ def main():
 
 def in_html_dir(path):
     from leaderboard_generator import config
-    in_static = path.startswith(config.STATIC_DIR)
-    in_templates = path.startswith(config.TEMPLATE_DIR)
+    in_static = path.startswith(config.static_dir)
+    in_templates = path.startswith(config.template_dir)
     ret = in_static or in_templates
     return ret
 

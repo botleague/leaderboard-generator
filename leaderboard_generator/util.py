@@ -1,7 +1,6 @@
 import json
 import os
 import os.path as p
-import leaderboard_generator.config as c
 
 
 def read_json(filename):

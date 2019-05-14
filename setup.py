@@ -39,6 +39,6 @@ setup(
         'google-cloud-firestore==0.32.1',
         'google-cloud-storage==1.15.0',
         'cryptography==2.6.1',
-        'pytest==4.4.1'
+        'pytest==4.4.1',
     ]
 )

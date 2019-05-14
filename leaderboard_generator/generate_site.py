@@ -14,7 +14,7 @@ import os.path as p
 import shutil
 
 from jinja2 import Environment, PackageLoader, select_autoescape
-from leaderboard_generator import config as c
+from leaderboard_generator.config import c
 from leaderboard_generator import logs
 
 from leaderboard_generator.models.problem import Problem
@@ -61,8 +61,7 @@ class SiteGenerator:
         template = self.env.get_template('problem_leaderboard.html')
 
         # Generate leaderboard for each problem
-        problem_files = glob(c.LEADERBOARD_DIR + '/data/problems/*/' +
-                             Problem.RESULTS_FILENAME)
+        problem_files = glob(c.problem_dir + '/*/' + Problem.RESULTS_FILENAME)
         for filename in problem_files:
             log.info('Regenerating HTML from: %s', filename)
             results = read_json(filename)
@@ -81,23 +80,22 @@ class SiteGenerator:
 
     @staticmethod
     def write_problem_page(problem, results, template):
-        out_filename = p.join(c.GEN_DIR, 'problems',
-                              problem.id + '.html')
+        out_filename = p.join(c.problem_html_dir, problem.id + '.html')
         submissions = results['bots']
         add_youtube_embed(submissions)
         write_template(out_filename, template, data=dict(
             problem_name=problem.definition['display_name'],
             problem_readme=problem.readme,
-            problem_video='https://www.youtube.com/embed/Q57rzaHHO0k',
+            problem_video=get_youtube_embed_url(problem.definition['youtube']),
             submissions=submissions))
 
     @staticmethod
     def create_clean_gen_dir():
-        if p.exists(c.GEN_DIR):
-            log.info('Removing %s', c.GEN_DIR)
-            shutil.rmtree(c.GEN_DIR)
-        log.info('Copying static files to %s', c.GEN_DIR)
-        shutil.copytree(p.join(APP_DIR, 'static'), c.GEN_DIR)
+        if p.exists(c.gen_dir):
+            log.info('Removing %s', c.gen_dir)
+            shutil.rmtree(c.gen_dir)
+        log.info('Copying static files to %s', c.gen_dir)
+        shutil.copytree(p.join(APP_DIR, 'static'), c.gen_dir)
 
 
 def write_template(out_html_filename, template, data):

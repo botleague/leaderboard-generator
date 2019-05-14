@@ -1,7 +1,7 @@
 import os.path as p
 import git
 
-import leaderboard_generator.config as c
+from leaderboard_generator.config import c
 from leaderboard_generator import logs
 
 log = logs.get_log(__name__)
@@ -10,11 +10,9 @@ ROOT_DIR = p.dirname(p.dirname(p.realpath(__file__)))
 
 
 class AutoGitBase(object):
-
-    # Set of paths that contain automatically created data which
-    # we wish to version control
-    PATHS = [c.RELATIVE_DATA_DIR, c.RELATIVE_SITE_DIR]
-
+    """
+    Automatically versions data and generated HTML
+    """
     def __init__(self):
         self.repo = git.Repo(ROOT_DIR)
         self.git = self.repo.git
@@ -25,6 +23,12 @@ class AutoGitBase(object):
     def commit(self, commit_args):
         raise NotImplementedError()
 
+    @property
+    def paths(self):
+        # Set of paths that contain automatically created data which
+        # we wish to version control
+        return [c.relative_data_dir, c.relative_gen_dir]
+
     def commit_and_push(self):
         """
         Pushes automatically generated/created files so that data & code
@@ -32,10 +36,10 @@ class AutoGitBase(object):
         @:return list of pushed filenames
         """
         ret = []
-        for relative_path in self.PATHS:
+        for relative_path in self.paths:
             self.git.add(relative_path)
             if self.repo.is_dirty(path=relative_path):
-                filenames = self.get_changed_filenames(relative_path)
+                filenames = self.get_staged_changes(relative_path)
                 commit_args = '-m autogen %s' % relative_path
                 log.info('Running git commit on:\n\t%s', '\n\t'.join(filenames))
                 log.info('git commit %s', commit_args)
@@ -45,9 +49,8 @@ class AutoGitBase(object):
                 log.warning('No changes detected to %s, not committing',
                             relative_path)
         if ret:
-            log.info('Pushing to master')
+            log.info('Pushing changed files to github:\n\t%s', '\n\t'.join(ret))
             self.push()
-            log.info('Pushed changed files to github:\n\t%s', '\n\t'.join(ret))
 
         # TODO: Deal with deleted files? Assuming this can't happen since
         #  new results will just create files (in the case of new problems)
@@ -59,13 +62,18 @@ class AutoGitBase(object):
 
         return ret
 
-    def get_changed_filenames(self, relative_path):
+    def get_staged_changes(self, relative_path):
         filenames = self.git.diff(
             '--name-only', '--cached', relative_path).split()
         return filenames
 
-    def reset(self, hard=False):
-        self.repo.head.reset(paths=self.PATHS)
+    def reset_generated_files_hard(self):
+        if not c.is_test:
+            log.error('Not expecting to reset generated files outside tests')
+        else:
+            self.repo.head.reset(paths=self.paths)
+            for path in self.paths:
+                self.git.clean('-df', path)
 
 
 class AutoGit(AutoGitBase):
@@ -76,13 +84,15 @@ class AutoGit(AutoGitBase):
         return self.git.commit(commit_args)
 
     def push(self):
-        return self.git.push('origin', 'master')
+        ret = self.git.push('origin', 'master')
+        log.info('Pushed to master')
+        return ret
 
 
 class AutoGitMock(AutoGitBase):
     """Runs things locally then resets for testing purposes"""
     def commit(self, commit_args):
-        log.info('Would have committed with args %s, but we are testing!',
+        log.info('Would have committed with args "%s", but we are testing!',
                  commit_args)
 
     def push(self):
@@ -93,7 +103,7 @@ class AutoGitMock(AutoGitBase):
 
 
 def get_auto_git() -> AutoGitBase:
-    if c.SHOULD_MOCK_GIT:
+    if c.should_mock_git:
         return AutoGitMock()
     else:
         return AutoGit()

@@ -2,7 +2,7 @@ import json
 import os
 import os.path as p
 
-import leaderboard_generator.config as c
+from leaderboard_generator.config import c
 from github import Github, UnknownObjectException, Repository
 
 from leaderboard_generator.util import read_json, read_file, write_file, \
@@ -21,7 +21,6 @@ class Problem:
     RELATIVE_DIR = 'problems'
     BL_REPO_ORG = 'deepdrive'
     BL_REPO_NAME = 'botleague'
-    DIR = p.join(c.DATA_DIR, RELATIVE_DIR)
     GITHUB: Repository = None
 
     # Instance variables
@@ -47,8 +46,9 @@ class Problem:
         """
         cls = Problem
         self.id = problem_id
-        self.dir = p.join(cls.DIR, problem_id)
-        self.relative_dir = p.join(cls.RELATIVE_DIR, self.id)
+        self.relative_dir = p.join(c.relative_problem_dir, self.id)
+        self.dir = p.join(c.root_dir, self.relative_dir)
+        os.makedirs(self.dir, exist_ok=True)
         self.results_filepath = p.join(self.dir, cls.RESULTS_FILENAME)
         self.definition_filepath = p.join(self.dir, cls.DEFINITION_FILENAME)
         self.readme_filepath = p.join(self.dir, cls.README_FILENAME)
@@ -80,12 +80,13 @@ class Problem:
         return ret
 
     def fetch_file(self, filepath) -> str:
-        if not c.IS_TEST and Problem.GITHUB is None:
+        if not c.is_test:
             ret = self.get_from_github(filepath)
         else:
             filepath = os.sep.join(filepath.split('/'))
-            ret = read_file(p.join(c.DATA_DIR, self.BL_REPO_NAME,
-                                   self.BL_REPO_ORG, filepath))
+            ret = read_file(p.join(c.data_dir, 'github', self.BL_REPO_ORG,
+                                   self.BL_REPO_NAME, self.RELATIVE_DIR,
+                                   self.id, filepath))
         return ret
 
     def get_from_github(self, filepath):
@@ -103,5 +104,8 @@ class Problem:
 
     @staticmethod
     def ensure_github_client():
-        from leaderboard_generator.botleague_gcp.constants import GITHUB_TOKEN
-        Problem.GITHUB = Github(GITHUB_TOKEN).get_repo('deepdrive/botleague')
+        if Problem.GITHUB is None:
+            from leaderboard_generator.botleague_gcp.constants import \
+                GITHUB_TOKEN
+            Problem.GITHUB = Github(GITHUB_TOKEN).\
+                get_repo('deepdrive/botleague')

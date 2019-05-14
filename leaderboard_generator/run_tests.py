@@ -8,6 +8,10 @@ os.environ['IS_TEST'] = 'true'
 
 from leaderboard_generator.test import test
 
+"""
+Used for local debugging of tests. Use pytest otherwise.
+"""
+
 
 def test_all():
     print('running all tests')
