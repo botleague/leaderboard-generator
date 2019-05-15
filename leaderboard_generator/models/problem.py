@@ -57,9 +57,32 @@ class Problem:
         self.readme = ''
 
     def fetch(self) -> bool:
+        os.makedirs(self.dir, exist_ok=True)
+        found_readme = self.fetch_readme()
+        found_definition = self.fetch_definition()
+
+        return found_definition and found_readme
+
+    def fetch_readme(self) -> bool:
+        if exists_and_unempty(self.readme_filepath):
+            self.readme = read_file(self.readme_filepath)
+            ret = bool(self.readme)
+        else:
+            readme = self.fetch_file(Problem.README_FILENAME)
+            if readme:
+                write_file(self.readme, self.readme_filepath)
+                self.readme = readme
+                ret = True
+            else:
+                log.error('No %s found for %s. Could not fetch',
+                          self.README_FILENAME, self.id)
+                ret = False
+
+        return ret
+
+    def fetch_definition(self) -> bool:
         if exists_and_unempty(self.definition_filepath):
             self.definition = read_json(self.definition_filepath)
-            self.readme = read_file(self.readme_filepath)
             ret = True
         else:
             # New problem, get definition json from botleague
@@ -67,15 +90,12 @@ class Problem:
             #  authors other than creator
             definition_str = self.fetch_file(self.DEFINITION_FILENAME)
             if not definition_str:
-                log.error('No definition found for %s. Could not fetch',
-                          self.id)
+                log.error('No %s found for %s. Could not fetch',
+                          self.DEFINITION_FILENAME, self.id)
                 ret = False
             else:
                 self.definition = json.loads(definition_str)
-                readme = self.fetch_file(Problem.README_FILENAME)
-                os.makedirs(self.dir, exist_ok=True)
                 write_file(definition_str, self.definition_filepath)
-                write_file(readme, self.readme_filepath)
                 ret = True
         return ret
 

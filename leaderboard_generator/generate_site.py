@@ -8,6 +8,7 @@ import json
 import time
 from urllib.parse import urlparse
 
+import grip
 from future.builtins import (dict)
 
 import os.path as p
@@ -61,8 +62,8 @@ class SiteGenerator:
         template = self.env.get_template('problem_leaderboard.html')
 
         # Generate leaderboard for each problem
-        problem_files = glob(c.problem_dir + '/*/' + Problem.RESULTS_FILENAME)
-        for filename in problem_files:
+        problem_results = glob(c.problem_dir + '/*/' + Problem.RESULTS_FILENAME)
+        for filename in problem_results:
             log.info('Regenerating HTML from: %s', filename)
             results = read_json(filename)
             if not results:
@@ -85,7 +86,7 @@ class SiteGenerator:
         add_youtube_embed(submissions)
         write_template(out_filename, template, data=dict(
             problem_name=problem.definition['display_name'],
-            problem_readme=problem.readme,
+            problem_readme=grip.render_content(problem.readme),
             problem_video=get_youtube_embed_url(problem.definition['youtube']),
             submissions=submissions))
 

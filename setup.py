@@ -40,5 +40,6 @@ setup(
         'google-cloud-storage==1.15.0',
         'cryptography==2.6.1',
         'pytest==4.4.1',
+        'grip==4.5.2',
     ]
 )
