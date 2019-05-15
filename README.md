@@ -7,6 +7,6 @@
 cd leaderboard_generator/leaderboard/generated && python -m http.server 8888
 
 
-#### To automatically generate site when editing HTML/CSS/JS locally
+#### To automatically generate site when editing HTML/CSS/JS
 
 `python bin/autogen.py`

@@ -46,7 +46,7 @@ class AutoGitBase(object):
                 self.commit(commit_args)
                 ret += filenames
             else:
-                log.warning('No changes detected to %s, not committing',
+                log.debug('No changes detected to %s, not committing',
                             relative_path)
         if ret:
             log.info('Pushing changed files to github:\n\t%s', '\n\t'.join(ret))

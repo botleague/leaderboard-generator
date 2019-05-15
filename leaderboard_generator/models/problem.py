@@ -109,10 +109,11 @@ class Problem:
                                    self.id, filepath))
         return ret
 
-    def get_from_github(self, filepath):
+    def get_from_github(self, filename):
         self.ensure_github_client()
         github = Problem.GITHUB
-        relative_path = self.relative_dir + '/' + filepath
+        relative_path = 'problems/{id}/{filename}'.format(id=self.id,
+                                                          filename=filename)
         try:
             contents = github.get_contents(relative_path)
             content_str = contents.decoded_content.decode('utf-8')

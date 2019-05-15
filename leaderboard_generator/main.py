@@ -82,11 +82,11 @@ def gen_loop(kv: SimpleKeyValueStore = None, max_iters=-1):
         ping_cronitor(start, last_ping_time, 'run')
 
         # Check for should gen trigger in db
-        should_gen = kv.get(gcp_constants.SHOULD_GEN_KEY) or c.force_gen
+        should_gen = kv.get(gcp_constants.SHOULD_GEN_KEY)
 
-        if should_gen:
+        if should_gen or c.force_gen:
             # Generate!
-            should_retry = generate(site_gen, git_util, should_retry)
+            should_retry = generate(site_gen, git_util)
 
         # Commit generated site to github
         git_util.commit_and_push()
@@ -115,7 +115,7 @@ def gen_loop(kv: SimpleKeyValueStore = None, max_iters=-1):
     return num_iters
 
 
-def generate(site_gen, git_util, should_retry):
+def generate(site_gen, should_retry):
     log.info('Should gen is set, checking gist for results')
 
     # Check for new results posted to gist by liaison since last gen
@@ -128,11 +128,15 @@ def generate(site_gen, git_util, should_retry):
     gists = check_for_new_results(get_gist_date(search_after_time))
 
     # Process results or retry
-    if not gists:
-        should_retry = wait_for_gists_index(should_retry)
-    else:
-        process_new_results(site_gen, gists, git_util)
+    if gists:
+        aggregate_results(gists)
         should_retry = False  # Success, don't retry
+    else:
+        should_retry = wait_for_gists_index(should_retry)
+
+    # Update HTML with new results
+    site_gen.regenerate()
+
     return should_retry
 
 
@@ -141,15 +145,12 @@ def get_gist_date(search_after_time):
                              GIST_DATE_FMT)
 
 
-def process_new_results(site_gen, gists, git_util):
+def aggregate_results(gists):
     log.info('%r new result(s) found, updating leaderboards',
              len(gists))
 
     # Update aggregated results in /data
     update_problem_results(gists)
-
-    # Update HTML with new results
-    site_gen.regenerate()
 
     # Write last generation time to file
     write_last_gen_time(gists[-1]['created_at'])
@@ -163,21 +164,26 @@ def gcs_rsync():
     gcs_data_dir = 'data'
     try:
 
-        cmd.run("gsutil -m rsync "  # Multi-threaded rsync
-                "-r "  # Recurse into directories
-                "{dry_run} "  # Just see what would change
-                "-x '{data}/' "  # Ignore data, we will rysnc it after
-                "{gen_dir} "  # Local generated site files
-                "gs://{bucket}"  # Destination on GCS
-                .format(gen_dir=c.gen_dir, data=gcs_data_dir,
-                        bucket=c.gcs_bucket, dry_run=dry_run_param))
-        cmd.run("gsutil -m rsync "  # Multi-threaded rsync
-                "-r "  # Recurse into directories
-                "{dry_run} "  # Just see what would change
-                "{data_dir} "  # Local generated data files
-                "gs://{bucket}/data"  # Destination on GCS
-                .format(data_dir=c.data_dir, data=gcs_data_dir,
-                        bucket=c.gcs_bucket, dry_run=dry_run_param))
+        res1, _ = cmd.run("gsutil -m rsync "  # Multi-threaded rsync
+                          "-r "  # Recurse into directories
+                          "{dry_run} "  # Just see what would change
+                          "-x '{data}/' "  # Ignore data, we will rysnc it after
+                          "{gen_dir} "  # Local generated site files
+                          "gs://{bucket}"  # Destination on GCS
+                          .format(gen_dir=c.gen_dir, data=gcs_data_dir,
+                                  bucket=c.gcs_bucket, dry_run=dry_run_param),
+                          verbose=False)
+        res2, _ = cmd.run("gsutil -m rsync "  # Multi-threaded rsync
+                          "-r "  # Recurse into directories
+                          "{dry_run} "  # Just see what would change
+                          "{data_dir} "  # Local generated data files
+                          "gs://{bucket}/data"  # Destination on GCS
+                          .format(data_dir=c.data_dir, data=gcs_data_dir,
+                                  bucket=c.gcs_bucket, dry_run=dry_run_param),
+                          verbose=False)
+        res = res1 + '\n' + res2
+        if 'Copying ' in res:
+            log.info(res)
     except FileNotFoundError as e:
         raise FileNotFoundError(
             'You may need to append something like '

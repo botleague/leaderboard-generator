@@ -14,8 +14,12 @@ def main():
     # Don't need Firestore for HTML dev
     os.environ['SHOULD_USE_FIRESTORE'] = 'false'
 
-    from leaderboard_generator import config
-    path = config.root_dir
+    from leaderboard_generator.config import c
+
+    # Catch up with unwatched changes
+    generate()
+
+    path = c.root_dir
     event_handler = AutoGenTrigger()
     observer = Observer()
     observer.schedule(event_handler, path, recursive=True)
@@ -29,11 +33,16 @@ def main():
 
 
 def in_html_dir(path):
-    from leaderboard_generator import config
-    in_static = path.startswith(config.static_dir)
-    in_templates = path.startswith(config.template_dir)
+    from leaderboard_generator.config import c
+    in_static = path.startswith(c.static_dir)
+    in_templates = path.startswith(c.template_dir)
     ret = in_static or in_templates
     return ret
+
+
+def generate():
+    from leaderboard_generator.generate_site import generate
+    generate()
 
 
 class AutoGenTrigger(FileSystemEventHandler):
@@ -73,9 +82,8 @@ class AutoGenTrigger(FileSystemEventHandler):
             return
 
         if self.last_gen_time == -1 or time.time() - self.last_gen_time > 5:
-            import leaderboard_generator as g
             logging.info("Modified %s: %s", what, event.src_path)
-            g.generate()
+            generate()
             self.last_gen_time = time.time()
 
 

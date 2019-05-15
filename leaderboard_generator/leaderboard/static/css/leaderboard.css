@@ -33,6 +33,10 @@ h1 {
   text-overflow: ellipsis;
 }
 
+/* Remove margin from first p tag */
+.readme p:first-of-type {
+  margin-block-start: 0;
+}
 
 @media (max-width: 700px) {
   h1 {
