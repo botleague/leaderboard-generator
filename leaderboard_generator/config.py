@@ -4,6 +4,9 @@ import os.path as p
 import github
 
 from leaderboard_generator.util import read_json
+from leaderboard_generator import logs, util
+
+log = logs.get_log(__name__)
 
 
 class Config:
@@ -17,12 +20,16 @@ class Config:
     template_dir = p.join(leaderboard_dir, 'templates')
     relative_test_dir = p.join(relative_dir, 'test')
     test_dir = p.join(root_dir, relative_test_dir)
-
-    should_mock_git = 'SHOULD_MOCK_GIT' in os.environ
-    should_mock_gcs = 'SHOULD_MOCK_GCS' in os.environ
     is_test = 'IS_TEST' in os.environ
+    dry_run = 'DRY_RUN' in os.environ
+    force_gen = 'FORCE_GEN' in os.environ
+    if dry_run:
+        log.info('********* DRY RUN **********')
+    should_mock_git = 'SHOULD_MOCK_GIT' in os.environ or is_test or dry_run
+    should_mock_gcs = 'SHOULD_MOCK_GCS' in os.environ or is_test or dry_run
     gist_search_template = \
         'https://api.github.com/users/botleague-results/gists?since={time}'
+    gcs_bucket = 'botleague.io'
 
     # This will change during tests
     relative_gen_parent = relative_leaderboard_dir
@@ -86,3 +93,7 @@ if 'GITHUB_DEBUG' in os.environ:
     github.enable_console_debug_logging()
 
 c = Config()
+
+if util.is_docker():
+    os.environ['PATH'] = os.environ['PATH'] + \
+                         ':/root/google-cloud-sdk/bin'

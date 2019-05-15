@@ -14,7 +14,7 @@ from leaderboard_generator.botleague_gcp.key_value_store import \
     get_key_value_store, SimpleKeyValueStore
 from leaderboard_generator.generate_site import SiteGenerator
 from leaderboard_generator.config import c
-from leaderboard_generator import logs
+from leaderboard_generator import logs, cmd
 from leaderboard_generator.process_results import update_problem_results
 from leaderboard_generator.util import read_file, read_lines, append_file, \
     write_file, exists_and_unempty, read_json
@@ -50,10 +50,21 @@ def get_last_gen_time():
 
 
 def main(kv: SimpleKeyValueStore = None, max_iters=-1):
+    try:
+        if c.dry_run:
+            max_iters = 1
+        gen_loop(kv, max_iters)
+    finally:
+        if c.dry_run:
+            git = get_auto_git()
+            git.reset_generated_files_hard()
+
+
+def gen_loop(kv: SimpleKeyValueStore = None, max_iters=-1):
     log.info('Starting leaderboard generator')
     kv = kv or key_value_store.get_key_value_store()
     git_util = get_auto_git()
-    generator = SiteGenerator()
+    site_gen = SiteGenerator()
     last_ping_time = -1
     num_iters = 0
     done = False
@@ -71,11 +82,17 @@ def main(kv: SimpleKeyValueStore = None, max_iters=-1):
         ping_cronitor(start, last_ping_time, 'run')
 
         # Check for should gen trigger in db
-        should_gen = kv.get(gcp_constants.SHOULD_GEN_KEY)
+        should_gen = kv.get(gcp_constants.SHOULD_GEN_KEY) or c.force_gen
 
         if should_gen:
             # Generate!
-            should_retry = generate(generator, git_util, should_retry)
+            should_retry = generate(site_gen, git_util, should_retry)
+
+        # Commit generated site to github
+        git_util.commit_and_push()
+
+        # Sync with Google Cloud Storage where static site is hosted
+        gcs_rsync()
 
         if should_retry:
             log.info('Not setting should_gen to false, will trigger a retry.')
@@ -92,11 +109,13 @@ def main(kv: SimpleKeyValueStore = None, max_iters=-1):
 
         if not done:
             time.sleep(1)
+        else:
+            log.info('Max iters of %r reached, terminating' % num_iters)
 
     return num_iters
 
 
-def generate(generator, git_util, should_retry):
+def generate(site_gen, git_util, should_retry):
     log.info('Should gen is set, checking gist for results')
 
     # Check for new results posted to gist by liaison since last gen
@@ -112,7 +131,7 @@ def generate(generator, git_util, should_retry):
     if not gists:
         should_retry = wait_for_gists_index(should_retry)
     else:
-        process_new_results(generator, gists, git_util)
+        process_new_results(site_gen, gists, git_util)
         should_retry = False  # Success, don't retry
     return should_retry
 
@@ -122,7 +141,7 @@ def get_gist_date(search_after_time):
                              GIST_DATE_FMT)
 
 
-def process_new_results(generator, gists, git_util):
+def process_new_results(site_gen, gists, git_util):
     log.info('%r new result(s) found, updating leaderboards',
              len(gists))
 
@@ -130,7 +149,7 @@ def process_new_results(generator, gists, git_util):
     update_problem_results(gists)
 
     # Update HTML with new results
-    generator.regenerate()
+    site_gen.regenerate()
 
     # Write last generation time to file
     write_last_gen_time(gists[-1]['created_at'])
@@ -138,11 +157,32 @@ def process_new_results(generator, gists, git_util):
     # Store processed gist ids
     store_processed_gist_ids(gists)
 
-    # Commit generated site to github
-    changed_filenames = git_util.commit_and_push()
 
-    # Push to Google Cloud Storage where static site is hosted
-    push_to_gcs(changed_filenames)
+def gcs_rsync():
+    dry_run_param = '-n' if c.is_test or c.dry_run else ''
+    gcs_data_dir = 'data'
+    try:
+
+        cmd.run("gsutil -m rsync "  # Multi-threaded rsync
+                "-r "  # Recurse into directories
+                "{dry_run} "  # Just see what would change
+                "-x '{data}/' "  # Ignore data, we will rysnc it after
+                "{gen_dir} "  # Local generated site files
+                "gs://{bucket}"  # Destination on GCS
+                .format(gen_dir=c.gen_dir, data=gcs_data_dir,
+                        bucket=c.gcs_bucket, dry_run=dry_run_param))
+        cmd.run("gsutil -m rsync "  # Multi-threaded rsync
+                "-r "  # Recurse into directories
+                "{dry_run} "  # Just see what would change
+                "{data_dir} "  # Local generated data files
+                "gs://{bucket}/data"  # Destination on GCS
+                .format(data_dir=c.data_dir, data=gcs_data_dir,
+                        bucket=c.gcs_bucket, dry_run=dry_run_param))
+    except FileNotFoundError as e:
+        raise FileNotFoundError(
+            'You may need to append something like '
+            '/home/your-user/bin/google-cloud-sdk/bin to your '
+            'PATH for this to work')
 
 
 def store_processed_gist_ids(gists):
@@ -171,8 +211,8 @@ def wait_for_gists_index(should_retry):
         log.error('No new results found on gist, despite should gen'
                   ' being set! Trying again in 10 seconds.')
         should_retry = True
-        if c.is_test:
-            log.info('Not sleeping in tests')
+        if c.is_test or c.dry_run:
+            log.info('Not sleeping in tests or dry runs')
         else:
             time.sleep(10)
     return should_retry
@@ -196,7 +236,7 @@ def push_to_gcs(changed_filenames):
     else:
         log.info('Pushing changed site files to gcs')
         storage_client = storage.Client()
-        bucket = storage_client.get_bucket('botleague.io')
+        bucket = storage_client.get_bucket(c.gcs_bucket)
         folder = 'leaderboard'
         maybe_backup_manually(bucket, folder)
         for relative_path in changed_filenames:
@@ -206,7 +246,7 @@ def push_to_gcs(changed_filenames):
                 # Make generated directory root of bucket
                 blob_name = path[len(c.data_dir) + 1:]
             elif path.startswith(c.data_dir):
-                # Put data in data
+                # Put data in data subdirectory
                 blob_name = 'data/' + path[len(c.data_dir) + 1:]
             else:
                 log.error('Path not in data or site dir, skipping upload of %s',
@@ -216,7 +256,7 @@ def push_to_gcs(changed_filenames):
             if blob_name:
                 # Upload
                 log.info('Uploading %s to botleague.io/%s', path, blob_name)
-                bucket.blob(path).upload_from_filename(blob_name)
+                bucket.blob(blob_name).upload_from_filename(path)
 
 
 def maybe_backup_manually(bucket, folder):

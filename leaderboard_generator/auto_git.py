@@ -68,8 +68,9 @@ class AutoGitBase(object):
         return filenames
 
     def reset_generated_files_hard(self):
-        if not c.is_test:
-            log.error('Not expecting to reset generated files outside tests')
+        if not c.is_test and not c.dry_run:
+            log.error('Not expecting to reset generated files outside tests'
+                      'or dry runs')
         else:
             self.repo.head.reset(paths=self.paths)
             for path in self.paths:

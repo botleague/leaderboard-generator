@@ -33,3 +33,11 @@ def append_file(path, strings):
 
 def exists_and_unempty(problem_filename):
     return p.exists(problem_filename) and os.stat(problem_filename).st_size != 0
+
+
+def is_docker():
+    path = '/proc/self/cgroup'
+    return (
+        os.path.exists('/.dockerenv') or
+        os.path.isfile(path) and any('docker' in line for line in open(path))
+    )

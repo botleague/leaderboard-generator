@@ -1,16 +1,17 @@
 #!/usr/bin/env bash
 
-set -e
+set -ev
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 cd ${DIR}/..
 
 # Setup git auth
-GITHUB_PASSWORD=`python -c 'from leaderboard_generator.config import c; print(c.GITHUB_TOKEN)'`
+GITHUB_PASSWORD=`python bin/get_github_token.py`
+
 if [[ ${GITHUB_PASSWORD} = *[!\ ]* ]]; then
     echo Changing git remote to authorized HTTPS
-    git remote rm origin
+    git remote rm origin || echo no origin, adding
     git remote add origin https://crizcraig:${GITHUB_PASSWORD}@github.com/deepdrive/leaderboard-generator
 else
   echo No GitHub token present, not changing remote
@@ -22,4 +23,4 @@ fi
 git fetch
 git checkout master leaderboard_generator/leaderboard
 
-python -c "import leaderboard_generator as g; g.main.main()"
+python bin/run_main.py
