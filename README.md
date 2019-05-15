@@ -1,3 +1,7 @@
+#### Requires
+
+Python 3.6+
+
 #### Install
 
 `pip install -e .`
