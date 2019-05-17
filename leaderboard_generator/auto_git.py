@@ -41,13 +41,13 @@ class AutoGitBase(object):
             if self.repo.is_dirty(path=relative_path):
                 filenames = self.get_staged_changes(relative_path)
                 commit_args = '-m autogen %s' % relative_path
-                log.info('Running git commit on:\n\t%s', '\n\t'.join(filenames))
                 log.info('git commit %s', commit_args)
+                log.info('Running git commit on:\n\t%s', '\n\t'.join(filenames))
                 self.commit(commit_args)
                 ret += filenames
             else:
                 log.debug('No changes detected to %s, not committing',
-                            relative_path)
+                          relative_path)
         if ret:
             log.info('Pushing changed files to github:\n\t%s', '\n\t'.join(ret))
             self.push()

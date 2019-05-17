@@ -17,10 +17,4 @@ else
   echo No GitHub token present, not changing remote
 fi
 
-# Check for latest leaderboard/ from github.
-# This allows restarting the generator without rebuilding the docker
-# image.
-git fetch
-git checkout master leaderboard_generator/leaderboard
-
 python bin/run_main.py

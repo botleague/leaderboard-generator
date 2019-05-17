@@ -94,6 +94,13 @@ if 'GITHUB_DEBUG' in os.environ:
 
 c = Config()
 
-if util.is_docker():
-    os.environ['PATH'] = os.environ['PATH'] + \
-                         ':/root/google-cloud-sdk/bin'
+
+def add_gcloud_sdk_to_path():
+    if util.is_docker():
+        gcloud_sdk_path = '/root/google-cloud-sdk/bin'
+        log.info('Detected we are in docker, adding %s to PATH',
+                 gcloud_sdk_path)
+        os.environ['PATH'] = os.environ['PATH'] + ':' + gcloud_sdk_path
+
+
+add_gcloud_sdk_to_path()

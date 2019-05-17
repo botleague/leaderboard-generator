@@ -16,7 +16,8 @@ def tally_bot_scores(results):
             log.error('Skipping submission with github url in incorrect '
                       'format: %s' % url)
         else:
-            botname = url[len(url_prefix):].split('/')[1]
+            url_parts = url[len(url_prefix):].split('/')
+            botname = '%s/%s' % (url_parts[0], url_parts[1])
             if botname in ret:
                 current = ret[botname]
                 if current['score'] < result['score']:
