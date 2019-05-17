@@ -35,7 +35,7 @@ h1 {
 
 /* Remove margin from first p tag */
 .readme p:first-of-type {
-  margin-block-start: 0
+  margin-block-start: 0;
 }
 
 @media (max-width: 700px) {
