@@ -28,8 +28,7 @@ def read_lines(path):
 
 def append_file(path, strings):
     with open(path, 'a') as f:
-        f.writelines(strings)
-        f.write('\n')
+        f.write('\n'.join(strings) + '\n')
 
 
 def exists_and_unempty(problem_filename):
