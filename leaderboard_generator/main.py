@@ -40,8 +40,11 @@ r"""
 GIST_DATE_FMT = '%Y-%m-%dT%H:%M:%SZ'
 
 
-def get_last_gen_time():
-    return datetime.strptime(read_file(c.last_gist_time_filepath), GIST_DATE_FMT)
+def get_last_gen_time() -> datetime:
+    path = c.last_gist_time_filepath
+    if not p.exists(path):
+        write_file('2019-05-07T19:47:27Z', path)
+    return datetime.strptime(read_file(path), GIST_DATE_FMT)
 
 # TODO: Deploy this to the VM
 # TODO: Post some results to gist locally and watch the magic happen!
