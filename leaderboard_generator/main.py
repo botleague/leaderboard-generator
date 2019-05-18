@@ -47,7 +47,7 @@ def get_last_gen_time() -> datetime:
     return datetime.strptime(read_file(path), GIST_DATE_FMT)
 
 
-# TODO: Get liaison pushing results.json/bot readme's on pull request to gist and GCS
+# TODO: Get liaison pushing results.json/bot readme's to gist on pull request
 # TODO: Get liaison to set should_gen in db when problem readme's are changed on botleague repo.
 
 def main(kv: SimpleKeyValueStore = None, max_iters=-1) -> int:
