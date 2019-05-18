@@ -46,21 +46,20 @@ def get_last_gen_time() -> datetime:
         write_file('2019-05-07T19:47:27Z', path)
     return datetime.strptime(read_file(path), GIST_DATE_FMT)
 
-# TODO: Deploy this to the VM
-# TODO: Post some results to gist locally and watch the magic happen!
-# TODO: Make add allUsers:objectViewer to botleague bucket
-# TODO: Get liaison pushing results.json on pull request to gist and GCS
 
+# TODO: Get liaison pushing results.json/bot readme's on pull request to gist and GCS
+# TODO: Get liaison to set should_gen in db when problem readme's are changed on botleague repo.
 
-def main(kv: SimpleKeyValueStore = None, max_iters=-1):
+def main(kv: SimpleKeyValueStore = None, max_iters=-1) -> int:
     try:
         if c.dry_run:
             max_iters = 1
-        gen_loop(kv, max_iters)
+        ret = gen_loop(kv, max_iters)
     finally:
         if c.dry_run:
             git = get_auto_git()
             git.reset_generated_files_hard()
+    return ret
 
 
 def gen_loop(kv: SimpleKeyValueStore = None, max_iters=-1):

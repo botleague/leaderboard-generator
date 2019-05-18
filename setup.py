@@ -1,5 +1,15 @@
+import os
 from os.path import abspath, dirname, join
+from typing import List
+
 from setuptools import setup
+
+
+def get_requires() -> List[str]:
+    with open('requirements.txt') as reqs_file:
+        reqs = reqs_file.read().split(os.sep)
+    return reqs
+
 
 # Read the README markdown data from README.md
 with open(abspath(join(dirname(__file__), 'README.md')), 'rb') as readme_file:
@@ -25,21 +35,5 @@ setup(
     packages=['leaderboard_generator'],
     zip_safe=True,
     python_requires='>=3.6',
-    install_requires=[
-        'setuptools>=38.6.0',
-        'twine>=1.11.0',
-        'wheel>=0.31.0',
-        'requests',
-        'Jinja2==2.10.1',
-        'future==0.17.1',
-        'watchdog==0.9.0',
-        'PyGithub==1.43.6',
-        'GitPython==2.1.11',
-        'firebase-admin==2.16.0',
-        'google-cloud-firestore==0.32.1',
-        'google-cloud-storage==1.15.0',
-        'cryptography==2.6.1',
-        'pytest==4.4.1',
-        'grip==4.5.2',
-    ]
+    install_requires=get_requires()
 )

@@ -6,6 +6,8 @@ FROM python:3
 RUN curl -sSL https://sdk.cloud.google.com | bash
 RUN mkdir leaderboard-generator
 WORKDIR leaderboard-generator
+COPY requirements.txt ./requirements.txt
+RUN pip install -r requirements.txt
 COPY . .
 RUN pip install -e .
 CMD bin/run.sh
