@@ -48,7 +48,19 @@ def get_last_gen_time() -> datetime:
 
 
 # TODO: Get liaison pushing results.json/bot readme's to gist on pull request
-# TODO: Get liaison to set should_gen in db when problem readme's are changed on botleague repo.
+# TODO: Get liaison to set should_gen in db when problem readme's are changed
+#  on botleague repo.
+
+# TODO: Directory structure:
+#   /bots - Bots ranked by points
+#   --/{username}/{botname} - Bot's submissions ranked points or latest submission
+#   --/{username} => redirects to /users/{username}
+#   /challenges - Challenge list ranked by latest submission
+#   --/{challenge-name} - Challenge home page with, bots ranked by points on challenge
+#   /users - Users ranked by points
+#   --/{username}  - User's bots ranked points or latest submission
+#   /problems - List of problems ranked by last submission
+#   --/problems/{problem-name} - Problem home page (DONE)
 
 def main(kv: SimpleKeyValueStore = None, max_iters=-1) -> int:
     try:
