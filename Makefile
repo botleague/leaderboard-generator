@@ -1,6 +1,7 @@
-.PHONY: build push run bash test
+.PHONY: build push run bash test deploy reboot_vm
 
 TAG=gcr.io/silken-impulse-217423/leaderboard-generator
+SSH=gcloud compute ssh leaderboard-generator-1
 
 build:
 	docker build -t $(TAG) .
@@ -11,8 +12,14 @@ push:
 test:
 	docker run -it $(TAG) bin/test.sh
 
-deploy: build test push
-# TODO: Add GCE instance restart here
+ssh:
+	$(SSH)
+
+reboot_vm:
+	$(SSH) --command "echo connection successful"
+	$(SSH) --command "sudo reboot" || echo rebooted
+
+deploy: build test push reboot_vm
 
 run:
 	docker run -it $(TAG)
