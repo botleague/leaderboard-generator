@@ -62,6 +62,11 @@ def get_last_gen_time() -> datetime:
 #   /problems - List of problems ranked by last submission
 #   --/problems/{problem-name} - Problem home page (DONE)
 
+# TODO: liaison scaffolding - pull request to botleague => botleague liaison => GAE problem endpoint API /eval request => k8s job run => results.json POST back to botleague liaison => and finally post to the botleague-results gist.
+# TODO Setup forward agent, MNET2 agent, and path follow agent. Path follow agent will require a special #baseline tag, that allows it to run the in-game AI and not send controls over.
+#   Then for us to run CI, we just create pull requests against the botleague repo on commit to the deepdrive repo in a standard CI like Travis.
+#   Then I'd poll GitHub for the resolution of the pull request (which kind of sucks), but authenticated users get 5000 requests per hour, so polling once a second should be fine.
+
 def main(kv: SimpleKeyValueStore = None, max_iters=-1) -> int:
     try:
         if c.dry_run:
