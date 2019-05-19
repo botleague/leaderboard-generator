@@ -1,12 +1,14 @@
 import json
-import os
+import os.path as p
 
 import requests
 
 from leaderboard_generator.models.problem import Problem
 from leaderboard_generator.tally import tally_bot_scores
 from leaderboard_generator import logs
-from leaderboard_generator.util import exists_and_unempty, write_file, read_file
+from leaderboard_generator.util import exists_and_unempty, write_file, \
+    read_file, read_json
+from leaderboard_generator.config import c
 
 log = logs.get_log(__name__)
 
@@ -49,8 +51,12 @@ def get_problem_map(gists):
         if not file:
             log.error('No "results.json" in gist, skipping %s', gist['url'])
         else:
-            url = file['raw_url']
-            result_json = requests.get(url).json()
+            if c.should_mock_github:
+                result_json = read_json(p.join(c.data_dir, 'gists',
+                                               gist['id'] + '.json'))
+            else:
+                url = file['raw_url']
+                result_json = requests.get(url).json()
             result_json['gist_time'] = gist['created_at']
             if 'problem' not in result_json:
                 log.error('No "problem" in gist, skipping %s', url)
