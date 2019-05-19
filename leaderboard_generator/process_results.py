@@ -52,8 +52,9 @@ def get_problem_map(gists):
             log.error('No "results.json" in gist, skipping %s', gist['url'])
         else:
             if c.should_mock_github:
-                result_json = read_json(p.join(c.data_dir, 'gists',
-                                               gist['id'] + '.json'))
+                result_json = read_json(
+                    p.join(c.leaderboard_dir, 'mock_services', 'gists',
+                           gist['id'] + '.json'))
             else:
                 url = file['raw_url']
                 result_json = requests.get(url).json()

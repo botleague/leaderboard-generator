@@ -85,7 +85,8 @@ class Config:
 
     @property
     def mock_gist_search(self):
-        return read_json(p.join(c.data_dir, 'gists', 'searches.json'))
+        return read_json(p.join(c.leaderboard_dir,
+                                'mock_services', 'gists', 'searches.json'))
 
     # --------------------------------------------------------------------------
 
