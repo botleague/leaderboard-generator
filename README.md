@@ -1,6 +1,6 @@
 #### Requires
 
-Python 3.6+
+Python 3.7+
 
 #### Install
 
@@ -8,7 +8,7 @@ Python 3.6+
 
 #### To run site locally
 
-cd leaderboard_generator/leaderboard/generated && python -m http.server 8888
+python bin/serve.py
 
 
 #### To automatically generate site when editing HTML/CSS/JS
