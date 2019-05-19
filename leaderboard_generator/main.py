@@ -174,29 +174,32 @@ def aggregate_results(gists):
 
 
 def gcs_rsync():
-    dry_run_param = '-n' if c.is_test or c.dry_run else ''
+    do_dry_run = c.should_mock_gcs or c.dry_run
+    dry_run_param = '-n' if do_dry_run else ''
     gcs_data_dir = 'data'
     try:
 
-        res1, _ = cmd.run("gsutil -m rsync "  # Multi-threaded rsync
-                          "-r "  # Recurse into directories
-                          "{dry_run} "  # Just see what would change
-                          "-x '{data}/' "  # Ignore data, we will rysnc it after
-                          "{gen_dir} "  # Local generated site files
-                          "gs://{bucket}"  # Destination on GCS
-                          .format(gen_dir=c.gen_dir, data=gcs_data_dir,
-                                  bucket=c.gcs_bucket, dry_run=dry_run_param),
-                          verbose=False)
-        res2, _ = cmd.run("gsutil -m rsync "  # Multi-threaded rsync
-                          "-r "  # Recurse into directories
-                          "{dry_run} "  # Just see what would change
-                          "{data_dir} "  # Local generated data files
-                          "gs://{bucket}/data"  # Destination on GCS
-                          .format(data_dir=c.data_dir, data=gcs_data_dir,
-                                  bucket=c.gcs_bucket, dry_run=dry_run_param),
-                          verbose=False)
+        res1, _ = cmd.run(
+            "gsutil -m rsync "  # Multi-threaded rsync
+            "-r "  # Recurse into directories
+            "{dry_run} "  # Whether to do a dry run
+            "-x '{ignore}/' "  # Don't delete data
+            "{site_dir} "  # Local generated site files
+            "gs://{bucket}"  # Destination on GCS
+            .format(site_dir=c.site_dir, ignore=gcs_data_dir,
+                    bucket=c.gcs_bucket, dry_run=dry_run_param),
+            verbose=False)
+        res2, _ = cmd.run(
+            "gsutil -m rsync "  # Multi-threaded rsync
+            "-r "  # Recurse into directories
+            "{dry_run} "  # Whether to do a dry run
+            "{data_dir} "  # Local generated data files
+            "gs://{bucket}/data"  # Destination on GCS
+            .format(data_dir=c.data_dir, bucket=c.gcs_bucket,
+                    dry_run=dry_run_param),
+            verbose=False)
         res = res1 + '\n' + res2
-        if 'Copying ' in res:
+        if do_dry_run or 'Copying ' in res:
             log.info(res)
     except FileNotFoundError as e:
         raise FileNotFoundError(
@@ -248,6 +251,7 @@ def ping_cronitor(now, ping_time, state):
 
 
 def push_to_gcs(changed_filenames):
+    """DEPRECATED: Use gcs_rsync instead"""
     if not changed_filenames:
         log.info('Nothing to push to GCS')
     elif c.should_mock_gcs:
@@ -262,7 +266,7 @@ def push_to_gcs(changed_filenames):
         for relative_path in changed_filenames:
             path = p.join(c.root_dir, relative_path)
 
-            if path.startswith(c.gen_dir):
+            if path.startswith(c.site_dir):
                 # Make generated directory root of bucket
                 blob_name = path[len(c.data_dir) + 1:]
             elif path.startswith(c.data_dir):
@@ -315,7 +319,7 @@ def check_for_new_results(last_gen_time):
 
 
 def search_gist(url) -> dict:
-    if c.is_test:
+    if c.should_mock_github:
         gists = c.mock_gist_search[url]
     else:
         res = requests.get(url)

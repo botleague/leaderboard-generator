@@ -38,26 +38,41 @@ class Config:
     # Properties that will change during tests
     # --------------------------------------------------------------------------
     @property
+    def gen_parent(self):
+        return p.join(self.root_dir, self.relative_gen_parent)
+
+    @property
     def relative_gen_dir(self):
         return p.join(self.relative_gen_parent, 'generated')
 
-    @relative_gen_dir.setter
-    def relative_gen_dir(self, value):
-        self.relative_gen_dir = value
-
     @property
     def gen_dir(self):
-        return p.join(self.root_dir, self.relative_gen_dir)
+        ret = p.join(self.root_dir, self.relative_gen_dir)
+        os.makedirs(ret, exist_ok=True)
+        return ret
+
+    @property
+    def relative_site_dir(self):
+        return p.join(self.relative_gen_dir, 'site')
+
+    @property
+    def site_dir(self):
+        ret = p.join(self.root_dir, self.relative_site_dir)
+        # Don't create as we need to copytree and it doesn't like an empty dir
+        # there.
+        return ret
 
     @property
     def relative_data_dir(self):
         if c.is_test:
             assert self.relative_gen_parent != self.relative_leaderboard_dir
-        return p.join(self.relative_gen_parent, 'data')
+        return p.join(self.relative_gen_dir, 'data')
 
     @property
     def data_dir(self):
-        return p.join(self.root_dir, self.relative_data_dir)
+        ret = p.join(self.root_dir, self.relative_data_dir)
+        os.makedirs(ret, exist_ok=True)
+        return ret
 
     @property
     def relative_problem_dir(self):
@@ -71,7 +86,7 @@ class Config:
 
     @property
     def problem_html_dir(self):
-        ret = p.join(self.gen_dir, 'problems')
+        ret = p.join(self.site_dir, 'problems')
         os.makedirs(ret, exist_ok=True)
         return ret
 
@@ -84,9 +99,15 @@ class Config:
         return p.join(self.data_dir, 'results_gist_ids.txt')
 
     @property
+    def mock_services_dir(self):
+        ret = p.join(c.relative_gen_parent, 'mock_services')
+        os.makedirs(ret, exist_ok=True)
+        return ret
+
+    @property
     def mock_gist_search(self):
-        return read_json(p.join(c.leaderboard_dir,
-                                'mock_services', 'gists', 'searches.json'))
+        return read_json(p.join(self.mock_services_dir,
+                                'gists', 'searches.json'))
 
     # --------------------------------------------------------------------------
 

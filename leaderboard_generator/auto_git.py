@@ -27,7 +27,7 @@ class AutoGitBase(object):
     def paths(self):
         # Set of paths that contain automatically created data which
         # we wish to version control
-        return [c.relative_data_dir, c.relative_gen_dir]
+        return [c.relative_gen_dir]
 
     def commit_and_push(self):
         """

@@ -1,7 +1,3 @@
-import pytest
-
-# pytest ../test
-
 import os.path as p
 import os
 
@@ -71,20 +67,26 @@ def test_tie_score_ranking():
 
 
 def test_tie_score_same_bot():
-    prefix = 'https://github.com/u1/%s/blah'
-    a = 'agent_source_commit'
-    u = 'utc_timestamp'
+    un = 'u1'
+    u1 = 'point8predict'
+    u2 = 'point9predict'
+    prefix = 'https://github.com/' + un + '/%s/blah'
+    a = 'source_commit'
+    t = 'utc_timestamp'
+    b = 'botname'
+    u = 'username'
+    s = 'score'
     bots = [
-        {a: prefix % 'point8predict', 'score': 10, u: 1234},
-        {a: prefix % 'point8predict', 'score': 10, u: 1233},
-        {a: prefix % 'point9predict', 'score': 20, u: 1000},
-        {a: prefix % 'point9predict', 'score': 20, u: 1001},
+        {a: prefix % 'point8predict', u: un, b: u1, s: 10, t: 1234},
+        {a: prefix % 'point8predict', u: un, b: u1, s: 10, t: 1233},
+        {a: prefix % 'point9predict', u: un, b: u2, s: 20, t: 1000},
+        {a: prefix % 'point9predict', u: un, b: u2, s: 20, t: 1001},
     ]
     bots = tally_bot_scores(bots)
     assert bots[0]['score'] == 20
     assert bots[1]['score'] == 10
-    assert bots[0][u] == 1000
-    assert bots[1][u] == 1233
+    assert bots[0][t] == 1000
+    assert bots[1][t] == 1233
 
 
 def test_main_sanity():

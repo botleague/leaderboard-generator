@@ -92,11 +92,11 @@ class SiteGenerator:
 
     @staticmethod
     def create_clean_gen_dir():
-        if p.exists(c.gen_dir):
-            log.info('Removing %s', c.gen_dir)
-            shutil.rmtree(c.gen_dir)
-        log.info('Copying static files to %s', c.gen_dir)
-        shutil.copytree(p.join(APP_DIR, 'static'), c.gen_dir)
+        if p.exists(c.site_dir):
+            log.info('Removing %s', c.site_dir)
+            shutil.rmtree(c.site_dir)
+        log.info('Copying static files to %s', c.site_dir)
+        shutil.copytree(p.join(APP_DIR, 'static'), c.site_dir)
 
 
 def write_template(out_html_filename, template, data):
