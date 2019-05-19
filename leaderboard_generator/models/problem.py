@@ -104,7 +104,8 @@ class Problem:
             ret = self.get_from_github(filepath)
         else:
             filepath = os.sep.join(filepath.split('/'))
-            ret = read_file(p.join(c.data_dir, 'github', self.BL_REPO_ORG,
+            ret = read_file(p.join(c.mock_services_dir, 'github',
+                                   self.BL_REPO_ORG,
                                    self.BL_REPO_NAME, self.RELATIVE_DIR,
                                    self.id, filepath))
         return ret
