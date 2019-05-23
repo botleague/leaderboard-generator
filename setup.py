@@ -23,7 +23,6 @@ setup(
     long_description_content_type='text/markdown',
     classifiers=[
         'License :: OSI Approved :: MIT License',
-        'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Environment :: Console'
     ],
@@ -34,6 +33,6 @@ setup(
     license='MIT',
     packages=['leaderboard_generator'],
     zip_safe=True,
-    python_requires='>=3.6',
+    python_requires='>=3.7',
     install_requires=get_requires()
 )
