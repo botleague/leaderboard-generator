@@ -13,14 +13,12 @@ from leaderboard_generator.models.problem import Problem
 from leaderboard_generator.util import read_json, read_file, read_lines, \
     exists_and_unempty
 
-from leaderboard_generator.botleague_gcp.constants \
-    import SHOULD_USE_FIRESTORE, SHOULD_GEN_KEY
+from botleague_helpers.constants import SHOULD_USE_FIRESTORE, SHOULD_GEN_KEY
 
 assert c.is_test
 assert SHOULD_USE_FIRESTORE is False
 
-from leaderboard_generator.botleague_gcp.key_value_store import \
-    get_key_value_store
+from botleague_helpers.key_value_store import get_key_value_store
 from leaderboard_generator import main
 from leaderboard_generator.process_results import update_problem_results
 from leaderboard_generator.tally import set_ranks, tally_bot_scores

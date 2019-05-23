@@ -28,8 +28,6 @@ if SHOULD_USE_FIRESTORE:
     SECRETS = firestore.client().collection('secrets')
     GITHUB_TOKEN = SECRETS.document(TOKEN_NAME).get().to_dict()['token']
 else:
-    # We want botleague_gcp to be extractable as a standalone module,
-    # so don't import leaderboard_generator.config
     if 'IS_TEST' not in os.environ:
         # For local testing against GitHub
         if TOKEN_NAME not in os.environ:

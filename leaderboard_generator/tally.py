@@ -21,9 +21,6 @@ def tally_bot_scores(results):
                       'format: %s' % src_commit)
         else:
             log.info('Processing source commit %s', src_commit)
-
-            # TODO: Pull the botname from results.json,
-            #  liaison will check that username matches.
             botname = result['botname']
             username = result['username']
             full_botname = '%s/%s' % (username, botname)

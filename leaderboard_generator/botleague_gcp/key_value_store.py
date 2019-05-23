@@ -1,6 +1,6 @@
 from __future__ import print_function
 
-import leaderboard_generator.botleague_gcp.constants as c
+import botleague_helpers.constants as c
 
 
 class SimpleKeyValueStore:

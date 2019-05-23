@@ -124,10 +124,8 @@ class Problem:
         ret = content_str
         return ret
 
-    @staticmethod
-    def ensure_github_client():
+    def ensure_github_client(self):
         if Problem.GITHUB is None:
-            from leaderboard_generator.botleague_gcp.constants import \
-                GITHUB_TOKEN
+            from botleague_helpers.constants import GITHUB_TOKEN
             Problem.GITHUB = Github(GITHUB_TOKEN).\
-                get_repo('deepdrive/botleague')
+                get_repo('%s/%s' % (self.BL_REPO_ORG, self.BL_REPO_NAME))
