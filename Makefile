@@ -17,7 +17,7 @@ ssh:
 
 reboot_vm:
 	$(SSH) --command "echo connection successful"
-	$(SSH) --command "sudo reboot" || echo rebooted
+	$(SSH) --command "sudo reboot" || echo "Rebooted VM. Expected exit error above!"
 
 deploy: build test push reboot_vm
 
