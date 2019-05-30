@@ -32,11 +32,11 @@ class Config:
         'https://api.github.com/users/botleague-results/gists?since={time}'
     gcs_bucket = 'botleague.io'
 
-    # This will change during tests
-    relative_gen_parent = relative_leaderboard_dir
-
     # Properties that will change during tests
     # --------------------------------------------------------------------------
+    # TODO: Auto change this using botleague-helpers get_test_name_from_callstack
+    relative_gen_parent = relative_leaderboard_dir
+
     @property
     def gen_parent(self):
         return p.join(self.root_dir, self.relative_gen_parent)

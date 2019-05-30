@@ -88,6 +88,8 @@ def test_tie_score_same_bot():
 
 
 def test_main_sanity():
+    # TODO: Put this in a setup method that pytest AND run_tests calls and uses
+    #  callstack to determine test name as in liaison
     c.relative_gen_parent = p.join(c.test_dir, 'main_sanity_files')
 
     # Get a local key value store
