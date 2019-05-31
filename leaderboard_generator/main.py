@@ -7,7 +7,7 @@ import time
 import requests
 from google.cloud import storage
 
-import botleague_helpers.constants as gcp_constants
+from botleague_helpers.config import blconfig
 from botleague_helpers import key_value_store
 from botleague_helpers.key_value_store import SimpleKeyValueStore
 from leaderboard_generator.auto_git import get_auto_git

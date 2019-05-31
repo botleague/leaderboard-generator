@@ -8,21 +8,18 @@ os.environ['SHOULD_MOCK_GCS'] = 'true'
 os.environ['IS_TEST'] = 'true'
 
 from leaderboard_generator.auto_git import get_auto_git
-from leaderboard_generator.config import c
 from leaderboard_generator.models.problem import Problem
 from leaderboard_generator.util import read_json, read_file, read_lines, \
     exists_and_unempty
-
-from botleague_helpers.constants import SHOULD_USE_FIRESTORE, SHOULD_GEN_KEY
-
-assert c.is_test
-assert SHOULD_USE_FIRESTORE is False
-
+from botleague_helpers.config import blconfig
 from botleague_helpers.key_value_store import get_key_value_store
 from leaderboard_generator import main
 from leaderboard_generator.process_results import update_problem_results
 from leaderboard_generator.tally import set_ranks, tally_bot_scores
 from leaderboard_generator.config import c
+
+assert blconfig.is_test
+assert blconfig.should_use_firestore is False
 
 DIR = p.dirname(p.realpath(__file__))
 
@@ -122,7 +119,7 @@ def test_main_sanity():
         assert expected_readme[len(root)+1:] in staged_changes
 
         # Ensure we reset should gen back to false
-        assert kv.get(SHOULD_GEN_KEY) is False
+        assert kv.get(c.should_gen_key) is False
 
         # Test that we looped once
         assert num_iters == 1

@@ -126,6 +126,6 @@ class Problem:
 
     def ensure_github_client(self):
         if Problem.GITHUB is None:
-            from botleague_helpers.constants import GITHUB_TOKEN
-            Problem.GITHUB = Github(GITHUB_TOKEN).\
+            from botleague_helpers.config import blconfig
+            Problem.GITHUB = Github(blconfig.github_token).\
                 get_repo('%s/%s' % (self.BL_REPO_ORG, self.BL_REPO_NAME))

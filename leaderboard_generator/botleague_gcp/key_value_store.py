@@ -1,6 +1,6 @@
 from __future__ import print_function
 
-import botleague_helpers.constants as c
+from botleague_helpers.config import blconfig
 
 
 class SimpleKeyValueStore:
@@ -37,7 +37,7 @@ class SimpleKeyValueStoreLocal(SimpleKeyValueStore):
 
 
 def get_key_value_store() -> SimpleKeyValueStore:
-    if c.SHOULD_USE_FIRESTORE:
+    if blconfig.should_use_firestore:
         return SimpleKeyValueStoreFirestore()
     else:
         return SimpleKeyValueStoreLocal()

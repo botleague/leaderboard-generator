@@ -2,6 +2,6 @@
 from leaderboard_generator import logs
 logs.disabled = True
 
-from botleague_helpers.constants import GITHUB_TOKEN
+from botleague_helpers.config import blconfig
 
-print(GITHUB_TOKEN)
+print(blconfig.github_token)
