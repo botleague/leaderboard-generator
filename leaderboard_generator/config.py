@@ -2,6 +2,7 @@ import os
 import os.path as p
 
 import github
+from botleague_helpers.config import blconfig
 
 from leaderboard_generator.util import read_json
 from leaderboard_generator import logs, util
@@ -20,14 +21,15 @@ class Config:
     template_dir = p.join(leaderboard_dir, 'templates')
     relative_test_dir = p.join(relative_dir, 'test')
     test_dir = p.join(root_dir, relative_test_dir)
-    is_test = 'IS_TEST' in os.environ
     dry_run = 'DRY_RUN' in os.environ
     force_gen = 'FORCE_GEN' in os.environ
     if dry_run:
         log.info('********* DRY RUN **********')
+    is_test = blconfig.is_test
     should_mock_git = 'SHOULD_MOCK_GIT' in os.environ or is_test or dry_run
     should_mock_gcs = 'SHOULD_MOCK_GCS' in os.environ or is_test or dry_run
-    should_mock_github = 'SHOULD_MOCK_GITHUB' in os.environ or is_test or dry_run
+    should_mock_github = 'SHOULD_MOCK_GITHUB' in os.environ or is_test or \
+                         dry_run
     gist_search_template = \
         'https://api.github.com/users/botleague-results/gists?since={time}'
     gcs_bucket = 'botleague.io'
@@ -64,7 +66,7 @@ class Config:
 
     @property
     def relative_data_dir(self):
-        if c.is_test:
+        if blconfig.is_test:
             assert self.relative_gen_parent != self.relative_leaderboard_dir
         return p.join(self.relative_gen_dir, 'data')
 
@@ -100,7 +102,7 @@ class Config:
 
     @property
     def mock_services_dir(self):
-        ret = p.join(c.relative_gen_parent, 'mock_services')
+        ret = p.join(config.relative_gen_parent, 'mock_services')
         os.makedirs(ret, exist_ok=True)
         return ret
 
@@ -115,7 +117,7 @@ class Config:
 if 'GITHUB_DEBUG' in os.environ:
     github.enable_console_debug_logging()
 
-c = Config()
+config = Config()
 
 
 def add_gcloud_sdk_to_path():

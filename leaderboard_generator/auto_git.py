@@ -1,7 +1,8 @@
 import os.path as p
 import git
+from botleague_helpers.config import blconfig
 
-from leaderboard_generator.config import c
+from leaderboard_generator.config import config
 from leaderboard_generator import logs
 
 log = logs.get_log(__name__)
@@ -27,7 +28,7 @@ class AutoGitBase(object):
     def paths(self):
         # Set of paths that contain automatically created data which
         # we wish to version control
-        return [c.relative_gen_dir]
+        return [config.relative_gen_dir]
 
     def commit_and_push(self):
         """
@@ -68,8 +69,8 @@ class AutoGitBase(object):
         return filenames
 
     def reset_generated_files_hard(self):
-        if not c.is_test and not c.dry_run:
-            log.error('Not expecting to reset generated files outside tests'
+        if not blconfig.is_test and not config.dry_run:
+            log.error('Not expecting to reset generated files outside tests '
                       'or dry runs')
         else:
             self.repo.head.reset(paths=self.paths)
@@ -104,7 +105,7 @@ class AutoGitMock(AutoGitBase):
 
 
 def get_auto_git() -> AutoGitBase:
-    if c.should_mock_git:
+    if config.should_mock_git:
         return AutoGitMock()
     else:
         return AutoGit()

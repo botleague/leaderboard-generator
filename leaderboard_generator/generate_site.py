@@ -15,7 +15,7 @@ import os.path as p
 import shutil
 
 from jinja2 import Environment, PackageLoader, select_autoescape
-from leaderboard_generator.config import c
+from leaderboard_generator.config import config
 from leaderboard_generator import logs
 
 from leaderboard_generator.models.problem import Problem
@@ -62,7 +62,7 @@ class SiteGenerator:
         template = self.env.get_template('problem_leaderboard.html')
 
         # Generate leaderboard for each problem
-        problem_results = glob(c.problem_dir + '/*/' + Problem.RESULTS_FILENAME)
+        problem_results = glob(config.problem_dir + '/*/' + Problem.RESULTS_FILENAME)
         for filename in problem_results:
             log.info('Regenerating HTML from: %s', filename)
             results = read_json(filename)
@@ -81,7 +81,7 @@ class SiteGenerator:
 
     @staticmethod
     def write_problem_page(problem, results, template):
-        out_filename = p.join(c.problem_html_dir, problem.id + '.html')
+        out_filename = p.join(config.problem_html_dir, problem.id + '.html')
         submissions = results['bots']
         add_youtube_embed(submissions)
         write_template(out_filename, template, data=dict(
@@ -92,11 +92,12 @@ class SiteGenerator:
 
     @staticmethod
     def create_clean_gen_dir():
-        if p.exists(c.site_dir):
-            log.info('Removing %s', c.site_dir)
-            shutil.rmtree(c.site_dir)
-        log.info('Copying static files to %s', c.site_dir)
-        shutil.copytree(p.join(APP_DIR, 'static'), c.site_dir)
+        if p.exists(config.site_dir):
+            log.info('Removing %s', config.site_dir)
+            shutil.rmtree(config.site_dir)
+        log.info('Copying static files to %s', config.site_dir)
+        shutil.copytree(p.join(APP_DIR, 'static'), config.site_dir)
+
 
 
 def write_template(out_html_filename, template, data):

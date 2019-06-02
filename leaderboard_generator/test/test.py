@@ -16,10 +16,13 @@ from botleague_helpers.key_value_store import get_key_value_store
 from leaderboard_generator import main
 from leaderboard_generator.process_results import update_problem_results
 from leaderboard_generator.tally import set_ranks, tally_bot_scores
-from leaderboard_generator.config import c
+from leaderboard_generator.config import config
 
+from botleague_helpers.config import activate_test_mode, disable_firestore_access
+activate_test_mode()  # So don't import this module from non-test code!
+
+# Being paranoid
 assert blconfig.is_test
-assert blconfig.should_use_firestore is False
 
 DIR = p.dirname(p.realpath(__file__))
 
@@ -87,11 +90,11 @@ def test_tie_score_same_bot():
 def test_main_sanity():
     # TODO: Put this in a setup method that pytest AND run_tests calls and uses
     #  callstack to determine test name as in liaison
-    c.relative_gen_parent = p.join(c.test_dir, 'main_sanity_files')
+    config.relative_gen_parent = p.join(config.test_dir, 'main_sanity_files')
 
     # Get a local key value store
     kv = get_key_value_store()
-    kv.set(SHOULD_GEN_KEY, True)
+    kv.set(blconfig.should_gen_key, True)
     git = get_auto_git()
     git.reset_generated_files_hard()
 
@@ -105,7 +108,7 @@ def test_main_sanity():
 
         root = p.dirname(p.dirname(DIR))
 
-        expected_prob_dir = p.join(c.problem_dir, 'domain_randomization')
+        expected_prob_dir = p.join(config.problem_dir, 'domain_randomization')
         expected_def = p.join(expected_prob_dir, 'problem.json')
         expected_readme = p.join(expected_prob_dir, 'README.md')
 
@@ -119,21 +122,21 @@ def test_main_sanity():
         assert expected_readme[len(root)+1:] in staged_changes
 
         # Ensure we reset should gen back to false
-        assert kv.get(c.should_gen_key) is False
+        assert kv.get(config.should_gen_key) is False
 
         # Test that we looped once
         assert num_iters == 1
 
         # Ensure last gist time
-        last_gist_time = read_file(c.last_gist_time_filepath)
+        last_gist_time = read_file(config.last_gist_time_filepath)
         assert last_gist_time == '2019-05-07T19:47:27Z'
 
         # Ensure we stored the gist id
-        gist_id = read_lines(c.results_gist_ids_filepath)[0]
+        gist_id = read_lines(config.results_gist_ids_filepath)[0]
         assert gist_id == '46e77ca190417540fdf662b2076e5de3'
 
         # Assert that HTML files were created and are filled
-        assert exists_and_unempty(p.join(c.problem_html_dir,
+        assert exists_and_unempty(p.join(config.problem_html_dir,
                                          'domain_randomization.html'))
     finally:
         git.reset_generated_files_hard()

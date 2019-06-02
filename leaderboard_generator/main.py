@@ -12,7 +12,7 @@ from botleague_helpers import key_value_store
 from botleague_helpers.key_value_store import SimpleKeyValueStore
 from leaderboard_generator.auto_git import get_auto_git
 from leaderboard_generator.generate_site import SiteGenerator
-from leaderboard_generator.config import c
+from leaderboard_generator.config import config
 from leaderboard_generator import logs, cmd
 from leaderboard_generator.process_results import update_problem_results
 from leaderboard_generator.util import read_file, read_lines, append_file, \
@@ -40,7 +40,7 @@ GIST_DATE_FMT = '%Y-%m-%dT%H:%M:%SZ'
 
 
 def get_last_gen_time() -> datetime:
-    path = c.last_gist_time_filepath
+    path = config.last_gist_time_filepath
     if not p.exists(path):
         write_file('2019-05-07T19:47:27Z', path)
     return datetime.strptime(read_file(path), GIST_DATE_FMT)
@@ -69,11 +69,11 @@ def get_last_gen_time() -> datetime:
 
 def main(kv: SimpleKeyValueStore = None, max_iters=-1) -> int:
     try:
-        if c.dry_run:
+        if config.dry_run:
             max_iters = 1
         ret = gen_loop(kv, max_iters)
     finally:
-        if c.dry_run:
+        if config.dry_run:
             git = get_auto_git()
             git.reset_generated_files_hard()
     return ret
@@ -101,9 +101,9 @@ def gen_loop(kv: SimpleKeyValueStore = None, max_iters=-1):
         ping_cronitor(start, last_ping_time, 'run')
 
         # Check for should gen trigger in db
-        should_gen = kv.get(gcp_constants.SHOULD_GEN_KEY)
+        should_gen = kv.get(blconfig.should_gen_key)
 
-        if should_gen or c.force_gen:
+        if should_gen or config.force_gen:
             # Generate!
             should_retry = generate(site_gen, git_util)
 
@@ -179,7 +179,7 @@ def aggregate_results(gists):
 
 
 def gcs_rsync():
-    do_dry_run = c.should_mock_gcs or c.dry_run
+    do_dry_run = config.should_mock_gcs or config.dry_run
     dry_run_param = '-n' if do_dry_run else ''
     gcs_data_dir = 'data'
     try:
@@ -191,8 +191,8 @@ def gcs_rsync():
             "-x '{ignore}/' "  # Don't delete data
             "{site_dir} "  # Local generated site files
             "gs://{bucket}"  # Destination on GCS
-            .format(site_dir=c.site_dir, ignore=gcs_data_dir,
-                    bucket=c.gcs_bucket, dry_run=dry_run_param),
+            .format(site_dir=config.site_dir, ignore=gcs_data_dir,
+                    bucket=config.gcs_bucket, dry_run=dry_run_param),
             verbose=False)
         res2, _ = cmd.run(
             "gsutil -m rsync "  # Multi-threaded rsync
@@ -200,7 +200,7 @@ def gcs_rsync():
             "{dry_run} "  # Whether to do a dry run
             "{data_dir} "  # Local generated data files
             "gs://{bucket}/data"  # Destination on GCS
-            .format(data_dir=c.data_dir, bucket=c.gcs_bucket,
+            .format(data_dir=config.data_dir, bucket=config.gcs_bucket,
                     dry_run=dry_run_param),
             verbose=False)
         res = res1 + '\n' + res2
@@ -216,11 +216,11 @@ def gcs_rsync():
 def store_processed_gist_ids(gists):
     gist_ids = [g['id'] for g in gists]
     log.info('Marking gist ids as processed %s', '\n'.join(gist_ids))
-    append_file(c.results_gist_ids_filepath, gist_ids)
+    append_file(config.results_gist_ids_filepath, gist_ids)
 
 
 def write_last_gen_time(time_str):
-    path = c.last_gist_time_filepath
+    path = config.last_gist_time_filepath
     log.info('Writing last generation time to %s', path)
     write_file(time_str, path)
 
@@ -239,7 +239,7 @@ def wait_for_gists_index(should_retry):
         log.error('No new results found on gist, despite should gen'
                   ' being set! Trying again in 10 seconds.')
         should_retry = True
-        if c.is_test or c.dry_run:
+        if blconfig.is_test or config.dry_run:
             log.info('Not sleeping in tests or dry runs')
         else:
             time.sleep(10)
@@ -247,7 +247,7 @@ def wait_for_gists_index(should_retry):
 
 
 def ping_cronitor(now, ping_time, state):
-    if not c.is_test and (ping_time == -1 or now - ping_time > 60):
+    if not blconfig.is_test and (ping_time == -1 or now - ping_time > 60):
         log.debug('Pinging cronitor with %s', state)
         # Ping cronitor every minute
         requests.get('https://cronitor.link/mtbC2O/%s' % state, timeout=10)
@@ -259,24 +259,24 @@ def push_to_gcs(changed_filenames):
     """DEPRECATED: Use gcs_rsync instead"""
     if not changed_filenames:
         log.info('Nothing to push to GCS')
-    elif c.should_mock_gcs:
+    elif config.should_mock_gcs:
         log.info('Would push the following to GCS, but we are testing:'
                  '\n\t%s', '\n\t'.join(changed_filenames))
     else:
         log.info('Pushing changed site files to gcs')
         storage_client = storage.Client()
-        bucket = storage_client.get_bucket(c.gcs_bucket)
+        bucket = storage_client.get_bucket(config.gcs_bucket)
         folder = 'leaderboard'
         maybe_backup_manually(bucket, folder)
         for relative_path in changed_filenames:
-            path = p.join(c.root_dir, relative_path)
+            path = p.join(config.root_dir, relative_path)
 
-            if path.startswith(c.site_dir):
+            if path.startswith(config.site_dir):
                 # Make generated directory root of bucket
-                blob_name = path[len(c.data_dir) + 1:]
-            elif path.startswith(c.data_dir):
+                blob_name = path[len(config.data_dir) + 1:]
+            elif path.startswith(config.data_dir):
                 # Put data in data subdirectory
-                blob_name = 'data/' + path[len(c.data_dir) + 1:]
+                blob_name = 'data/' + path[len(config.data_dir) + 1:]
             else:
                 log.error('Path not in data or site dir, skipping upload of %s',
                           path)
@@ -311,7 +311,7 @@ def backup_old_leaderboard(bucket, folder):
 
 
 def check_for_new_results(last_gen_time):
-    search_url = c.gist_search_template.format(time=last_gen_time)
+    search_url = config.gist_search_template.format(time=last_gen_time)
     log.info('Checking gist for new results at %s', search_url)
     gists = None
     already_processed_gist_ids = get_processed_gist_ids()
@@ -324,8 +324,8 @@ def check_for_new_results(last_gen_time):
 
 
 def search_gist(url) -> dict:
-    if c.should_mock_github:
-        gists = c.mock_gist_search[url]
+    if config.should_mock_github:
+        gists = config.mock_gist_search[url]
     else:
         res = requests.get(url)
         if res.status_code == 200:
@@ -338,16 +338,16 @@ def search_gist(url) -> dict:
 
 
 def get_processed_gist_ids() -> set:
-    if exists_and_unempty(c.results_gist_ids_filepath):
-        ret = set(read_lines(c.results_gist_ids_filepath))
+    if exists_and_unempty(config.results_gist_ids_filepath):
+        ret = set(read_lines(config.results_gist_ids_filepath))
     else:
         ret = set()
     return ret
 
 
 def run_locally(kv, max_iters):
-    assert gcp_constants.SHOULD_USE_FIRESTORE is False
-    assert c.should_mock_git and c.should_mock_gcs
+    assert blconfig.should_use_firestore is False
+    assert config.should_mock_git and config.should_mock_gcs
     return main(kv, max_iters)
 
 

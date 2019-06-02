@@ -2,7 +2,9 @@ import json
 import os
 import os.path as p
 
-from leaderboard_generator.config import c
+from botleague_helpers.config import blconfig
+
+from leaderboard_generator.config import config
 from github import Github, UnknownObjectException, Repository
 
 from leaderboard_generator.util import read_json, read_file, write_file, \
@@ -13,7 +15,7 @@ from leaderboard_generator import logs
 log = logs.get_log(__name__)
 
 
-class Problem:
+class ProblemBase:
     # Class constants
     RESULTS_FILENAME = 'aggregated_results.json'
     DEFINITION_FILENAME = 'problem.json'
@@ -44,14 +46,13 @@ class Problem:
         with tags, i.e. both of the above problems could be tagged under
         "domain-randomization"
         """
-        cls = Problem
         self.id = problem_id
-        self.relative_dir = p.join(c.relative_problem_dir, self.id)
-        self.dir = p.join(c.root_dir, self.relative_dir)
+        self.relative_dir = p.join(config.relative_problem_dir, self.id)
+        self.dir = p.join(config.root_dir, self.relative_dir)
         os.makedirs(self.dir, exist_ok=True)
-        self.results_filepath = p.join(self.dir, cls.RESULTS_FILENAME)
-        self.definition_filepath = p.join(self.dir, cls.DEFINITION_FILENAME)
-        self.readme_filepath = p.join(self.dir, cls.README_FILENAME)
+        self.results_filepath = p.join(self.dir, self.RESULTS_FILENAME)
+        self.definition_filepath = p.join(self.dir, self.DEFINITION_FILENAME)
+        self.readme_filepath = p.join(self.dir, self.README_FILENAME)
 
         self.definition = {}
         self.readme = ''
@@ -68,7 +69,7 @@ class Problem:
             self.readme = read_file(self.readme_filepath)
             ret = bool(self.readme)
         else:
-            readme = self.fetch_file(Problem.README_FILENAME)
+            readme = self.fetch_file(self.README_FILENAME)
             if readme:
                 write_file(self.readme, self.readme_filepath)
                 self.readme = readme
@@ -100,15 +101,23 @@ class Problem:
         return ret
 
     def fetch_file(self, filepath) -> str:
-        if not c.is_test:
+        raise NotImplementedError()
+
+    def fetch_file(self, filepath) -> str:
+        if not blconfig.is_test:
             ret = self.get_from_github(filepath)
         else:
             filepath = os.sep.join(filepath.split('/'))
-            ret = read_file(p.join(c.mock_services_dir, 'github',
+            ret = read_file(p.join(config.mock_services_dir, 'github',
                                    self.BL_REPO_ORG,
                                    self.BL_REPO_NAME, self.RELATIVE_DIR,
                                    self.id, filepath))
         return ret
+
+
+
+
+class Problem(ProblemBase):
 
     def get_from_github(self, filename):
         self.ensure_github_client()
@@ -127,5 +136,5 @@ class Problem:
     def ensure_github_client(self):
         if Problem.GITHUB is None:
             from botleague_helpers.config import blconfig
-            Problem.GITHUB = Github(blconfig.github_token).\
+            ProblemBase.GITHUB = Github(blconfig.github_token).\
                 get_repo('%s/%s' % (self.BL_REPO_ORG, self.BL_REPO_NAME))

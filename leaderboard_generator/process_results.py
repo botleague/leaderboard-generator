@@ -8,7 +8,7 @@ from leaderboard_generator.tally import tally_bot_scores
 from leaderboard_generator import logs
 from leaderboard_generator.util import exists_and_unempty, write_file, \
     read_file, read_json
-from leaderboard_generator.config import c
+from leaderboard_generator.config import config
 
 log = logs.get_log(__name__)
 
@@ -51,9 +51,9 @@ def get_problem_map(gists):
         if not file:
             log.error('No "results.json" in gist, skipping %s', gist['url'])
         else:
-            if c.should_mock_github:
+            if config.should_mock_github:
                 result_json = read_json(
-                    p.join(c.mock_services_dir, 'gists', gist['id'] + '.json'))
+                    p.join(config.mock_services_dir, 'gists', gist['id'] + '.json'))
             else:
                 url = file['raw_url']
                 result_json = requests.get(url).json()
