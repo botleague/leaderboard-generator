@@ -110,7 +110,10 @@ def test_main_sanity():
 
         root = dirname(dirname(DIR))
 
-        expected_prob_dir = p.join(c.problem_dir, 'domain_randomization')
+        expected_prob_dir = join(config.problem_dir,
+                                 'deepdrive/domain_randomization')
+        expected_aggregated_results = join(expected_prob_dir,
+                                           'aggregated_results.json')
         expected_def = p.join(expected_prob_dir, 'problem.json')
         expected_readme = p.join(expected_prob_dir, 'README.md')
 
