@@ -118,6 +118,9 @@ def test_main_sanity():
         assert p.exists(expected_def)
         assert p.exists(expected_readme)
 
+        # Assert results are in changed files
+        assert expected_aggregated_results[len(root)+1:] in staged_changes
+
         # Assert problem.json and README.md are in changed files
         assert expected_def[len(root)+1:] in staged_changes
         assert expected_readme[len(root)+1:] in staged_changes
