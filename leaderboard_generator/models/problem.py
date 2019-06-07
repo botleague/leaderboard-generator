@@ -19,9 +19,6 @@ class Problem:
     DEFINITION_FILENAME = 'problem.json'
     README_FILENAME = 'README.md'
     RELATIVE_DIR = 'problems'
-    BL_REPO_ORG = 'deepdrive'
-    BL_REPO_NAME = 'botleague'
-    GITHUB: Repository = None
 
     # Instance variables
     id: str
