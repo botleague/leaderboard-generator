@@ -9,7 +9,7 @@
   "utc_timestamp": 86600000,
   "docker_digest": "qewrqwerqwer",
   "docker_image_url": "https://s3-us-west-1.amazonaws.com/ci/build/12341234/agent.tar",
-  "json_commit": "https://github.com/deepdrive/agent-zoo/commit/3a0e6af15c5ee05b62c6705d40aece250112a57d",
+  "league_commit_sha": "3a0e6af15c5ee05b62c6705d40aece250112a57d",
   "source_commit": "https://github.com/crizCraig/forward-agent/commit/defc93d95944099d3e61cda6542bb4ffe7a28abf",
   "score": 5522.12344,
   "youtube": "https://www.youtube.com/watch?v=ALdsqfrLieg&t=2575s",
