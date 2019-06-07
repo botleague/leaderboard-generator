@@ -2,9 +2,11 @@ import json
 import os
 import os.path as p
 
-from leaderboard_generator.config import c
-from github import Github, UnknownObjectException, Repository
+from botleague_helpers.config import blconfig
 
+from leaderboard_generator.config import config
+
+from leaderboard_generator.models.base import Base
 from leaderboard_generator.util import read_json, read_file, write_file, \
     exists_and_unempty
 
@@ -41,10 +43,9 @@ class Problem:
         with tags, i.e. both of the above problems could be tagged under
         "domain-randomization"
         """
-        cls = Problem
         self.id = problem_id
-        self.relative_dir = p.join(c.relative_problem_dir, self.id)
-        self.dir = p.join(c.root_dir, self.relative_dir)
+        self.relative_dir = p.join(config.relative_problem_dir, self.id)
+        self.dir = p.join(config.root_dir, self.relative_dir)
         os.makedirs(self.dir, exist_ok=True)
         self.results_filepath = p.join(self.dir, cls.RESULTS_FILENAME)
         self.definition_filepath = p.join(self.dir, cls.DEFINITION_FILENAME)
@@ -100,11 +101,10 @@ class Problem:
         if not c.is_test:
             ret = self.get_from_github(filepath)
         else:
-            filepath = os.sep.join(filepath.split('/'))
-            ret = read_file(p.join(c.mock_services_dir, 'github',
-                                   self.BL_REPO_ORG,
-                                   self.BL_REPO_NAME, self.RELATIVE_DIR,
-                                   self.id, filepath))
+            filename = os.sep.join(filename.split('/'))
+            ret = read_file(p.join(config.mock_services_dir, 'github',
+                                   self.BL_REPO_ORG, self.BL_REPO_NAME,
+                                   self.RELATIVE_DIR, self.id, filename))
         return ret
 
     def get_from_github(self, filename):

@@ -2,6 +2,7 @@ import os
 import os.path as p
 
 import github
+from botleague_helpers.config import blconfig
 
 from leaderboard_generator.util import read_json
 from leaderboard_generator import logs, util
@@ -100,7 +101,7 @@ class Config:
 
     @property
     def mock_services_dir(self):
-        ret = p.join(c.relative_gen_parent, 'mock_services')
+        ret = p.join(config.relative_gen_parent, 'mock_services')
         os.makedirs(ret, exist_ok=True)
         return ret
 
@@ -115,7 +116,7 @@ class Config:
 if 'GITHUB_DEBUG' in os.environ:
     github.enable_console_debug_logging()
 
-c = Config()
+config = Config()
 
 
 def add_gcloud_sdk_to_path():

@@ -1,6 +1,6 @@
 import http.server
 import socketserver
-from leaderboard_generator.config import c
+from leaderboard_generator.config import config
 
 PORT = 8888
 DIRECTORY = "web"
@@ -8,7 +8,7 @@ DIRECTORY = "web"
 
 class Handler(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, directory=c.site_dir, **kwargs)
+        super().__init__(*args, directory=config.site_dir, **kwargs)
 
 
 with socketserver.TCPServer(("", PORT), Handler) as httpd:

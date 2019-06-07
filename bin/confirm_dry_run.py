@@ -1,6 +1,6 @@
-from leaderboard_generator.config import c
+from leaderboard_generator.config import config
 
-if c.dry_run:
+if config.dry_run:
     print('Confirmed')
 else:
     raise RuntimeError('NOT DRY RUN')
