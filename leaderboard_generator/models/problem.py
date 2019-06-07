@@ -15,7 +15,7 @@ from leaderboard_generator import logs
 log = logs.get_log(__name__)
 
 
-class Problem:
+class ProblemBase(Base):
     # Class constants
     RESULTS_FILENAME = 'aggregated_results.json'
     DEFINITION_FILENAME = 'problem.json'
@@ -96,8 +96,17 @@ class Problem:
         return ret
 
     def fetch_file(self, filepath) -> str:
-        if not c.is_test:
-            ret = self.get_from_github(filepath)
+        raise NotImplementedError()
+
+
+class Problem(ProblemBase):
+
+    def fetch_file(self, filename) -> str:
+        if not blconfig.is_test:
+            relative_path = 'problems/{id}/{filename}'.format(
+                id=self.id,
+                filename=filename)
+            ret = self.get_from_github(relative_path)
         else:
             filename = os.sep.join(filename.split('/'))
             ret = read_file(p.join(config.mock_services_dir, 'github',
