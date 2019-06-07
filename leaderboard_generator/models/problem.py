@@ -33,7 +33,7 @@ class Problem:
     definition: dict
     readme: str
 
-    def __init__(self, problem_id):
+    def __init__(self, problem_id: str):
         """
         :param problem_id: The unique name, i.e. "domain_randomization" given
         to the problem. The problem must not change after others have submitted
