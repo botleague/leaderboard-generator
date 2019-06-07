@@ -16,7 +16,7 @@ Used for local debugging of tests. Use pytest otherwise.
 """
 
 
-def test_all():
+def run_all():
     print('running all tests')
     for attr in dir(test):
         if attr.startswith('test_'):
