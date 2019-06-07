@@ -1,7 +1,8 @@
-import os.path as p
 import os
 
 # Duplicated in case someone puts stuff in package __init__.py
+from os.path import join, dirname, realpath, exists
+
 os.environ['SHOULD_USE_FIRESTORE'] = 'false'
 os.environ['SHOULD_MOCK_GIT'] = 'true'
 os.environ['SHOULD_MOCK_GCS'] = 'true'
@@ -25,7 +26,7 @@ activate_test_mode()  # So don't import this module from non-test code!
 assert blconfig.is_test
 assert blconfig.should_use_firestore is False
 
-DIR = p.dirname(p.realpath(__file__))
+DIR = dirname(realpath(__file__))
 
 
 def test_two_files_at_once():
@@ -107,7 +108,7 @@ def test_main_sanity():
         for path in git.paths:
             staged_changes += git.get_staged_changes(path)
 
-        root = p.dirname(p.dirname(DIR))
+        root = dirname(dirname(DIR))
 
         expected_prob_dir = p.join(c.problem_dir, 'domain_randomization')
         expected_def = p.join(expected_prob_dir, 'problem.json')
