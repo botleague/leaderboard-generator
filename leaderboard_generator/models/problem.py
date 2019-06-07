@@ -34,11 +34,9 @@ class Problem:
 
     def __init__(self, problem_id: str):
         """
-        :param problem_id: The unique name, i.e. "domain_randomization" given
-        to the problem. The problem must not change after others have submitted
-        bots to be evaluated on it. Therefore, to create a variation
-        of the "domain_randomization" problem, you'd create something like
-        "domain_randomization_2" or "domain_randomization_with_traction".
+        :param problem_id: The unique name, i.e.
+        "deepdrive/domain_randomization" given
+        to the problem.
         Problems are taggable, so grouping them in arbitrary ways is possible
         with tags, i.e. both of the above problems could be tagged under
         "domain-randomization"
