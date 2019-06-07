@@ -114,7 +114,8 @@ def test_main_sanity():
         expected_readme = p.join(expected_prob_dir, 'README.md')
 
         # Ensure we fetched and created the new problem files
-        assert p.exists(expected_prob_dir)
+        assert exists(expected_prob_dir)
+        assert exists(expected_aggregated_results)
         assert p.exists(expected_def)
         assert p.exists(expected_readme)
 
