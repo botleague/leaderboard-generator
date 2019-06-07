@@ -45,9 +45,9 @@ class ProblemBase(Base):
         self.relative_dir = p.join(config.relative_problem_dir, self.id)
         self.dir = p.join(config.root_dir, self.relative_dir)
         os.makedirs(self.dir, exist_ok=True)
-        self.results_filepath = p.join(self.dir, cls.RESULTS_FILENAME)
-        self.definition_filepath = p.join(self.dir, cls.DEFINITION_FILENAME)
-        self.readme_filepath = p.join(self.dir, cls.README_FILENAME)
+        self.results_filepath = p.join(self.dir, self.RESULTS_FILENAME)
+        self.definition_filepath = p.join(self.dir, self.DEFINITION_FILENAME)
+        self.readme_filepath = p.join(self.dir, self.README_FILENAME)
 
         self.definition = {}
         self.readme = ''
@@ -64,7 +64,7 @@ class ProblemBase(Base):
             self.readme = read_file(self.readme_filepath)
             ret = bool(self.readme)
         else:
-            readme = self.fetch_file(Problem.README_FILENAME)
+            readme = self.fetch_file(self.README_FILENAME)
             if readme:
                 write_file(self.readme_filepath, self.readme)
                 self.readme = readme
