@@ -89,6 +89,7 @@ def gen_loop(kv: SimpleKeyValueStore = None, max_iters=-1):
     last_ping_time = -1
     num_iters = 0
     done = False
+    clear_cached_botleague_repo_contents()
 
     # Whether to check gist again, in case the search index was not updated
     # immediately.
