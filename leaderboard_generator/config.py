@@ -21,11 +21,11 @@ class Config:
     template_dir = p.join(leaderboard_dir, 'templates')
     relative_test_dir = p.join(relative_dir, 'test')
     test_dir = p.join(root_dir, relative_test_dir)
-    is_test = 'IS_TEST' in os.environ
     dry_run = 'DRY_RUN' in os.environ
     force_gen = 'FORCE_GEN' in os.environ
     if dry_run:
         log.info('********* DRY RUN **********')
+    is_test = blconfig.is_test
     should_mock_git = 'SHOULD_MOCK_GIT' in os.environ or is_test or dry_run
     should_mock_gcs = 'SHOULD_MOCK_GCS' in os.environ or is_test or dry_run
     should_mock_github = 'SHOULD_MOCK_GITHUB' in os.environ or is_test or dry_run
@@ -65,7 +65,7 @@ class Config:
 
     @property
     def relative_data_dir(self):
-        if c.is_test:
+        if blconfig.is_test:
             assert self.relative_gen_parent != self.relative_leaderboard_dir
         return p.join(self.relative_gen_dir, 'data')
 
