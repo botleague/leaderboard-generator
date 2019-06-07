@@ -28,7 +28,8 @@ class Config:
     is_test = blconfig.is_test
     should_mock_git = 'SHOULD_MOCK_GIT' in os.environ or is_test or dry_run
     should_mock_gcs = 'SHOULD_MOCK_GCS' in os.environ or is_test or dry_run
-    should_mock_github = 'SHOULD_MOCK_GITHUB' in os.environ or is_test or dry_run
+    should_mock_github = 'SHOULD_MOCK_GITHUB' in os.environ or is_test or \
+                         dry_run
     gist_search_template = \
         'https://api.github.com/users/botleague-results/gists?since={time}'
     gcs_bucket = 'botleague.io'
