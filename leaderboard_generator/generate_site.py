@@ -101,8 +101,7 @@ class SiteGenerator:
 
 
 def write_template(out_html_filename, template, data):
-    with open(out_html_filename, 'w') as outfile:
-        outfile.write(template.render(data))
+    write_file(out_html_filename, template.render(data))
 
 
 def add_youtube_embed(submissions):
