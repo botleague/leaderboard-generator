@@ -39,8 +39,8 @@ def update_problem_results(gists):
         results = tally_bot_scores(results)
 
         # Write new results
-        write_file(json.dumps({"bots": results}, indent=2),
-                   problem.results_filepath)
+        write_file(problem.results_filepath,
+                   json.dumps({"bots": results}, indent=2))
 
 
 def get_problem_map(gists):

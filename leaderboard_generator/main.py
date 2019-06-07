@@ -44,7 +44,7 @@ GIST_DATE_FMT = '%Y-%m-%dT%H:%M:%SZ'
 def get_last_gen_time() -> datetime:
     path = config.last_gist_time_filepath
     if not p.exists(path):
-        write_file('2019-05-07T19:47:27Z', path)
+        write_file(path, '2019-05-07T19:47:27Z')
     return datetime.strptime(read_file(path), GIST_DATE_FMT)
 
 
@@ -224,7 +224,7 @@ def store_processed_gist_ids(gists):
 def write_last_gen_time(time_str):
     path = config.last_gist_time_filepath
     log.info('Writing last generation time to %s', path)
-    write_file(time_str, path)
+    write_file(path, time_str)
 
 
 def wait_for_gists_index(should_retry):

@@ -68,7 +68,7 @@ class Problem:
         else:
             readme = self.fetch_file(Problem.README_FILENAME)
             if readme:
-                write_file(self.readme, self.readme_filepath)
+                write_file(self.readme_filepath, self.readme)
                 self.readme = readme
                 ret = True
             else:
@@ -93,7 +93,7 @@ class Problem:
                 ret = False
             else:
                 self.definition = json.loads(definition_str)
-                write_file(definition_str, self.definition_filepath)
+                write_file(self.definition_filepath, definition_str)
                 ret = True
         return ret
 

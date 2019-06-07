@@ -9,7 +9,8 @@ def read_json(filename):
     return results
 
 
-def write_file(content, path):
+def write_file(path, content):
+    os.makedirs(dirname(path), exist_ok=True)
     with open(path, 'w') as f:
         f.write(content)
 
