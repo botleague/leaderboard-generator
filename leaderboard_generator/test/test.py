@@ -113,8 +113,8 @@ def test_main_sanity():
                                  'deepdrive/domain_randomization')
         expected_aggregated_results = join(expected_prob_dir,
                                            'aggregated_results.json')
-        expected_def = p.join(expected_prob_dir, 'problem.json')
-        expected_readme = p.join(expected_prob_dir, 'README.md')
+        expected_def = join(expected_prob_dir, 'problem.json')
+        expected_readme = join(expected_prob_dir, 'README.md')
 
         # Ensure we fetched and created the new problem files
         assert exists(expected_prob_dir)
