@@ -24,7 +24,6 @@ activate_test_mode()  # So don't import this module from non-test code!
 
 # Being paranoid
 assert blconfig.is_test
-assert blconfig.should_use_firestore is False
 
 DIR = dirname(realpath(__file__))
 
