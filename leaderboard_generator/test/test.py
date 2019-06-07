@@ -18,6 +18,10 @@ from leaderboard_generator.process_results import update_problem_results
 from leaderboard_generator.tally import set_ranks, tally_bot_scores
 from leaderboard_generator.config import c
 
+from botleague_helpers.config import activate_test_mode, disable_firestore_access
+activate_test_mode()  # So don't import this module from non-test code!
+
+# Being paranoid
 assert blconfig.is_test
 assert blconfig.should_use_firestore is False
 
