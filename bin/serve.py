@@ -3,7 +3,6 @@ import socketserver
 from leaderboard_generator.config import config
 
 PORT = 8888
-DIRECTORY = "web"
 
 
 class Handler(http.server.SimpleHTTPRequestHandler):
