@@ -8,6 +8,9 @@ os.environ['IS_TEST'] = 'true'
 
 from leaderboard_generator.test import test
 
+from botleague_helpers.config import activate_test_mode
+activate_test_mode()
+
 """
 Used for local debugging of tests. Use pytest otherwise.
 """
@@ -26,4 +29,4 @@ if __name__ == '__main__':
         test_case = sys.argv[1]
         getattr(test, test_case)()
     else:
-        test_all()
+        run_all()
