@@ -107,22 +107,3 @@ class Problem:
                                    self.RELATIVE_DIR, self.id, filename))
         return ret
 
-    def get_from_github(self, filename):
-        self.ensure_github_client()
-        github = Problem.GITHUB
-        relative_path = 'problems/{id}/{filename}'.format(id=self.id,
-                                                          filename=filename)
-        try:
-            contents = github.get_contents(relative_path)
-            content_str = contents.decoded_content.decode('utf-8')
-        except UnknownObjectException:
-            log.error('Unable to find %s in %s', relative_path, github.html_url)
-            content_str = ''
-        ret = content_str
-        return ret
-
-    def ensure_github_client(self):
-        if Problem.GITHUB is None:
-            from botleague_helpers.config import blconfig
-            Problem.GITHUB = Github(blconfig.github_token).\
-                get_repo('%s/%s' % (self.BL_REPO_ORG, self.BL_REPO_NAME))
