@@ -17,11 +17,30 @@ h1 {
   font-weight: bold;
 }
 
-.rank {
+.left-submission-column {
   font-weight: bold;
   align-self: center;
-  text-align: left;
+  text-align: center;
   color: #555;
+  padding-right: 20px;
+}
+
+.rank {
+  margin-top: 60px;
+}
+
+.vote {
+  color: #aaa;
+  margin-top: -21px;
+}
+
+.vote-label {
+  margin-left: 3px;
+}
+
+.num-votes {
+  font-size: 20px;
+  margin-top: -5px;
 }
 
 .team {
@@ -75,7 +94,20 @@ h1 {
 
   .rank {
     font-size: 30px;
-    padding-right: 20px;
+  }
+
+  .vote {
+    font-size: 37px;
+  }
+
+  .num-votes {
+    font-size: 17px;
+  }
+
+  .vote-label {
+    font-size: 12px;
+    color: #666;
+    font-weight: 600;
   }
 
   .team {
@@ -123,6 +155,20 @@ h1 {
 
   .rank {
     font-size: 45px;
+  }
+
+  .vote {
+    font-size: 50px;
+  }
+
+  .num-votes {
+    font-size: 17px;
+  }
+
+  .vote-label {
+    font-size: 12px;
+    color: #666;
+    font-weight: 600;
   }
 
   .team {

@@ -18,6 +18,9 @@
   <link rel="stylesheet" href="/css/leaderboard.css">
 
   <meta name="theme-color" content="#fafafa">
+
+  <script src="https://cdn.firebase.com/libs/firebaseui/4.0.0/firebaseui.js"></script>
+  <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/4.0.0/firebaseui.css" />
 </head>
 
 <body>
@@ -57,7 +60,12 @@
 
 {% for s in submissions %}
   <div class="submission">
-      <div class="rank">{{ loop.index }}</div>
+      <div class="left-submission-column">
+        <div class="rank">{{ loop.index }}</div>
+        <div class="vote">▲</div>
+        <div class="num-votes">123</div>
+        <div class="vote-label">votes</div>
+      </div>
       <div>
         <div class="team">{{ s.username }}</div>
         <div class="video">
