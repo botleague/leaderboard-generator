@@ -18,4 +18,4 @@ else
   echo No GitHub token present, not changing remote
 fi
 
-python bin/run_main.py
+python bin/run_main.py -y
