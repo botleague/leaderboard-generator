@@ -7,7 +7,8 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd ${DIR}/..
 
 # Setup git auth
-GITHUB_PASSWORD=`python bin/get_github_token.py`
+python bin/get_github_token.py
+GITHUB_PASSWORD=`cat '/tmp/.github_token'`
 
 if [[ ${GITHUB_PASSWORD} = *[!\ ]* ]]; then
     echo Changing git remote to authorized HTTPS
