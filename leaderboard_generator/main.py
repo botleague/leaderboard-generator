@@ -1,5 +1,6 @@
 import os
 import os.path as p
+import sys
 from datetime import datetime, timedelta
 import json
 import time
@@ -70,6 +71,9 @@ def get_last_gen_time() -> datetime:
 #   Then I'd poll GitHub for the resolution of the pull request (which kind of sucks), but authenticated users get 5000 requests per hour, so polling once a second should be fine.
 
 def main(kv: SimpleKeyValueStore = None, max_iters=-1) -> int:
+    if '-y' not in sys.argv:
+        input('Press Enter if is the only instance of leaderboard-generator '
+              'running')
     try:
         if config.dry_run:
             max_iters = 1
