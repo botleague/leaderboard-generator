@@ -7,46 +7,38 @@ log = logs.get_log(__name__)
 
 
 def tally_bot_scores(results):
-
     results = deepcopy(results)
-
     results.sort(key=lambda x: x['utc_timestamp'])
-
     ret = {}
-    url_prefix = 'https://github.com/'
     for result in results:
         src_commit = result['source_commit']
-        if not src_commit.startswith(url_prefix):
-            log.error('Skipping submission with github url in incorrect '
-                      'format: %s' % src_commit)
-        else:
-            log.info('Processing source commit %s', src_commit)
-            botname = result['botname']
-            username = result['username']
-            full_botname = '%s/%s' % (username, botname)
-            if full_botname in ret:
-                current = ret[full_botname]
-                old_high_score = current['score']
-                new_score = result['score']
-                if old_high_score < new_score:
-                    ret[full_botname] = result
-                    log.info('New high score for bot %s of %r, old high '
-                             'score was %r', full_botname, new_score,
-                             old_high_score)
-                elif old_high_score == new_score:
-                    if result['utc_timestamp'] < current['utc_timestamp']:
-                        # Keep older result if tie
-                        ret[full_botname] = result
-                        log.info('New score for bot %s of %r ties old '
-                                 'high score. Ignoring new result.' %
-                                 (full_botname, new_score))
-                else:
-                    log.info('New score for bot %s of %r is lower than '
-                             'existing %r. Ignoring new results' %
-                             (full_botname, new_score, old_high_score))
-            else:
-                log.info('Found new bot %s!', full_botname)
+        log.info('Processing source commit %s', src_commit)
+        botname = result['botname']
+        username = result['username']
+        full_botname = '%s/%s' % (username, botname)
+        if full_botname in ret:
+            current = ret[full_botname]
+            old_high_score = current['score']
+            new_score = result['score']
+            if old_high_score < new_score:
                 ret[full_botname] = result
+                log.info('New high score for bot %s of %r, old high '
+                         'score was %r', full_botname, new_score,
+                         old_high_score)
+            elif old_high_score == new_score:
+                if result['utc_timestamp'] < current['utc_timestamp']:
+                    # Keep older result if tie
+                    ret[full_botname] = result
+                    log.info('New score for bot %s of %r ties old '
+                             'high score. Ignoring new result.' %
+                             (full_botname, new_score))
+            else:
+                log.info('New score for bot %s of %r is lower than '
+                         'existing %r. Ignoring new results' %
+                         (full_botname, new_score, old_high_score))
+        else:
+            log.info('Found new bot %s', full_botname)
+            ret[full_botname] = result
 
     ret = list(ret.values())
     ret.sort(key=lambda x: x['score'], reverse=True)
