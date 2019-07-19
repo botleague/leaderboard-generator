@@ -23,6 +23,7 @@ def get_log(namespace):
         ch = logging.StreamHandler(sys.stdout)
         ch.setFormatter(log_format)
         ret.addHandler(ch)
+    ret.propagate = False
     return ret
 
 
