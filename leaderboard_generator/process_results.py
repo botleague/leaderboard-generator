@@ -24,23 +24,28 @@ def update_problem_results(gists):
 
     # For each problem, integrate results into leaderboard
     for problem_id, results in problem_map.items():
-        problem = Problem(problem_id)
+        try:
+            write_bot_score(problem_id, results)
+        except Exception as e:
+            log.error(str(e) + ' Could not process results %r results.json,'
+                               ' skipping...' % results)
 
-        # Incorporate new scores into existing ones
-        if exists_and_unempty(problem.results_filepath):
-            log.info('Adding new results to existing problem: %s', problem.id)
-            old_results_str = read_file(problem.results_filepath)
-            old_results = json.loads(old_results_str)['bots']
-            results += old_results
-        else:
-            log.info('Adding new problem: %s', problem.id)
 
-        # Aggregate scores
-        results = tally_bot_scores(results)
-
-        # Write new results
-        write_file(problem.results_filepath,
-                   json.dumps({"bots": results}, indent=2))
+def write_bot_score(problem_id, results):
+    problem = Problem(problem_id)
+    # Incorporate new scores into existing ones
+    if exists_and_unempty(problem.results_filepath):
+        log.info('Adding new results to existing problem: %s', problem.id)
+        old_results_str = read_file(problem.results_filepath)
+        old_results = json.loads(old_results_str)['bots']
+        results += old_results
+    else:
+        log.info('Adding new problem: %s', problem.id)
+    # Aggregate scores
+    results = tally_bot_scores(results)
+    # Write new results
+    write_file(problem.results_filepath,
+               json.dumps({"bots": results}, indent=2))
 
 
 def get_problem_map(gists):
