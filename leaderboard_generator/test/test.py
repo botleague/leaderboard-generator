@@ -119,8 +119,8 @@ def test_main_sanity():
         # Ensure we fetched and created the new problem files
         assert exists(expected_prob_dir)
         assert exists(expected_aggregated_results)
-        assert p.exists(expected_def)
-        assert p.exists(expected_readme)
+        assert exists(expected_def)
+        assert exists(expected_readme)
 
         # Assert results are in changed files
         assert expected_aggregated_results[len(root)+1:] in staged_changes
