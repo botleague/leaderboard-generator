@@ -20,3 +20,8 @@ python bin/serve.py
 
 gcloud config set compute/zone [vm-zone]
 gcloud config set project [vm-project-id]
+
+
+#### Deploy, Test, SSH
+
+[Makefile](Makefile)
