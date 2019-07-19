@@ -17,7 +17,7 @@ def write_file(path, content):
 
 def read_file(path):
     with open(path) as f:
-        ret = f.read()
+        ret = f.read().strip()
     return ret
 
 
