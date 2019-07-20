@@ -17,7 +17,7 @@ ssh:
 
 reboot_vm:
 	$(SSH) --command "echo connection successful"
-	$(SSH) --command "sudo reboot" || echo "Success. Error above is due to reboot. Check your VM logs."
+	$(SSH) --command "sudo reboot" || echo "Success!! Error above is due to reboot. Check your VM logs."
 
 deploy: build test push reboot_vm
 
