@@ -9,6 +9,7 @@ import time
 from urllib.parse import urlparse
 
 import grip
+from botleague_helpers.config import blconfig
 from future.builtins import (dict)
 
 import os.path as p

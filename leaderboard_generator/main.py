@@ -70,8 +70,9 @@ def get_last_gen_time() -> datetime:
 #   Then for us to run CI, we just create pull requests against the botleague repo on commit to the deepdrive repo in a standard CI like Travis.
 #   Then I'd poll GitHub for the resolution of the pull request (which kind of sucks), but authenticated users get 5000 requests per hour, so polling once a second should be fine.
 
-def main(kv: SimpleKeyValueStore = None, max_iters=-1) -> int:
-    if '-y' not in sys.argv:
+
+def main(kv: SimpleKeyValueStore = None, max_iters=-1, unattended=False) -> int:
+    if not unattended and '-y' not in sys.argv:
         input('Press Enter if is the only instance of leaderboard-generator '
               'running')
     try:
@@ -352,10 +353,10 @@ def get_processed_gist_ids() -> set:
     return ret
 
 
-def run_locally(kv, max_iters):
+def run_locally(kv, max_iters, unattended=True):
     assert blconfig.should_use_firestore is False
     assert config.should_mock_git and config.should_mock_gcs
-    return main(kv, max_iters)
+    return main(kv, max_iters, unattended)
 
 
 if __name__ == '__main__':

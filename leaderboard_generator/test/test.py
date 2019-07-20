@@ -101,7 +101,7 @@ def test_main_sanity():
 
     try:
         # Run the generation in the test dir
-        num_iters = main.run_locally(kv, max_iters=1)
+        num_iters = main.run_locally(kv, max_iters=1, unattended=True)
 
         staged_changes = []
         for path in git.paths:
