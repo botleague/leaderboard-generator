@@ -1,8 +1,9 @@
 import http.server
+import os
 import socketserver
 from leaderboard_generator.config import config
 
-PORT = 8888
+PORT = int(os.environ.get('PORT', None)) or 8888
 
 
 class Handler(http.server.SimpleHTTPRequestHandler):
