@@ -85,9 +85,27 @@ class SiteGenerator:
         out_filename = p.join(config.problem_html_dir, problem.id + '.html')
         submissions = results['bots']
         add_youtube_embed(submissions)
+        if blconfig.is_test:
+            readme = 'Skipped readme gen in test, record it to avoid 403s.'
+        else:
+            readme = ''
+            tries = 0
+            while not readme and tries < 5:
+                try:
+                    readme = grip.render_content(problem.readme, render_offline=True)
+                except Exception as e:
+                    log.error('Grip render call failed, retrying in 10 seconds')
+                    time.sleep(10)
+                tries += 1
+            if not readme:
+                log.error('Could not render new readme via github api, '
+                          'skipping')
+                # TODO: Use offline renderer when it works
+                # readme = grip.render_content(problem.readme,
+                #                              render_offline=True)
         write_template(out_filename, template, data=dict(
             problem_name=problem.definition['display_name'],
-            problem_readme=grip.render_content(problem.readme),
+            problem_readme=readme,
             problem_video=get_youtube_embed_url(problem.definition['youtube']),
             submissions=submissions))
 
