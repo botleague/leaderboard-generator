@@ -3,7 +3,7 @@
 (function () {
   function timeSince(date) {
 
-    const seconds = Math.floor((new Date() - date) / 1000);
+    const seconds = Math.floor((new Date() / 1000 - date));
 
     let interval = Math.floor(seconds / 31536000);
 
