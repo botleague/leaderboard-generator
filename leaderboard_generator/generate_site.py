@@ -93,7 +93,9 @@ class SiteGenerator:
             tries = 0
             while not readme and tries < 5:
                 try:
-                    readme = grip.render_content(problem.readme, render_offline=True)
+                    readme = grip.render_content(problem.readme,
+                                                 username='crizcraig',
+                                                 password=blconfig.github_token)
                 except Exception as e:
                     log.error('Grip render call failed, retrying in 10 seconds')
                     time.sleep(10)
