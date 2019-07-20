@@ -4,16 +4,21 @@ Python 3.7+
 
 #### Install
 
-`pip install -e .`
+```
+pip install -e .
+```
 
 #### To run site locally
 
-python bin/serve.py
-
+```
+PORT=8888 python bin/serve.py
+```
 
 #### To automatically generate site when editing HTML/CSS/JS
 
-`python bin/autogen.py`
+```
+python bin/autogen.py
+```
 
 
 #### Deployment setup
