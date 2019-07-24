@@ -87,6 +87,16 @@ class Config:
         return ret
 
     @property
+    def relative_gist_dir(self):
+        return p.join(self.relative_data_dir, 'gist')
+
+    @property
+    def gist_dir(self):
+        ret = p.join(self.root_dir, self.relative_problem_dir)
+        os.makedirs(ret, exist_ok=True)
+        return ret
+
+    @property
     def problem_html_dir(self):
         ret = p.join(self.site_dir, 'problems')
         os.makedirs(ret, exist_ok=True)
