@@ -157,6 +157,8 @@ def generate(site_gen, should_retry):
     # Process results or retry
     if gists:
         aggregate_results(gists)
+        # TODO(post launch):
+        #  Store all gists in config.gist_dir, so we don't need to refetch
         should_retry = False  # Success, don't retry
     else:
         should_retry = wait_for_gists_index(should_retry)
