@@ -36,7 +36,7 @@ class Config:
 
     # Properties that will change during tests
     # --------------------------------------------------------------------------
-    # TODO: Auto change this using botleague-helpers get_test_name_from_callstack
+    # TODO(post launch): Auto change this using botleague-helpers get_test_name_from_callstack
     relative_gen_parent = relative_leaderboard_dir
 
     @property

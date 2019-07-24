@@ -46,9 +46,10 @@ class SiteGenerator:
         self.regenerate_problem_pages()
 
         # TODO: Other pages
-        #   Users
-        #   Challenges
-        #   Bots
+        #   Home
+        #   Users (post launch)
+        #   Challenges (post launch)
+        #   Bots (post launch)
 
         log.info('********** Generated new leaderboard **********')
 

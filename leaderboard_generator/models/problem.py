@@ -82,7 +82,8 @@ class ProblemBase(Base):
             ret = True
         else:
             # New problem, get definition json from botleague
-            # TODO: Don't allow this if submissions have been made by
+            # TODO(post launch - manually review problems for now):
+            #  Don't allow this if submissions have been made by
             #  authors other than creator
             definition_str = self.fetch_file(self.DEFINITION_FILENAME)
             if not definition_str:

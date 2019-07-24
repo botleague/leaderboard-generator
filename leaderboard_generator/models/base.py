@@ -15,7 +15,7 @@ class Base:
     GITHUB: Repository = None
 
     # Mapping from path to file contents
-    # TODO: We should just keep a local copy of the botleague repo and pull it,
+    # TODO(post launch): We should just keep a local copy of the botleague repo and pull it,
     #   everytime should gen is set.
     LEAGUE_REPO_CONTENTS: Dict[str, str] = {}
 
