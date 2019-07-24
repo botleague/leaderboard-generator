@@ -303,7 +303,7 @@ def maybe_backup_manually(bucket, folder):
         log.warn('Manually backing up bucket')
         # TODO: Backup to different bucket if you resurrect this!!!
 
-        # We use bucket versioning + this is slow + github commits
+        # We now use bucket versioning + this is slow + github commits
         backup_old_leaderboard(bucket, folder)
 
 
