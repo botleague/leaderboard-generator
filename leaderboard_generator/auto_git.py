@@ -53,14 +53,6 @@ class AutoGitBase(object):
             log.info('Pushing changed files to github:\n\t%s', '\n\t'.join(ret))
             self.push()
 
-        # TODO: Deal with deleted files? Assuming this can't happen since
-        #  new results will just create files (in the case of new problems)
-        #  or modify them, in which case it's fine to add and commit.
-        #  Deleting files will happen externally and come in via run.sh
-        #  pulling new GitHub changes on VM restart. Deleted files during
-        #  results processing should cause an error as we will attempt to
-        #  upload the missing files to GCP as they have been "changed" per git.
-
         return ret
 
     def get_staged_changes(self, relative_path):
