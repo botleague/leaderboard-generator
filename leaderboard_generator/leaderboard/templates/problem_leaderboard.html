@@ -89,7 +89,10 @@
           </div>
         {% endif %}
         <div class="time">{{ s.utc_timestamp }}</div>
-        <div>GitHub: <a href="{{ s.source_commit }}">{{ s.username }}/{{ s.botname }}</a>
+        {% if s.source_commit %}
+        <div>GitHub:
+        <a href="{{ s.source_commit }}">{{ s.username }}/{{ s.botname }}</a>
+        {% endif %}
         </div>
       </div>
     </div>
