@@ -11,7 +11,7 @@ pip install -e .
 #### To run site locally
 
 ```
-PORT=8888 python bin/serve.py
+PORT=8889 python bin/serve.py
 ```
 
 #### To automatically generate site when editing HTML/CSS/JS
