@@ -1,28 +1,37 @@
 {
   "bots": [
     {
-      "score": -11.030770867917356,
-      "youtube": "https://www.youtube.com/watch?v=ebsdDI56LXE",
-      "mp4": "https://s3-us-west-1.amazonaws.com/deepdrive/artifacts/2019-05-27__04-06-45PM_48fc/mp4/deepdrive_2019-05-27__04-06-45PM.mp4",
-      "gist": "https://gist.github.com/f2d73b721cdb7db33a5dbeca4af47441",
+      "score": 20.420675441423352,
+      "gist": "not uploaded",
       "sensorimotor_specific": {
         "num_episodes": 1,
-        "average_fps": 0.007863683665802961,
-        "num_steps": 101
+        "median_fps": 4.540732574354044,
+        "num_steps": 101,
+        "total_episode_seconds": 12.625
       },
       "driving_specific": {
-        "max_gforce": 0.5548695018061894,
-        "max_kph": 68.00625000000001,
-        "avg_kph": 35.75995586886264
+        "max_gforce": 0.6849351667915033,
+        "uncomfortable_gforce_seconds": 9.625,
+        "jarring_gforce_seconds": 3.25,
+        "harmful_gforces": false,
+        "max_kph": 43.7980693359375,
+        "trip_speed_kph": 32.55125123762376,
+        "collided_with_actor": false,
+        "collided_with_non_actor": false,
+        "closest_vehicle_meters": Infinity,
+        "closest_vehicle_meters_while_at_least_4kph": Infinity,
+        "max_lane_deviation_meters": 3.180977783203125
       },
       "problem_specific": {
-        "summary": "https://s3-us-west-1.amazonaws.com/deepdrive/artifacts/csvs/2019-05-27__04-06-45PM_48fc/2019-05-27__04-06-45PM_r0_summary.csv",
-        "episodes": "https://s3-us-west-1.amazonaws.com/deepdrive/artifacts/csvs/2019-05-27__04-06-45PM_r1_episodes.csv",
-        "observations": [
-          "https://s3-us-west-1.amazonaws.com/deepdrive/artifacts/2019-05-27__04-06-45PM_48fc/hdf5_obvservations/0000000000.hdf5"
+        "summary": "https://storage.googleapis.com/deepdriveio/artifacts/2019-07-25__03-00-27PM_5c52/csvs/2019-07-25__03-00-27PM_r0_summary.csv",
+        "episodes": "https://storage.googleapis.com/deepdriveio/artifacts/2019-07-25__03-00-27PM_5c52/csvs/2019-07-25__03-00-27PM_r1_episodes.csv",
+        "hdf5_observations": [
+          "https://storage.googleapis.com/deepdriveio/artifacts/2019-07-25__03-00-27PM_5c52/hdf5/0000000000.hdf5"
         ]
       },
-      "finished": 1563576555.3852465,
+      "youtube": "https://www.youtube.com/watch?v=YgiHsOLeTDo",
+      "mp4": "https://storage.googleapis.com/deepdriveio/artifacts/2019-07-25__03-00-27PM_5c52/mp4/deepdrive_2019-07-25__03-00-27PM.mp4",
+      "finished": 1564093210.1214797,
       "username": "deepdrive",
       "botname": "domain_randomization",
       "problem": "deepdrive/domain_randomization",
@@ -30,8 +39,8 @@
       "league_commit_sha": "91c38774fd69a82659fd40409da8c8acfa226398",
       "source_commit": "",
       "seed": 750122,
-      "utc_timestamp": 1563576555.826737,
-      "gist_time": "2019-07-19T22:49:17Z",
+      "utc_timestamp": 1564093254.929418,
+      "gist_time": "2019-07-25T22:21:03Z",
       "rank": 1
     }
   ]
