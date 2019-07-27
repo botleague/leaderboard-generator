@@ -10,6 +10,7 @@ from urllib.parse import urlparse
 
 import grip
 from botleague_helpers.config import blconfig
+from box import Box
 from future.builtins import (dict)
 
 import os.path as p
@@ -68,11 +69,11 @@ class SiteGenerator:
                                Problem.RESULTS_FILENAME)
         for filename in problem_results:
             log.info('Regenerating HTML from: %s', filename)
-            results = read_json(filename)
+            results = Box.from_json(filename=filename, default_box=True)
             if not results:
                 log.error('No results found in %s', filename)
             else:
-                problem_id = results['bots'][0]['problem']
+                problem_id = results.bots[0].problem
                 problem = Problem(problem_id)
                 fetched = problem.fetch()
                 if fetched:
@@ -85,7 +86,7 @@ class SiteGenerator:
     @staticmethod
     def write_problem_page(problem, results, template):
         out_filename = p.join(config.problem_html_dir, problem.id + '.html')
-        submissions = results['bots']
+        submissions = results.bots
         add_youtube_embed(submissions)
         if blconfig.is_test:
             readme = 'Skipped readme gen in test, record it to avoid 403s.'
