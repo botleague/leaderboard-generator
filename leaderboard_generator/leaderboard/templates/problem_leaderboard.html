@@ -84,10 +84,16 @@
         {% if s.driving_specific %}
           <div class="trip-speed">
             <label>Trip speed:</label>
-            <span class="trip-speed-value">{{ s.driving_specific.trip_speed_kph }}</span>
-            KPH
+            <span class="trip-speed-value">{{ s.driving_specific.trip_speed_kph }}
+            </span>kph
+          </div>
+          <div class="comfort">
+            <label>Ride:</label>
+            <span class="comfort">{{ s.ride_description }}</span>
           </div>
         {% endif %}
+        </div>
+
         <div class="time">{{ s.utc_timestamp }}</div>
         {% if s.source_commit %}
         <div>GitHub:

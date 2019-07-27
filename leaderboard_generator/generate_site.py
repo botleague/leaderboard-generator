@@ -31,6 +31,29 @@ DIR = p.dirname(p.realpath(__file__))
 APP_DIR = p.join(DIR, APP)
 
 
+def add_ride_description(submissions):
+    # TODO: If collision, show collision stat in a big box and with vehicle #}
+    for s in submissions:
+        d = s.driving_specific
+        if d.harmful_gforces:
+            desc = 'Hazardous'
+        elif d.jarring_pct and d.jarring_pct >= 10:
+            desc = 'Extremely jarring!'
+        elif d.jarring_pct and d.jarring_pct > 0:
+            desc = 'Jarring'
+        elif d.comfort_pct and d.comfort_pct < 50:
+            desc = 'Very uncomfortable'
+        elif d.comfort_pct and d.comfort_pct < 80:
+            desc = 'Uncomfortable'
+        elif d.comfort_pct and d.comfort_pct < 99:
+            desc = 'Smooth'
+        elif d.comfort_pct and d.comfort_pct < 99:
+            desc = 'Perfect!'
+        else:
+            desc = 'n/a'
+        s.ride_description = desc
+
+
 class SiteGenerator:
     def __init__(self):
         self.env = Environment(
@@ -88,6 +111,7 @@ class SiteGenerator:
         out_filename = p.join(config.problem_html_dir, problem.id + '.html')
         submissions = results.bots
         add_youtube_embed(submissions)
+        add_ride_description(submissions)
         if blconfig.is_test:
             readme = 'Skipped readme gen in test, record it to avoid 403s.'
         else:
