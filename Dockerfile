@@ -12,5 +12,5 @@ COPY . .
 RUN pip install -e .
 CMD bin/run.sh
 
-# TODO: To auto-deploy python changes, setup GCR build from GitHub and
+# TODO(post launch): To auto-deploy python changes, setup GCR build from GitHub and
 #   restart instance
