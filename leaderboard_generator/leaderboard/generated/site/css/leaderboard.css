@@ -63,7 +63,7 @@ h1 {
 
 .video-player[poster] {
   object-fit: cover;
-  background: #ccc;
+  /*background: #ccc;*/
 }
 
 @media (max-width: 700px) {
