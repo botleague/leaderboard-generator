@@ -68,12 +68,15 @@
       </div>
       <div>
         <div class="team">{{ s.username }}</div>
-        <div class="video">
-          <iframe width="560" height="315"
-                  src="{{ s.youtube_embed }}"
-                  frameborder="0"
-                  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                  allowfullscreen></iframe>
+        <div class="video video-submission">
+{#          <iframe width="560" height="315"#}
+{#                  src="{{ s.youtube_embed }}"#}
+{#                  frameborder="0"#}
+{#                  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"#}
+{#                  allowfullscreen></iframe>#}
+          <video class="video-player" controls poster="/img/1px-000000-0.1.png">
+            <source src="{{ s.mp4 }}" type="video/mp4">
+          </video>
         </div>
       </div>
       <div style="visibility: hidden;" class="stats">
