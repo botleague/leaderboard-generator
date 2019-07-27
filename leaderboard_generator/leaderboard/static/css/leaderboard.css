@@ -82,7 +82,7 @@ h1 {
 
   .problem-description-with-video {
     display: grid;
-    grid-template-columns: minmax(125px, 4fr) 17px 8fr;
+    grid-template-columns: minmax(125px, 4fr);
   }
 
   .video iframe {
