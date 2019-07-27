@@ -61,8 +61,9 @@ h1 {
   font-size: 15px;
 }
 
-video {
-  background: #000;
+.video-submission {
+  background-color: #aaa;
+  opacity: .5;
 }
 
 @media (max-width: 700px) {
@@ -81,15 +82,20 @@ video {
 
   .problem-description-with-video {
     display: grid;
-    grid-template-columns: minmax(125px, 4fr) 17px 8fr;
+    grid-template-columns: minmax(125px, 4fr);
   }
 
   .video iframe {
     height: 300px;
   }
 
-  .video video {
+  .video video, .video {
     width: 250px;
+    height: 200px;
+  }
+
+  .video-problem {
+    width: auto;
   }
 
   .submission {
@@ -157,8 +163,9 @@ video {
     height: 200px;
   }
 
-  .video video {
+  .video video, .video {
     width: 400px;
+    height: 200px;
   }
 
 
