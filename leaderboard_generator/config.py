@@ -104,7 +104,7 @@ class Config:
 
     @property
     def last_gist_time_filepath(self):
-        return p.join(self.data_dir, 'last-generation-time.txt')
+        return p.join(self.data_dir, 'last-gist-time.txt')
 
     @property
     def results_gist_ids_filepath(self):

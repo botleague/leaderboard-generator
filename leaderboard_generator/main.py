@@ -42,7 +42,7 @@ r"""
 GIST_DATE_FMT = '%Y-%m-%dT%H:%M:%SZ'
 
 
-def get_last_gen_time() -> datetime:
+def get_last_gist_time() -> datetime:
     path = config.last_gist_time_filepath
     if not p.exists(path):
         write_file(path, '2019-05-07T19:47:27Z')
@@ -145,10 +145,10 @@ def generate(site_gen, should_retry):
     log.info('Should gen is set, checking gist for results')
 
     # Check for new results posted to gist by liaison since last gen
-    last_gen_time = get_last_gen_time()
+    last_gist_time = get_last_gist_time()
 
     # Not adding delta here to avoid race conditions
-    search_after_time = last_gen_time + timedelta(seconds=0)
+    search_after_time = last_gist_time + timedelta(seconds=0)
 
     # Search gist for new results
     gists = check_for_new_results(get_gist_date(search_after_time))
@@ -181,7 +181,7 @@ def aggregate_results(gists):
     update_problem_results(gists)
 
     # Write last generation time to file
-    write_last_gen_time(gists[-1]['created_at'])
+    write_last_gist_time(gists[-1]['created_at'])
 
     # Store processed gist ids
     store_processed_gist_ids(gists)
@@ -228,7 +228,7 @@ def store_processed_gist_ids(gists):
     append_file(config.results_gist_ids_filepath, gist_ids)
 
 
-def write_last_gen_time(time_str):
+def write_last_gist_time(time_str):
     path = config.last_gist_time_filepath
     log.info('Writing last generation time to %s', path)
     write_file(path, time_str)
@@ -319,8 +319,8 @@ def backup_old_leaderboard(bucket, folder):
                                    (new_folder, postfix))
 
 
-def check_for_new_results(last_gen_time):
-    search_url = config.gist_search_template.format(time=last_gen_time)
+def check_for_new_results(last_gist_time):
+    search_url = config.gist_search_template.format(time=last_gist_time)
     log.info('Checking gist for new results at %s', search_url)
     gists = None
     already_processed_gist_ids = get_processed_gist_ids()
