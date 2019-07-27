@@ -61,9 +61,9 @@ h1 {
   font-size: 15px;
 }
 
-.video-submission {
-  background-color: #aaa;
-  opacity: .5;
+.video-player[poster] {
+  object-fit: cover;
+  background: #ccc;
 }
 
 @media (max-width: 700px) {
