@@ -63,7 +63,12 @@ h1 {
 
 .video-player[poster] {
   object-fit: cover;
-  background: #ccc;
+  background: #000;
+}
+
+.video-submission {
+  display: flex;
+  background: #000;
 }
 
 @media (max-width: 700px) {
@@ -85,14 +90,6 @@ h1 {
     grid-template-columns: minmax(125px, 4fr);
   }
 
-  .video iframe {
-    height: 300px;
-  }
-
-  .video video, .video {
-    width: 250px;
-    height: 200px;
-  }
 
   .video-problem {
     width: auto;
@@ -163,11 +160,9 @@ h1 {
     height: 200px;
   }
 
-  .video video, .video {
-    width: 400px;
-    height: 200px;
+  .video-player {
+    margin: auto;
   }
-
 
   .submission {
     grid-template-columns: 1fr 6fr 5fr;
