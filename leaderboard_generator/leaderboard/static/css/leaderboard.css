@@ -136,6 +136,10 @@ h1 {
     padding-left: 15px;
     font-size: 11px;
   }
+
+  .score-components {
+    font-size: 13px;
+  }
 }
 
 @media (min-width: 701px) {
