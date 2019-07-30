@@ -29,7 +29,7 @@
         return Math.floor(seconds) + " seconds";
     }
 
-    const abbreviate_number = function (num, fixed) {
+    const abbreviateNumber = function (num, fixed) {
         if (num === null) {
             return null;
         } // terminate early
@@ -56,7 +56,7 @@
 
         $('.score-value, .trip-speed-value').each(function (_) {
             let number = parseFloat($(this).text());
-            $(this).text(abbreviate_number(number));
+            $(this).text(abbreviateNumber(number));
         });
 
         $('.stats').css({visibility: "visible"});
