@@ -61,7 +61,7 @@ h1 {
   font-size: 15px;
 }
 
-.video-player[poster] {
+.video-submission-player[poster] {
   object-fit: cover;
   background: #000;
 }
@@ -70,6 +70,11 @@ h1 {
   display: flex;
   background: #000;
 }
+
+.video-submission-player {
+  position: absolute;
+}
+
 
 @media (max-width: 700px) {
   h1 {
@@ -97,6 +102,11 @@ h1 {
 
   .submission {
     grid-template-columns: 1fr 4fr 4fr;
+  }
+
+  .video-submission-player {
+    position: absolute;
+    width: 165px;
   }
 
   .submission iframe {
@@ -164,7 +174,7 @@ h1 {
     height: 200px;
   }
 
-  .video-player {
+  .video-submission-player {
     margin: auto;
   }
 

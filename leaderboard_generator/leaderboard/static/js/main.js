@@ -45,6 +45,10 @@
         return e;
     };
 
+    const fitSubmissionVideoWidth = function() {
+        $('.video-submission-player').width($('.video-submission').width());
+    }
+
     jQuery(function ($) {
         console.log('jquery loaded');
         $('.time').each(function (_) {
@@ -60,6 +64,11 @@
         });
 
         $('.stats').css({visibility: "visible"});
+
+        $(window).resize(function () {
+            fitSubmissionVideoWidth();
+        });
+        fitSubmissionVideoWidth();
     });
 
 
