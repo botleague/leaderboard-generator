@@ -58,7 +58,7 @@
             $(this).text(timeSince(time) + ' ago');
         });
 
-        $('.score-value, .trip-speed-value').each(function (_) {
+        $('.score-value, .trip-speed-value, .closest-vehicle-value').each(function (_) {
             let number = parseFloat($(this).text());
             $(this).text(abbreviateNumber(number));
         });

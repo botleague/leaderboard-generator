@@ -1,6 +1,7 @@
 from __future__ import (absolute_import, division,
                         print_function, unicode_literals)
 
+import math
 import os
 import urllib
 from glob import glob
@@ -52,6 +53,15 @@ def add_ride_description(submissions):
         else:
             desc = 'n/a'
         s.ride_description = desc
+
+
+def add_closest_vehicle_display(submissions):
+    for s in submissions:
+        dist = s.driving_specific.closest_vehicle_meters
+        if not dist or dist == math.inf:
+            s.driving_specific.closest_vehicle_meters_display = ''
+        else:
+            s.driving_specific.closest_vehicle_meters_display = dist
 
 
 class SiteGenerator:
@@ -112,6 +122,7 @@ class SiteGenerator:
         submissions = results.bots
         add_youtube_embed(submissions)
         add_ride_description(submissions)
+        add_closest_vehicle_display(submissions)
         if blconfig.is_test:
             readme = 'Skipped readme gen in test, record it to avoid 403s.'
         else:

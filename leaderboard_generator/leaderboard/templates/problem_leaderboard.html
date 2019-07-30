@@ -96,6 +96,12 @@
             <label>Ride:</label>
             <span class="comfort">{{ s.ride_description }}</span>
           </div>
+          {%  if False and s.driving_specific.closest_vehicle_meters_display %}
+          <div class="closest-vehicle">
+            <label>Closest vehicle:</label>
+            <span class="closest-vehicle-value">{{ s.driving_specific.closest_vehicle_meters_display }}</span>m
+          </div>
+          {% endif %}
         {% endif %}
         </div>
 
