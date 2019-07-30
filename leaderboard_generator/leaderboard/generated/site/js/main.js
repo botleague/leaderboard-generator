@@ -29,7 +29,7 @@
         return Math.floor(seconds) + " seconds";
     }
 
-    const abbreviate_number = function (num, fixed) {
+    const abbreviateNumber = function (num, fixed) {
         if (num === null) {
             return null;
         } // terminate early
@@ -45,6 +45,10 @@
         return e;
     };
 
+    const fitSubmissionVideoWidth = function() {
+        $('.video-submission-player').width($('.video-submission').width());
+    }
+
     jQuery(function ($) {
         console.log('jquery loaded');
         $('.time').each(function (_) {
@@ -54,12 +58,17 @@
             $(this).text(timeSince(time) + ' ago');
         });
 
-        $('.score-value, .trip-speed-value').each(function (_) {
+        $('.score-value, .trip-speed-value, .closest-vehicle-value').each(function (_) {
             let number = parseFloat($(this).text());
-            $(this).text(abbreviate_number(number));
+            $(this).text(abbreviateNumber(number));
         });
 
         $('.stats').css({visibility: "visible"});
+
+        $(window).resize(function () {
+            fitSubmissionVideoWidth();
+        });
+        fitSubmissionVideoWidth();
     });
 
 
