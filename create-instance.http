@@ -1,7 +1,7 @@
 POST https://www.googleapis.com/compute/v1/projects/silken-impulse-217423/zones/us-west1-b/instances
 {
   "kind": "compute#instance",
-  "name": "deepdrive-service",
+  "name": "leaderboard-generator",
   "zone": "projects/silken-impulse-217423/zones/us-west1-b",
   "machineType": "projects/silken-impulse-217423/zones/us-west1-b/machineTypes/custom-2-4096",
   "displayDevice": {
@@ -12,7 +12,7 @@ POST https://www.googleapis.com/compute/v1/projects/silken-impulse-217423/zones/
     "items": [
       {
         "key": "gce-container-declaration",
-        "value": "spec:\n  containers:\n    - name: deepdrive-service\n      image: gcr.io/silken-impulse-217423/deepdrive-service\n      stdin: true\n      tty: true\n  restartPolicy: Always\n\n# This container declaration format is not public API and may change without notice. Please\n# use gcloud command-line tool or Google Cloud Console to run Containers on Google Compute Engine."
+        "value": "spec:\n  containers:\n    - name: leaderboard-generator\n      image: gcr.io/silken-impulse-217423/leaderboard-generator\n      stdin: true\n      tty: true\n  restartPolicy: Always\n\n# This container declaration format is not public API and may change without notice. Please\n# use gcloud command-line tool or Google Cloud Console to run Containers on Google Compute Engine."
       },
       {
         "key": "google-logging-enabled",
@@ -33,8 +33,8 @@ POST https://www.googleapis.com/compute/v1/projects/silken-impulse-217423/zones/
       "type": "PERSISTENT",
       "boot": true,
       "mode": "READ_WRITE",
-      "autoDelete": true,
-      "deviceName": "deepdrive-service",
+      "autoDelete": true,silken-impulse-217423
+      "deviceName": "leaderboard-generator",
       "initializeParams": {
         "sourceImage": "projects/cos-cloud/global/images/cos-stable-74-11895-86-0",
         "diskType": "projects/silken-impulse-217423/zones/us-west1-b/diskTypes/pd-standard",
