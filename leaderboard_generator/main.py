@@ -332,6 +332,11 @@ def check_for_new_results(last_gist_time):
         gists = search_gist(search_url)
 
     gists.sort(key=lambda x: x['created_at'])
+
+    # We limit returned gists by search time and id's as github will return
+    # the latest gist that we set the search time for. We could increment
+    # the search time by one second, but that would risk missing results
+    # submitted one second after the last time we generated.
     ret = [g for g in gists if g['id'] not in already_processed_gist_ids]
     return ret
 
