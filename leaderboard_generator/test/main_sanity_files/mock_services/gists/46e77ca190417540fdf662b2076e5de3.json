@@ -3,33 +3,54 @@
   "problem": "deepdrive/domain_randomization",
   "botname": "forward-agent",
   "username": "crizCraig",
-  "log": "https://gist.githubusercontent.com/crizCraig/38f19d2e3226a822c6ce09ea618ac7ab/raw/32108e3a290a4bccea38b1bade31d6a4b42b32ce/gistfile1.txt",
-  "build": "https://ci.deepdrive.io/build/12341234",
-  "status": "success",
-  "utc_timestamp": 86600000,
-  "docker_digest": "qewrqwerqwer",
+  "logs": {
+    "deepdriveio/deepdrive:problem_domain_randomization_9f8a1dbf77": "https://storage.googleapis.com/deepdriveio/botleague_eval_logs/deepdriveio/deepdrive:problem_domain_randomization_job-5OIUPJHMVP5NGGGIAKQ8M6X38.txt",
+    "deepdriveio/deepdrive:bot_domain_randomization_f7a85f9ee3": "https://storage.googleapis.com/deepdriveio/botleague_eval_logs/deepdriveio/deepdrive:bot_domain_randomization_job-5OIUPJHMVP5NGGGIAKQ8M6X38.txt"
+  },
+  "utc_timestamp": 1565894082.567485,
+  "problem_docker_digest": "deepdriveio/deepdrive@sha256:292f8d672f60c3f2f0cc06acfb42356073c9eeeaa15de02725535444789e6b2d",
+  "bot_docker_digest": "deepdriveio/deepdrive@sha256:92e8981e615797443db5842a92a15c5c40a27f98309f4a124ee4c3cedf9c875c",
+  "gist": "https://gist.github.com/f0d8ea29974d4627dceff0da305ab2b4",
   "docker_image_url": "https://s3-us-west-1.amazonaws.com/ci/build/12341234/agent.tar",
-  "league_commit_sha": "3a0e6af15c5ee05b62c6705d40aece250112a57d",
-  "source_commit": "https://github.com/crizCraig/forward-agent/commit/defc93d95944099d3e61cda6542bb4ffe7a28abf",
+  "league_commit_sha": "adbe3bd6fa43b6e6b44e135695b8547c73680195",
+  "source_commit": "https://github.com/crizCraig/forward-agent/tree/418911c2256edca5b9a6d0bc92b106dd13ac195a",
   "score": 5522.12344,
   "youtube": "https://www.youtube.com/watch?v=ALdsqfrLieg&t=2575s",
-  "mp4": "https://s3-us-west-1.amazonaws.com/ci/build/12341234/asdf.mp4",
-  "average_fps": 7.9,
-  "max_step_milliseconds": 500.134323,
-  "total_number_of_steps": 1234,
-  "dropped_steps": 34,
-  "num_episodes": 1234,
+  "mp4": "https://storage.googleapis.com/deepdriveio/artifacts/2019-08-15__06-33-33PM_d219/mp4/deepdrive_2019-08-15__06-33-33PM.mp4",
+  "ideas_in_this_test_file_only": {
+    "max_step_milliseconds": 500.134323,
+    "total_number_of_steps": 1234,
+    "dropped_steps": 34
+  },
+  "finished": 1565894082.45385,
+  "errors": {},
+  "sensorimotor_specific": {
+    "num_episodes": 1,
+    "median_fps": 3.6508545634354053,
+    "num_steps": 101,
+    "total_episode_seconds": 12.625
+  },
   "driving_specific": {
-    "avg_kph": 12.812343,
-    "max_g_forces": 4.2,
-    "max_kph": 22.33333
+    "max_gforce": 0.6433312926971788,
+    "uncomfortable_gforce_seconds": 9.375,
+    "jarring_gforce_seconds": 0.75,
+    "harmful_gforces": false,
+    "comfort_pct": 25.742574257425744,
+    "jarring_pct": 5.9405940594059405,
+    "max_kph": 43.589126953124996,
+    "trip_speed_kph": 32.179321782178214,
+    "collided_with_vehicle": false,
+    "collided_with_non_actor": false,
+    "closest_vehicle_meters": Infinity,
+    "closest_vehicle_meters_while_at_least_4kph": Infinity,
+    "max_lane_deviation_meters": 5.457933349609375
   },
   "$comment1": "Non driving tasks are possible but not yet implemented",
   "problem_specific": {
-    "summary": "https://s3-us-west-1.amazonaws.com/ci/build/12341234/2019-04-04__11-48-55PM_r0_summary.csv",
-    "episodes": "https://s3-us-west-1.amazonaws.com/ci/build/12341234/2019-04-04__11-48-55PM_r0_episodes.csv",
-    "observations": [
-      "https://s3-us-west-1.amazonaws.com/ci/build/12341234/hdf5/000000.mp4"
+    "summary": "https://storage.googleapis.com/deepdriveio/artifacts/2019-08-15__06-33-33PM_d219/csvs/2019-08-15__06-33-33PM_r0_summary.csv",
+    "episodes": "https://storage.googleapis.com/deepdriveio/artifacts/2019-08-15__06-33-33PM_d219/csvs/2019-08-15__06-33-33PM_r1_episodes.csv",
+    "hdf5_observations": [
+      "https://storage.googleapis.com/deepdriveio/artifacts/2019-08-15__06-33-33PM_d219/hdf5/0000000000.hdf5"
     ]
   }
 }
