@@ -56,14 +56,18 @@ def get_problem_map(gists):
         if not file:
             log.error('No "results.json" in gist, skipping %s', gist['url'])
         else:
+            url = file['raw_url']
             if config.should_mock_github:
                 result_json = read_json(
                     p.join(config.mock_services_dir, 'gists', gist['id'] +
                            '.json'))
             else:
-                url = file['raw_url']
                 result_json = requests.get(url).json()
-            result_json['gist_time'] = gist['created_at']
+            result_json['botleague_gist_time'] = gist['created_at']
+            result_json['botleague_results_raw_url'] = url
+            result_json['botleague_results_url'] = gist['url']
+            result_json['botleague_results_html_url'] = gist['html_url']
+
             if 'problem' not in result_json:
                 log.error('No "problem" in gist, skipping %s', url)
             else:
