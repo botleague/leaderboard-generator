@@ -349,6 +349,7 @@ def search_gist(url) -> dict:
     if config.should_mock_github:
         gists = config.mock_gist_search[url]
     else:
+        # TODO: Authenticate this request to get larger rate limits
         res = requests.get(url)
         if res.status_code == 200:
             gists = res.json()
