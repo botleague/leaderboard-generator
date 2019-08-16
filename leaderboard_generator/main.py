@@ -43,11 +43,14 @@ GIST_DATE_FMT = '%Y-%m-%dT%H:%M:%SZ'
 
 
 def get_last_gist_time() -> datetime:
-    path = config.last_gist_time_filepath
-    if not p.exists(path):
-        write_file(path, '2019-05-07T19:47:27Z')
-    return datetime.strptime(read_file(path), GIST_DATE_FMT)
-
+    if config.regen_no_cache:
+        date_str = '2019-08-15T01:42:05Z'
+    else:
+        path = config.last_gist_time_filepath
+        if not p.exists(path):
+            write_file(path, '2019-05-07T19:47:27Z')
+        date_str = read_file(path)
+    return datetime.strptime(date_str, GIST_DATE_FMT)
 
 
 # TODO: Get liaison to set should_gen in db when problem readme's are changed
@@ -347,7 +350,9 @@ def search_gist(url) -> dict:
 
 
 def get_processed_gist_ids() -> set:
-    if exists_and_unempty(config.results_gist_ids_filepath):
+    if config.regen_no_cache:
+        ret = set()
+    elif exists_and_unempty(config.results_gist_ids_filepath):
         ret = set(read_lines(config.results_gist_ids_filepath))
     else:
         ret = set()

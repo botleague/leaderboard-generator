@@ -23,6 +23,7 @@ class Config:
     test_dir = p.join(root_dir, relative_test_dir)
     dry_run = 'DRY_RUN' in os.environ
     force_gen = 'FORCE_GEN' in os.environ
+    regen_no_cache = 'REGEN_NO_CACHE' in os.environ
     if dry_run:
         log.info('********* DRY RUN **********')
     is_test = blconfig.is_test
