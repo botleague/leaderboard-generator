@@ -49,7 +49,10 @@
       "source_commit": "https://github.com/deepdrive/deepdrive/tree/418911c2256edca5b9a6d0bc92b106dd13ac195a",
       "seed": 306703,
       "utc_timestamp": 1565888816.171276,
-      "gist_time": "2019-08-15T17:06:57Z",
+      "botleague_gist_time": "2019-08-15T17:06:57Z",
+      "botleague_results_raw_url": "https://gist.githubusercontent.com/botleague-results/34bfe5bc8127f04129f70003963e5f4d/raw/234388485267a859a5c38282de54e0ad7881ecdf/results.json",
+      "botleague_results_url": "https://api.github.com/gists/34bfe5bc8127f04129f70003963e5f4d",
+      "botleague_results_html_url": "https://gist.github.com/34bfe5bc8127f04129f70003963e5f4d",
       "rank": 1
     }
   ]
