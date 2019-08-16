@@ -1,7 +1,5 @@
 # Usage, see Makefile
 
-# Run: docker run -it deepdriveio/leaderboard-generator
-# or   docker run -e SHOULD_USE_FIRESTORE=false -it deepdriveio/leaderboard-generator
 FROM python:3.7
 RUN curl -sSL https://sdk.cloud.google.com | bash
 RUN mkdir leaderboard-generator
