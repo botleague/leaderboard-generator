@@ -1,47 +1,55 @@
 {
   "bots": [
     {
+      "logs": {
+        "deepdriveio/deepdrive:problem_domain_randomization_f14c46ccf8": "https://storage.googleapis.com/deepdriveio/botleague_eval_logs/deepdriveio/deepdrive:problem_domain_randomization_job-SXGHTNTPCX3IJI8B80BH9HSEE.txt",
+        "deepdriveio/deepdrive:bot_domain_randomization_8a7792de4a": "https://storage.googleapis.com/deepdriveio/botleague_eval_logs/deepdriveio/deepdrive:bot_domain_randomization_job-SXGHTNTPCX3IJI8B80BH9HSEE.txt"
+      },
+      "errors": {},
+      "problem_docker_digest": "deepdriveio/deepdrive@sha256:292f8d672f60c3f2f0cc06acfb42356073c9eeeaa15de02725535444789e6b2d",
+      "bot_docker_digest": "deepdriveio/deepdrive@sha256:92e8981e615797443db5842a92a15c5c40a27f98309f4a124ee4c3cedf9c875c",
+      "gist": "https://gist.github.com/bab160b0fd5c978946b41dc8e40ddfc8",
       "sensorimotor_specific": {
         "num_episodes": 1,
-        "median_fps": 4.37814712665039,
+        "median_fps": 3.666585878396277,
         "num_steps": 101,
-        "total_episode_seconds": 12.5
+        "total_episode_seconds": 12.625
       },
       "driving_specific": {
-        "max_gforce": 0.5935550904634793,
-        "uncomfortable_gforce_seconds": 9.5,
-        "jarring_gforce_seconds": 1.125,
+        "max_gforce": 0.6982318614933031,
+        "uncomfortable_gforce_seconds": 9.625,
+        "jarring_gforce_seconds": 0.5,
         "harmful_gforces": false,
-        "comfort_pct": 76.0,
-        "jarring_pct": 9.0,
-        "max_kph": 44.27820703125,
-        "trip_speed_kph": 33.2032275,
+        "comfort_pct": 23.762376237623755,
+        "jarring_pct": 3.9603960396039604,
+        "max_kph": 43.081743164062495,
+        "trip_speed_kph": 32.04148143564356,
         "collided_with_vehicle": false,
         "collided_with_non_actor": false,
         "closest_vehicle_meters": Infinity,
         "closest_vehicle_meters_while_at_least_4kph": Infinity,
-        "max_lane_deviation_meters": 2.6407626342773436
+        "max_lane_deviation_meters": 5.434876098632812
       },
-      "score": -6567.967725,
+      "score": -4036.02082920792,
       "problem_specific": {
-        "summary": "https://storage.googleapis.com/deepdriveio/artifacts/2019-07-26__03-22-48PM_402a/csvs/2019-07-26__03-22-48PM_r0_summary.csv",
-        "episodes": "https://storage.googleapis.com/deepdriveio/artifacts/2019-07-26__03-22-48PM_402a/csvs/2019-07-26__03-22-48PM_r1_episodes.csv",
+        "summary": "https://storage.googleapis.com/deepdriveio/artifacts/2019-08-15__05-02-17PM_711f/csvs/2019-08-15__05-02-17PM_r0_summary.csv",
+        "episodes": "https://storage.googleapis.com/deepdriveio/artifacts/2019-08-15__05-02-17PM_711f/csvs/2019-08-15__05-02-17PM_r1_episodes.csv",
         "hdf5_observations": [
-          "https://storage.googleapis.com/deepdriveio/artifacts/2019-07-26__03-22-48PM_402a/hdf5/0000000000.hdf5"
+          "https://storage.googleapis.com/deepdriveio/artifacts/2019-08-15__05-02-17PM_711f/hdf5/0000000000.hdf5"
         ]
       },
       "youtube": "",
-      "mp4": "https://storage.googleapis.com/deepdriveio/artifacts/2019-07-26__03-22-48PM_402a/mp4/deepdrive_2019-07-26__03-22-48PM.mp4",
-      "finished": 1564180428.4320314,
+      "mp4": "https://storage.googleapis.com/deepdriveio/artifacts/2019-08-15__05-02-17PM_711f/mp4/deepdrive_2019-08-15__05-02-17PM.mp4",
+      "finished": 1565888816.0235567,
       "username": "deepdrive",
       "botname": "domain_randomization",
       "problem": "deepdrive/domain_randomization",
-      "started": 1563333824.9220176,
-      "league_commit_sha": "91c38774fd69a82659fd40409da8c8acfa226398",
-      "source_commit": "",
-      "seed": 750122,
-      "utc_timestamp": 1564180428.5848327,
-      "gist_time": "2019-07-26T22:33:49Z",
+      "started": 1565888520.0031197,
+      "league_commit_sha": "adbe3bd6fa43b6e6b44e135695b8547c73680195",
+      "source_commit": "https://github.com/deepdrive/deepdrive/tree/418911c2256edca5b9a6d0bc92b106dd13ac195a",
+      "seed": 306703,
+      "utc_timestamp": 1565888816.171276,
+      "gist_time": "2019-08-15T17:06:57Z",
       "rank": 1
     }
   ]
