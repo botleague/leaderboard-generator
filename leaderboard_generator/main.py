@@ -9,9 +9,9 @@ import requests
 from google.cloud import storage
 
 from botleague_helpers.config import blconfig
-from botleague_helpers import key_value_store
-from botleague_helpers.key_value_store import SimpleKeyValueStore
+from botleague_helpers.db import DB
 from leaderboard_generator.auto_git import get_auto_git
+from leaderboard_generator.common import get_botleague_db
 from leaderboard_generator.generate_site import SiteGenerator
 from leaderboard_generator.config import config
 from leaderboard_generator import logs, cmd
@@ -71,15 +71,15 @@ def get_last_gist_time() -> datetime:
 #   Then for us to run CI, we just create pull requests against the botleague repo on commit to the deepdrive repo in a standard CI like Travis.
 #   Then I'd poll GitHub for the resolution of the pull request (which kind of sucks), but authenticated users get 5000 requests per hour, so polling once a second should be fine.
 
-
-def main(kv: SimpleKeyValueStore = None, max_iters=-1, unattended=False) -> int:
+def main(db: DB = None, max_iters=-1, unattended=False) -> int:
     if not unattended and '-y' not in sys.argv:
         input('Press Enter if is the only instance of leaderboard-generator '
               'running')
     try:
         if config.dry_run:
             max_iters = 1
-        ret = gen_loop(kv, max_iters)
+        # TODO: Use singleton_loop from problem-coordinator
+        ret = gen_loop(db, max_iters)
     finally:
         if config.dry_run:
             git = get_auto_git()
@@ -87,9 +87,9 @@ def main(kv: SimpleKeyValueStore = None, max_iters=-1, unattended=False) -> int:
     return ret
 
 
-def gen_loop(kv: SimpleKeyValueStore = None, max_iters=-1):
+def gen_loop(db: DB = None, max_iters=-1):
     log.info('Starting leaderboard generator')
-    kv = kv or key_value_store.get_key_value_store()
+    db = db or get_botleague_db()
     git_util = get_auto_git()
     site_gen = SiteGenerator()
     last_ping_time = -1
@@ -110,7 +110,7 @@ def gen_loop(kv: SimpleKeyValueStore = None, max_iters=-1):
         ping_cronitor(start, last_ping_time, 'run')
 
         # Check for should gen trigger in db
-        should_gen = kv.get(blconfig.should_gen_key)
+        should_gen = db.get(blconfig.should_gen_key)
 
         if should_gen or config.force_gen:
             # Generate!
@@ -127,7 +127,7 @@ def gen_loop(kv: SimpleKeyValueStore = None, max_iters=-1):
         elif should_gen:
             # Set should gen to false in db
             log.info('Resetting should_gen to false in db')
-            kv.set(blconfig.should_gen_key, False)
+            db.set(blconfig.should_gen_key, False)
 
         # Ping cronitor complete
         last_ping_time = ping_cronitor(start, last_ping_time,
@@ -369,10 +369,10 @@ def get_processed_gist_ids() -> set:
     return ret
 
 
-def run_locally(kv, max_iters, unattended=True):
+def run_locally(db: DB, max_iters, unattended=True):
     assert blconfig.should_use_firestore is False
     assert config.should_mock_git and config.should_mock_gcs
-    return main(kv, max_iters, unattended)
+    return main(db, max_iters, unattended)
 
 
 if __name__ == '__main__':
