@@ -108,7 +108,7 @@ def gen_loop(kv: SimpleKeyValueStore = None, max_iters=-1):
         start = time.time()
 
         # Ping cronitor start
-        ping_cronitor_every_minute(start, last_ping_time, 'run')
+        ping_cronitor(start, last_ping_time, 'run')
 
         # Check for should gen trigger in db
         should_gen = kv.get(blconfig.should_gen_key)
@@ -131,7 +131,8 @@ def gen_loop(kv: SimpleKeyValueStore = None, max_iters=-1):
             kv.set(blconfig.should_gen_key, False)
 
         # Ping cronitor complete
-        last_ping_time = ping_cronitor_every_minute(start, last_ping_time, 'complete')
+        last_ping_time = ping_cronitor(start, last_ping_time,
+                                                    'complete')
 
         num_iters += 1
         done = num_iters == max_iters
@@ -258,8 +259,8 @@ def wait_for_gists_index(should_retry):
     return should_retry
 
 
-def ping_cronitor_every_minute(now, last_ping_time, state):
-    if not blconfig.is_test and (last_ping_time == -1 or now - last_ping_time > 60):
+def ping_cronitor(now, last_ping_time, state):
+    if not blconfig.is_test:
         log.debug('Pinging cronitor with %s', state)
         # Ping cronitor every minute
         requests.get('https://cronitor.link/mtbC2O/%s' % state, timeout=10)
