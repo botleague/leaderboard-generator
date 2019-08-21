@@ -57,6 +57,61 @@
     },
     {
       "logs": {
+        "deepdriveio/deepdrive:problem_domain_randomization_05523ad0a9": "https://storage.googleapis.com/deepdriveio/botleague_eval_logs/deepdriveio/deepdrive:problem_domain_randomization_job-S5648TMSMSIDPEGQQJ7JSUYSP.txt",
+        "deepdriveio/deepdrive:bot_domain_randomization_6fe584715d": "https://storage.googleapis.com/deepdriveio/botleague_eval_logs/deepdriveio/deepdrive:bot_domain_randomization_job-S5648TMSMSIDPEGQQJ7JSUYSP.txt"
+      },
+      "errors": {},
+      "problem_docker_digest": "deepdriveio/deepdrive@sha256:292f8d672f60c3f2f0cc06acfb42356073c9eeeaa15de02725535444789e6b2d",
+      "bot_docker_digest": "deepdriveio/deepdrive@sha256:92e8981e615797443db5842a92a15c5c40a27f98309f4a124ee4c3cedf9c875c",
+      "gist": "https://gist.github.com/6b07b3b39c0083c8bc37a1c15c50652a",
+      "sensorimotor_specific": {
+        "num_episodes": 1,
+        "median_fps": 3.58943510062916,
+        "num_steps": 101,
+        "total_episode_seconds": 12.625
+      },
+      "driving_specific": {
+        "max_gforce": 0.6871507408905636,
+        "uncomfortable_gforce_seconds": 9.625,
+        "jarring_gforce_seconds": 0.625,
+        "harmful_gforces": false,
+        "comfort_pct": 23.762376237623755,
+        "jarring_pct": 4.9504950495049505,
+        "max_kph": 43.407101074218744,
+        "trip_speed_kph": 32.27231806930693,
+        "collided_with_vehicle": false,
+        "collided_with_non_actor": false,
+        "closest_vehicle_meters": Infinity,
+        "closest_vehicle_meters_while_at_least_4kph": Infinity,
+        "max_lane_deviation_meters": 5.3797674560546875
+      },
+      "score": -4528.761967821782,
+      "problem_specific": {
+        "summary": "https://storage.googleapis.com/deepdriveio/artifacts/2019-08-21__09-41-09PM_c1fe/csvs/2019-08-21__09-41-09PM_r0_summary.csv",
+        "episodes": "https://storage.googleapis.com/deepdriveio/artifacts/2019-08-21__09-41-09PM_c1fe/csvs/2019-08-21__09-41-09PM_r1_episodes.csv",
+        "hdf5_observations": [
+          "https://storage.googleapis.com/deepdriveio/artifacts/2019-08-21__09-41-09PM_c1fe/hdf5/0000000000.hdf5"
+        ]
+      },
+      "youtube": "",
+      "mp4": "https://storage.googleapis.com/deepdriveio/artifacts/2019-08-21__09-41-09PM_c1fe/mp4/deepdrive_2019-08-21__09-41-09PM.mp4",
+      "finished": 1566423737.2002833,
+      "username": "drewjgray",
+      "botname": "trieste",
+      "problem": "deepdrive/domain_randomization",
+      "started": 1566423661.4808726,
+      "league_commit_sha": "ceff4d76e98b48ea19cbf0eae5bc0950260d0169",
+      "source_commit": "https://github.com/deepdrive/deepdrive/tree/418911c2256edca5b9a6d0bc92b106dd13ac195a",
+      "seed": 342002,
+      "utc_timestamp": 1566423737.2835183,
+      "botleague_gist_time": "2019-08-21T21:42:18Z",
+      "botleague_results_raw_url": "https://gist.githubusercontent.com/botleague-results/5afaf5f91d1ca6798dba090dde54ba9a/raw/2a9f225fcd37c4d70594549c5cd14a96a6e28668/results.json",
+      "botleague_results_url": "https://api.github.com/gists/5afaf5f91d1ca6798dba090dde54ba9a",
+      "botleague_results_html_url": "https://gist.github.com/5afaf5f91d1ca6798dba090dde54ba9a",
+      "rank": 2
+    },
+    {
+      "logs": {
         "deepdriveio/deepdrive:problem_domain_randomization_89ba71b727": "https://storage.googleapis.com/deepdriveio/botleague_eval_logs/deepdriveio/deepdrive:problem_domain_randomization_job-7DKJBMJWV1645HA1ZWCZIQKEQ.txt",
         "deepdriveio/deepdrive:bot_domain_randomization_4076db0c1d": "https://storage.googleapis.com/deepdriveio/botleague_eval_logs/deepdriveio/deepdrive:bot_domain_randomization_job-7DKJBMJWV1645HA1ZWCZIQKEQ.txt"
       },
@@ -108,7 +163,7 @@
       "botleague_results_raw_url": "https://gist.githubusercontent.com/botleague-results/b05302e9601ebec47589b2209ce38d6a/raw/bc5bde4cc9a14357a5663af0f4a056cccaa4d74b/results.json",
       "botleague_results_url": "https://api.github.com/gists/b05302e9601ebec47589b2209ce38d6a",
       "botleague_results_html_url": "https://gist.github.com/b05302e9601ebec47589b2209ce38d6a",
-      "rank": 2
+      "rank": 3
     }
   ]
 }
