@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f6a092f8-eb6e-4151-a2e8-14d2ae86a6fe" name="Default Changelist" comment="">
+    <list default="true" id="f6a092f8-eb6e-4151-a2e8-14d2ae86a6fe" name="Default Changelist" comment="" />
+    <list id="2531b016-31d9-415c-8073-c5ffeb9afdb7" name="Maybe  I shouldn't have added the workspace..." comment="Maybe I shouldn't have added the workspace...">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/leaderboard_generator/leaderboard/static/css/leaderboard.css" beforeDir="false" afterPath="$PROJECT_DIR$/leaderboard_generator/leaderboard/static/css/leaderboard.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/leaderboard_generator/leaderboard/templates/problem_leaderboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/leaderboard_generator/leaderboard/templates/problem_leaderboard.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -47,7 +45,7 @@
         <entry file="file://$PROJECT_DIR$/leaderboard_generator/leaderboard/static/css/leaderboard.css">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="153">
-              <caret line="85" column="3" lean-forward="true" selection-start-line="85" selection-start-column="3" selection-end-line="85" selection-end-column="3" />
+              <caret line="80" column="3" lean-forward="true" selection-start-line="80" selection-start-column="3" selection-end-line="80" selection-end-column="3" />
             </state>
           </provider>
         </entry>
@@ -129,8 +127,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="432">
-              <caret line="14" column="41" selection-start-line="14" selection-start-column="41" selection-end-line="14" selection-end-column="41" />
+            <state relative-caret-position="360">
+              <caret line="13" column="41" selection-start-line="13" selection-start-column="41" selection-end-line="13" selection-end-column="41" />
             </state>
           </provider>
         </entry>
@@ -223,9 +221,9 @@
         <option value="$PROJECT_DIR$/leaderboard_generator/test/test.py" />
         <option value="$PROJECT_DIR$/leaderboard_generator/config.py" />
         <option value="$PROJECT_DIR$/leaderboard_generator/main.py" />
-        <option value="$PROJECT_DIR$/leaderboard_generator/leaderboard/static/css/leaderboard.css" />
         <option value="$PROJECT_DIR$/Makefile" />
         <option value="$PROJECT_DIR$/leaderboard_generator/leaderboard/templates/problem_leaderboard.html" />
+        <option value="$PROJECT_DIR$/leaderboard_generator/leaderboard/static/css/leaderboard.css" />
       </list>
     </option>
   </component>
@@ -622,6 +620,11 @@
       <changelist id="" name="Add make logs" comment="" />
       <changelist id="" name="Better reboot message" comment="" />
       <changelist id="" name="Handle git requires in setup.py" comment="" />
+      <changelist id="2531b016-31d9-415c-8073-c5ffeb9afdb7" name="Maybe  I shouldn't have added the workspace..." comment="" />
+      <changelist id="" name="Add results url" comment="" />
+      <changelist id="" name="Better reboot message" comment="" />
+      <changelist id="" name="Add serve and autogen make commands" comment="" />
+      <changelist id="" name="Fix video overlap" comment="" />
       <created>1558643761885</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -663,49 +666,7 @@
       <workItem from="1565457568392" duration="983000" />
       <workItem from="1565627761843" duration="21443000" />
       <workItem from="1566233837916" duration="5468000" />
-      <workItem from="1566254998078" duration="7703000" />
-    </task>
-    <task id="LOCAL-00055" summary="Don't use botleague-liaison's port">
-      <created>1564102706540</created>
-      <option name="number" value="00055" />
-      <option name="presentableId" value="LOCAL-00055" />
-      <option name="project" value="LOCAL" />
-      <updated>1564102706540</updated>
-    </task>
-    <task id="LOCAL-00056" summary="Format timeSince">
-      <created>1564102718023</created>
-      <option name="number" value="00056" />
-      <option name="presentableId" value="LOCAL-00056" />
-      <option name="project" value="LOCAL" />
-      <updated>1564102718023</updated>
-    </task>
-    <task id="LOCAL-00057" summary="Hide voting for now">
-      <created>1564102723496</created>
-      <option name="number" value="00057" />
-      <option name="presentableId" value="LOCAL-00057" />
-      <option name="project" value="LOCAL" />
-      <updated>1564102723496</updated>
-    </task>
-    <task id="LOCAL-00058" summary="Only show source commit if it's there">
-      <created>1564102728932</created>
-      <option name="number" value="00058" />
-      <option name="presentableId" value="LOCAL-00058" />
-      <option name="project" value="LOCAL" />
-      <updated>1564102728932</updated>
-    </task>
-    <task id="LOCAL-00059" summary="Add box!">
-      <created>1564190448736</created>
-      <option name="number" value="00059" />
-      <option name="presentableId" value="LOCAL-00059" />
-      <option name="project" value="LOCAL" />
-      <updated>1564190448736</updated>
-    </task>
-    <task id="LOCAL-00060" summary="Add ride description">
-      <created>1564190451327</created>
-      <option name="number" value="00060" />
-      <option name="presentableId" value="LOCAL-00060" />
-      <option name="project" value="LOCAL" />
-      <updated>1564190451327</updated>
+      <workItem from="1566254998078" duration="8154000" />
     </task>
     <task id="LOCAL-00061" summary="Fix small screen on chrome desktop (not mobile yet)">
       <created>1564190454164</created>
@@ -1008,11 +969,53 @@
       <option name="project" value="LOCAL" />
       <updated>1566418800762</updated>
     </task>
-    <option name="localTasksCounter" value="104" />
+    <task id="LOCAL-00104" summary="Generated files">
+      <created>1566430035636</created>
+      <option name="number" value="00104" />
+      <option name="presentableId" value="LOCAL-00104" />
+      <option name="project" value="LOCAL" />
+      <updated>1566430035636</updated>
+    </task>
+    <task id="LOCAL-00105" summary="Add results url">
+      <created>1566430040665</created>
+      <option name="number" value="00105" />
+      <option name="presentableId" value="LOCAL-00105" />
+      <option name="project" value="LOCAL" />
+      <updated>1566430040665</updated>
+    </task>
+    <task id="LOCAL-00106" summary="Add serve and autogen make commands">
+      <created>1566430043971</created>
+      <option name="number" value="00106" />
+      <option name="presentableId" value="LOCAL-00106" />
+      <option name="project" value="LOCAL" />
+      <updated>1566430043971</updated>
+    </task>
+    <task id="LOCAL-00107" summary="Better reboot message">
+      <created>1566430046742</created>
+      <option name="number" value="00107" />
+      <option name="presentableId" value="LOCAL-00107" />
+      <option name="project" value="LOCAL" />
+      <updated>1566430046742</updated>
+    </task>
+    <task id="LOCAL-00108" summary="Fix video overlap">
+      <created>1566430049526</created>
+      <option name="number" value="00108" />
+      <option name="presentableId" value="LOCAL-00108" />
+      <option name="project" value="LOCAL" />
+      <updated>1566430049526</updated>
+    </task>
+    <task id="LOCAL-00109" summary="Maybe I shouldn't have added the workspace...">
+      <created>1566430289392</created>
+      <option name="number" value="00109" />
+      <option name="presentableId" value="LOCAL-00109" />
+      <option name="project" value="LOCAL" />
+      <updated>1566430289392</updated>
+    </task>
+    <option name="localTasksCounter" value="110" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="90629000" />
+    <option name="totallyTimeSpent" value="91080000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1025,13 +1028,12 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="67" y="25" width="3373" height="1415" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4988399" visible="true" weight="0.12503757" />
       <window_info id="Favorites" order="1" sideWeight="0.5011601" side_tool="true" weight="0.12864442" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49804628" weight="0.5089494" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49834687" visible="true" weight="0.2848249" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49834687" weight="0.5252918" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49654344" weight="0.34163424" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -1040,7 +1042,7 @@
       <window_info anchor="bottom" id="Database Changes" order="8" />
       <window_info anchor="bottom" id="Messages" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info anchor="bottom" x="2217" y="72" width="1202" height="1348" id="Version Control" order="11" sideWeight="0.49443942" weight="0.3929961" />
+      <window_info active="true" anchor="bottom" x="2217" y="72" width="1202" height="1348" id="Version Control" order="11" sideWeight="0.49443942" visible="true" weight="0.49027237" />
       <window_info anchor="bottom" id="Terminal" order="12" sideWeight="0.49954915" weight="0.21400778" />
       <window_info anchor="bottom" x="1396" y="90" width="714" height="1285" id="Python Console" order="13" sideWeight="0.5034566" weight="0.28638133" />
       <window_info anchor="right" id="make" order="0" />
@@ -1110,11 +1112,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_NEW_TODO" value="false" />
     <confirmRemoveEmptyChangelist value="2" />
-    <MESSAGE value="Use Python 3.7 in docker image" />
-    <MESSAGE value="Prune images before booting on leaderboard gen" />
-    <MESSAGE value="Make requirements minimums" />
-    <MESSAGE value="Add botleague gist urls to results" />
-    <MESSAGE value="Allow ignoring cache to repull and rerank all results" />
     <MESSAGE value="Build on deploy" />
     <MESSAGE value="Don't worry about pinging cronitor every second, it's not dead mans snitch" />
     <MESSAGE value="Note about why we use cache and search time to limit gists processed" />
@@ -1130,12 +1127,17 @@
     <MESSAGE value="Add make logs" />
     <MESSAGE value="Remove unnecessary inspect import" />
     <MESSAGE value="Add unattended force run config" />
-    <MESSAGE value="Better reboot message" />
     <MESSAGE value="Bootstrap cache gist ids" />
     <MESSAGE value="Dynamically detect mock flags" />
     <MESSAGE value="Handle git requires in setup.py" />
     <MESSAGE value="Use min search date from config" />
-    <option name="LAST_COMMIT_MESSAGE" value="Use min search date from config" />
+    <MESSAGE value="Generated files" />
+    <MESSAGE value="Add results url" />
+    <MESSAGE value="Add serve and autogen make commands" />
+    <MESSAGE value="Better reboot message" />
+    <MESSAGE value="Fix video overlap" />
+    <MESSAGE value="Maybe I shouldn't have added the workspace..." />
+    <option name="LAST_COMMIT_MESSAGE" value="Maybe I shouldn't have added the workspace..." />
     <option name="PRESELECT_EXISTING_CHANGELIST" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -1617,8 +1619,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="14" column="41" selection-start-line="14" selection-start-column="41" selection-end-line="14" selection-end-column="41" />
+        <state relative-caret-position="360">
+          <caret line="13" column="41" selection-start-line="13" selection-start-column="41" selection-end-line="13" selection-end-column="41" />
         </state>
       </provider>
     </entry>
@@ -1642,7 +1644,7 @@
     <entry file="file://$PROJECT_DIR$/leaderboard_generator/leaderboard/static/css/leaderboard.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
-          <caret line="85" column="3" lean-forward="true" selection-start-line="85" selection-start-column="3" selection-end-line="85" selection-end-column="3" />
+          <caret line="80" column="3" lean-forward="true" selection-start-line="80" selection-start-column="3" selection-end-line="80" selection-end-column="3" />
         </state>
       </provider>
     </entry>
