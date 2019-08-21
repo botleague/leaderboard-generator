@@ -15,6 +15,9 @@ test: build
 ssh:
 	$(SSH)
 
+logs:
+	$(SSH) --command "sudo docker logs klt-leaderboard-generator-1-ikku --tail 500 --follow"
+
 prepare:
 	$(SSH) --command "sudo docker image prune -f"
 	$(SSH) --command "sudo docker container prune -f"
