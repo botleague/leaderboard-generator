@@ -33,3 +33,9 @@ run:
 
 bash:
 	docker run -it $(TAG) bash
+
+serve:
+	PORT=8899 python bin/serve.py
+
+autogen:
+	python bin/autogen.py
