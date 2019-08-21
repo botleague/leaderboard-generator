@@ -138,7 +138,7 @@ def test_main_sanity():
 
         # Ensure last gist time
         last_gist_time = read_file(config.last_gist_time_filepath)
-        assert last_gist_time == '2019-05-07T19:47:27Z'
+        assert last_gist_time == config.min_search_date
 
         # Ensure we stored the gist id
         gist_id = read_lines(config.results_gist_ids_filepath)[0]
