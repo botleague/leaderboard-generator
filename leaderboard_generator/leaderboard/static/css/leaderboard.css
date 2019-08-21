@@ -67,12 +67,7 @@ h1 {
 }
 
 .video-submission {
-  display: flex;
   background: #000;
-}
-
-.video-submission-player {
-  position: absolute;
 }
 
 
@@ -105,7 +100,6 @@ h1 {
   }
 
   .video-submission-player {
-    position: absolute;
     width: 165px;
   }
 
