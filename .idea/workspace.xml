@@ -2,12 +2,23 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f6a092f8-eb6e-4151-a2e8-14d2ae86a6fe" name="Default Changelist" comment="Make requirements minimums">
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/leaderboard_generator/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/leaderboard_generator/config.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/leaderboard_generator/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/leaderboard_generator/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/leaderboard_generator/test/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/leaderboard_generator/test/test.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
+    </list>
+    <list id="8a749fd7-6eba-44d5-903b-d8e8e4ddc5a4" name="Add unattended force run config" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
+    <list id="39d9c441-af2e-4fd9-b43e-739726ce604e" name="Bootstrap cache gist ids" comment="">
+      <change beforePath="$PROJECT_DIR$/leaderboard_generator/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/leaderboard_generator/main.py" afterDir="false" />
+    </list>
+    <list id="63b44ced-ec5b-4921-b1fa-9d8fb1d10ac8" name="Dynamically detect mock flags" comment="">
+      <change beforePath="$PROJECT_DIR$/leaderboard_generator/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/leaderboard_generator/config.py" afterDir="false" />
+    </list>
+    <list id="8ccc142d-d2aa-484e-af26-88ca91a32765" name="Use min search date from config" comment="">
+      <change beforePath="$PROJECT_DIR$/leaderboard_generator/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/leaderboard_generator/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/leaderboard_generator/test/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/leaderboard_generator/test/test.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -136,7 +147,12 @@
         <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="360">
-              <caret line="15" column="14" lean-forward="true" selection-start-line="15" selection-start-column="14" selection-end-line="15" selection-end-column="14" />
+              <caret line="15" column="41" lean-forward="true" selection-start-line="15" selection-start-column="41" selection-end-line="15" selection-end-column="41" />
+              <folding>
+                <element signature="e#60687#60691#0#XML" expanded="true" />
+                <element signature="e#60925#60929#0#XML" expanded="true" />
+                <element signature="e#61513#61517#0#XML" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -228,12 +244,30 @@
         <option value="$PROJECT_DIR$/setup.py" />
         <option value="$PROJECT_DIR$/requirements.txt" />
         <option value="$PROJECT_DIR$/../botleague-helpers/botleague_helpers/config.py" />
-        <option value="$PROJECT_DIR$/leaderboard_generator/main.py" />
         <option value="$PROJECT_DIR$/leaderboard_generator/test/test.py" />
         <option value="$PROJECT_DIR$/leaderboard_generator/config.py" />
         <option value="$PROJECT_DIR$/Makefile" />
+        <option value="$PROJECT_DIR$/leaderboard_generator/main.py" />
       </list>
     </option>
+  </component>
+  <component name="LineStatusTrackerManager">
+    <file path="$PROJECT_DIR$/leaderboard_generator/main.py">
+      <ranges>
+        <range start1="46" end1="47" start2="46" end2="47" changelist="8ccc142d-d2aa-484e-af26-88ca91a32765" />
+        <range start1="50" end1="51" start2="50" end2="51" changelist="8ccc142d-d2aa-484e-af26-88ca91a32765" />
+        <range start1="231" end1="232" start2="231" end2="235" changelist="39d9c441-af2e-4fd9-b43e-739726ce604e" />
+        <range start1="372" end1="372" start2="375" end2="380" changelist="f6a092f8-eb6e-4151-a2e8-14d2ae86a6fe" />
+      </ranges>
+    </file>
+    <file path="$PROJECT_DIR$/leaderboard_generator/config.py">
+      <ranges>
+        <range start1="0" end1="0" start2="0" end2="1" changelist="f6a092f8-eb6e-4151-a2e8-14d2ae86a6fe" />
+        <range start1="4" end1="5" start2="5" end2="6" changelist="63b44ced-ec5b-4921-b1fa-9d8fb1d10ac8" />
+        <range start1="29" end1="33" start2="30" end2="30" changelist="63b44ced-ec5b-4921-b1fa-9d8fb1d10ac8" />
+        <range start1="42" end1="42" start2="39" end2="56" changelist="63b44ced-ec5b-4921-b1fa-9d8fb1d10ac8" />
+      </ranges>
+    </file>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="1753" />
@@ -247,7 +281,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -259,6 +292,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -294,7 +328,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.main">
+  <component name="RunManager" selected="Python.main unattended force">
     <configuration name="generate_site" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="leaderboard-generator" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -374,6 +408,31 @@
         <env name="PYTHONUNBUFFERED" value="1" />
         <env name="GOOGLE_APPLICATION_CREDENTIALS" value="$USER_HOME$/Downloads/Voyage Project-d33af8724280.json" />
         <env name="REGEN_NO_CACHE" value="1" />
+        <env name="FORCE_GEN" value="1" />
+        <env name="PATH" value="$USER_HOME$/.local/bin:$USER_HOME$/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:$USER_HOME$/bin/google-cloud-sdk/bin" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/leaderboard_generator" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/leaderboard_generator/main.py" />
+      <option name="PARAMETERS" value="-y" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="main unattended force" type="PythonConfigurationType" factoryName="Python">
+      <module name="leaderboard-generator" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="GOOGLE_APPLICATION_CREDENTIALS" value="$USER_HOME$/Downloads/Voyage Project-d33af8724280.json" />
         <env name="FORCE_GEN" value="1" />
         <env name="PATH" value="$USER_HOME$/.local/bin:$USER_HOME$/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:$USER_HOME$/bin/google-cloud-sdk/bin" />
       </envs>
@@ -482,6 +541,7 @@
       <item itemvalue="Python.run_tests_debug TOKEN" />
       <item itemvalue="Python.main" />
       <item itemvalue="Python.main regen_no_cache unattended force" />
+      <item itemvalue="Python.main unattended force" />
       <item itemvalue="Python.get_github_token" />
       <item itemvalue="Python.main force" />
       <item itemvalue="Python.generate_site" />
@@ -504,6 +564,10 @@
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="f6a092f8-eb6e-4151-a2e8-14d2ae86a6fe" name="Default Changelist" comment="" />
+      <changelist id="8a749fd7-6eba-44d5-903b-d8e8e4ddc5a4" name="Add unattended force run config" comment="" />
+      <changelist id="8ccc142d-d2aa-484e-af26-88ca91a32765" name="Use min search date from config" comment="" />
+      <changelist id="63b44ced-ec5b-4921-b1fa-9d8fb1d10ac8" name="Dynamically detect mock flags" comment="" />
+      <changelist id="39d9c441-af2e-4fd9-b43e-739726ce604e" name="Bootstrap cache gist ids" comment="" />
       <created>1558643761885</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -545,14 +609,7 @@
       <workItem from="1565457568392" duration="983000" />
       <workItem from="1565627761843" duration="21443000" />
       <workItem from="1566233837916" duration="5468000" />
-      <workItem from="1566254998078" duration="3540000" />
-    </task>
-    <task id="LOCAL-00046" summary="Add TODO for caching gists">
-      <created>1563926780279</created>
-      <option name="number" value="00046" />
-      <option name="presentableId" value="LOCAL-00046" />
-      <option name="project" value="LOCAL" />
-      <updated>1563926780279</updated>
+      <workItem from="1566254998078" duration="3786000" />
     </task>
     <task id="LOCAL-00047" summary="Identify &quot;post launch&quot; TODO's">
       <created>1563926802497</created>
@@ -890,11 +947,18 @@
       <option name="project" value="LOCAL" />
       <updated>1565993739751</updated>
     </task>
-    <option name="localTasksCounter" value="95" />
+    <task id="LOCAL-00095" summary="Add workspace to save run configs">
+      <created>1566418402816</created>
+      <option name="number" value="00095" />
+      <option name="presentableId" value="LOCAL-00095" />
+      <option name="project" value="LOCAL" />
+      <updated>1566418402816</updated>
+    </task>
+    <option name="localTasksCounter" value="96" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="86466000" />
+    <option name="totallyTimeSpent" value="86712000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -912,8 +976,8 @@
       <window_info id="Favorites" order="1" sideWeight="0.5011601" side_tool="true" weight="0.12864442" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49804628" weight="0.5089494" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49834687" weight="0.41478598" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" sideWeight="0.49654344" visible="true" weight="0.48093385" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49834687" weight="0.6124514" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49654344" weight="0.48093385" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.49954915" weight="0.43424124" />
@@ -921,7 +985,7 @@
       <window_info anchor="bottom" id="Database Changes" order="8" />
       <window_info anchor="bottom" id="Messages" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info active="true" anchor="bottom" x="2217" y="72" width="1202" height="1348" id="Version Control" order="11" sideWeight="0.49443942" visible="true" weight="0.3058366" />
+      <window_info active="true" anchor="bottom" x="2217" y="72" width="1202" height="1348" id="Version Control" order="11" sideWeight="0.49443942" visible="true" weight="0.3929961" />
       <window_info anchor="bottom" id="Terminal" order="12" sideWeight="0.49954915" weight="0.21400778" />
       <window_info anchor="bottom" x="1396" y="90" width="714" height="1285" id="Python Console" order="13" sideWeight="0.5034566" weight="0.28638133" />
       <window_info anchor="right" id="make" order="0" />
@@ -991,7 +1055,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_NEW_TODO" value="false" />
     <confirmRemoveEmptyChangelist value="2" />
-    <MESSAGE value="Avoid problem h1 wrapping on mobile" />
     <MESSAGE value="Avoid score component wrapping on mobile" />
     <MESSAGE value="Correct js style" />
     <MESSAGE value="Responsive video width" />
@@ -1016,7 +1079,8 @@
     <MESSAGE value="Update tests to latest results format" />
     <MESSAGE value="Use botleague specific db for should gen flag" />
     <MESSAGE value="Use github botleague-helpers requirement" />
-    <option name="LAST_COMMIT_MESSAGE" value="Use github botleague-helpers requirement" />
+    <MESSAGE value="Add workspace to save run configs" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add workspace to save run configs" />
     <option name="PRESELECT_EXISTING_CHANGELIST" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -1064,37 +1128,37 @@
         </line-breakpoint>
         <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/leaderboard_generator/main.py</url>
-          <line>171</line>
+          <line>170</line>
           <option name="timeStamp" value="35" />
         </line-breakpoint>
         <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/leaderboard_generator/main.py</url>
-          <line>46</line>
+          <line>45</line>
           <option name="timeStamp" value="37" />
         </line-breakpoint>
         <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/leaderboard_generator/main.py</url>
-          <line>366</line>
+          <line>365</line>
           <option name="timeStamp" value="38" />
         </line-breakpoint>
         <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/leaderboard_generator/main.py</url>
-          <line>351</line>
+          <line>350</line>
           <option name="timeStamp" value="39" />
         </line-breakpoint>
         <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/leaderboard_generator/main.py</url>
-          <line>189</line>
+          <line>188</line>
           <option name="timeStamp" value="41" />
         </line-breakpoint>
         <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/leaderboard_generator/main.py</url>
-          <line>229</line>
+          <line>228</line>
           <option name="timeStamp" value="42" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/leaderboard_generator/main.py</url>
-          <line>382</line>
+          <line>381</line>
           <option name="timeStamp" value="50" />
         </line-breakpoint>
       </breakpoints>
@@ -1111,6 +1175,7 @@
     <SUITE FILE_PATH="coverage/leaderboard_generator$setup.coverage" NAME="setup Coverage Results" MODIFIED="1566235084730" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/leaderboard_generator$run_tests_debug_TOKEN.coverage" NAME="run_tests_debug TOKEN Coverage Results" MODIFIED="1566236087635" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/leaderboard_generator" />
     <SUITE FILE_PATH="coverage/leaderboard_generator$main_regen_no_cache.coverage" NAME="main regen_no_cache unattended force Coverage Results" MODIFIED="1565976127205" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/leaderboard_generator" />
+    <SUITE FILE_PATH="coverage/leaderboard_generator$main_unattended_force.coverage" NAME="main unattended force Coverage Results" MODIFIED="1566418466235" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/leaderboard_generator" />
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="evaluateCodeFragment">
@@ -1550,7 +1615,12 @@
     <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="360">
-          <caret line="15" column="14" lean-forward="true" selection-start-line="15" selection-start-column="14" selection-end-line="15" selection-end-column="14" />
+          <caret line="15" column="41" lean-forward="true" selection-start-line="15" selection-start-column="41" selection-end-line="15" selection-end-column="41" />
+          <folding>
+            <element signature="e#60687#60691#0#XML" expanded="true" />
+            <element signature="e#60925#60929#0#XML" expanded="true" />
+            <element signature="e#61513#61517#0#XML" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
