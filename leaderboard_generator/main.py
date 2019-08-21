@@ -229,7 +229,10 @@ def store_processed_gist_ids(gists):
     new_gist_ids = {g['id']: None for g in gists}  # Use a dict to get ordering
     cache_file = config.results_gist_ids_filepath
     log.info('Marking gist ids as processed %s', '\n'.join(new_gist_ids))
-    current_gist_ids = {gist_id: None for gist_id in read_lines(cache_file)}
+    if os.path.exists(cache_file):
+        current_gist_ids = {gist_id: None for gist_id in read_lines(cache_file)}
+    else:
+        current_gist_ids = {}
     current_gist_ids.update(new_gist_ids)
     write_file(config.results_gist_ids_filepath,
                '\n'.join(current_gist_ids.keys()) + '\n')
