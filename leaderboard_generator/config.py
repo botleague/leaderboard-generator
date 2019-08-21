@@ -3,7 +3,7 @@ import os
 import os.path as p
 
 import github
-from botleague_helpers.config import blconfig
+from botleague_helpers.config import blconfig, in_test
 
 from leaderboard_generator.util import read_json
 from leaderboard_generator import logs, util
@@ -28,10 +28,6 @@ class Config:
     if dry_run:
         log.info('********* DRY RUN **********')
     is_test = blconfig.is_test
-    should_mock_git = 'SHOULD_MOCK_GIT' in os.environ or is_test or dry_run
-    should_mock_gcs = 'SHOULD_MOCK_GCS' in os.environ or is_test or dry_run
-    should_mock_github = 'SHOULD_MOCK_GITHUB' in os.environ or is_test or \
-                         dry_run
     gist_search_template = \
         'https://api.github.com/users/botleague-results/gists?since={time}'
     gcs_bucket = 'botleague.io'
@@ -40,6 +36,23 @@ class Config:
     # --------------------------------------------------------------------------
     # TODO(post launch): Auto change this using botleague-helpers get_test_name_from_callstack
     relative_gen_parent = relative_leaderboard_dir
+
+    @property
+    def min_search_date(self):
+        return '2019-05-07T19:47:27Z' if in_test() else \
+            '2019-08-15T01:42:05Z'
+
+    @property
+    def should_mock_git(self):
+        return 'SHOULD_MOCK_GIT' in os.environ or in_test() or self.dry_run
+
+    @property
+    def should_mock_gcs(self):
+        return 'SHOULD_MOCK_GCS' in os.environ or in_test() or self.dry_run
+
+    @property
+    def should_mock_github(self):
+        return 'SHOULD_MOCK_GITHUB' in os.environ or in_test() or self.dry_run
 
     @property
     def gen_parent(self):
