@@ -112,7 +112,7 @@ def gen_loop(db: DB = None, max_iters=-1):
         # Check for should gen trigger in db
         should_gen = db.get(blconfig.should_gen_key)
 
-        if should_gen or config.force_gen:
+        if should_gen or config.force_gen or num_iters == 0:
             # Generate!
             should_retry = generate(site_gen, git_util)
 
