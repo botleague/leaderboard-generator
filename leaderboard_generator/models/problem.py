@@ -54,6 +54,7 @@ class ProblemBase(Base):
 
     def fetch(self) -> bool:
         os.makedirs(self.dir, exist_ok=True)
+        # TODO(CI): Fetch these when the problem changes using liaison.
         found_readme = self.fetch_readme()
         found_definition = self.fetch_definition()
 
