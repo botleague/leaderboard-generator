@@ -144,6 +144,7 @@ class SiteGenerator:
                 # readme = grip.render_content(problem.readme,
                 #                              render_offline=True)
         write_template(out_filename, template, data=dict(
+            # problem_domain=problem.definition['display_name'],
             problem_name=problem.definition['display_name'],
             problem_readme=readme,
             problem_video=get_youtube_embed_url(problem.definition['youtube']),
