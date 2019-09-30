@@ -7,6 +7,10 @@ WORKDIR leaderboard-generator
 COPY requirements.txt ./requirements.txt
 RUN pip install -r requirements.txt
 COPY . .
+
+# Make sure we have up to date github backed libs
+RUN pip install --upgrade --force-reinstall --ignore-installed --no-cache-dir git+git://github.com/botleague/botleague-helpers#egg=botleague-helpers
+
 RUN pip install -e .
 CMD bin/run.sh
 
