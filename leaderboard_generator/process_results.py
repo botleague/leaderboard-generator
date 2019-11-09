@@ -2,6 +2,7 @@ import json
 import os.path as p
 
 import requests
+import simplejson
 
 from leaderboard_generator.models.problem import Problem
 from leaderboard_generator.tally import tally_bot_scores
@@ -47,6 +48,8 @@ def write_bot_score(problem_id, results):
     write_file(problem.results_filepath,
                json.dumps({"bots": results}, indent=2))
 
+    write_file(problem.results_safe_filepath,
+               simplejson.dumps({"bots": results}, ignore_nan=True, indent=2))
 
 def get_problem_map(gists):
     problem_map = {}

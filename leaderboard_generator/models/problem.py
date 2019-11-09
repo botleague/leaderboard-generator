@@ -18,6 +18,7 @@ log = logs.get_log(__name__)
 class ProblemBase(Base):
     # Class constants
     RESULTS_FILENAME = 'aggregated_results.json'
+    RESULTS_SAFE_FILENAME = 'aggregated_results_safe.json'
     DEFINITION_FILENAME = 'problem.json'
     README_FILENAME = 'README.md'
     RELATIVE_DIR = 'problems'
@@ -46,6 +47,7 @@ class ProblemBase(Base):
         self.dir = p.join(config.root_dir, self.relative_dir)
         os.makedirs(self.dir, exist_ok=True)
         self.results_filepath = p.join(self.dir, self.RESULTS_FILENAME)
+        self.results_safe_filepath = p.join(self.dir, self.RESULTS_SAFE_FILENAME)
         self.definition_filepath = p.join(self.dir, self.DEFINITION_FILENAME)
         self.readme_filepath = p.join(self.dir, self.README_FILENAME)
 
