@@ -226,58 +226,58 @@
     },
     {
       "logs": {
-        "deepdriveio/deepdrive:problem_domain_randomization_8cb18da224": "https://storage.googleapis.com/deepdriveio/deepdrive_botleague_logs/deepdriveio/deepdrive:problem_domain_randomization_job-2019-11-12_01-58-21_DVS52UJ5ZF50U2IHAWSW5PEGP.txt",
-        "crizcraig/forward-agent_50c7bfffbb": "https://storage.googleapis.com/deepdriveio/deepdrive_botleague_logs/crizcraig/forward-agent_job-2019-11-12_01-58-21_DVS52UJ5ZF50U2IHAWSW5PEGP.txt"
+        "deepdriveio/deepdrive:problem_domain_randomization_77943e079c": "https://storage.googleapis.com/deepdriveio/deepdrive_botleague_logs/deepdriveio/deepdrive:problem_domain_randomization_job-2019-11-12_02-06-52_22T989F1BAOUEX4OADW67NGTN.txt",
+        "crizcraig/forward-agent_73d6b227eb": "https://storage.googleapis.com/deepdriveio/deepdrive_botleague_logs/crizcraig/forward-agent_job-2019-11-12_02-06-52_22T989F1BAOUEX4OADW67NGTN.txt"
       },
       "errors": {},
-      "problem_docker_digest": "deepdriveio/deepdrive@sha256:81e25419aa37f83c7f1e5d258f69619e41881e149220b22858426c80544f6f20",
+      "problem_docker_digest": "deepdriveio/deepdrive@sha256:fa10e44bdf2231f1ae50ebace3c8e876050496340fd2c9a23c65a7d65c07b3b0",
       "bot_docker_digest": "crizcraig/forward-agent@sha256:4e6815b728c757ddd3b7bed0a1394710bdfad2a26b1df33dda6a59f88c18b0ad",
       "json_results_from_logs": "",
-      "gist": "https://gist.github.com/a2a2eed6d84fde3a28ae60cc15dbb94b",
+      "gist": "https://gist.github.com/101532c221c53504832521935db5d926",
       "sensorimotor_specific": {
         "num_episodes": 1,
-        "median_fps": 3.5456982710351195,
-        "num_steps": 35,
-        "total_episode_seconds": 4.375
+        "median_fps": 3.813017501881825,
+        "num_steps": 38,
+        "total_episode_seconds": 4.75
       },
       "driving_specific": {
-        "max_gforce": 7.716064800192319,
-        "uncomfortable_gforce_seconds": 1.5,
-        "jarring_gforce_seconds": 0.375,
+        "max_gforce": 8.67500037895523,
+        "uncomfortable_gforce_seconds": 1.875,
+        "jarring_gforce_seconds": 0.25,
         "harmful_gforces": true,
-        "comfort_pct": 65.71428571428572,
-        "jarring_pct": 8.571428571428571,
-        "max_kph": 45.002926757812496,
-        "trip_speed_kph": 10.096521428571426,
+        "comfort_pct": 60.526315789473685,
+        "jarring_pct": 5.263157894736842,
+        "max_kph": 46.17247412109375,
+        "trip_speed_kph": 12.506773026315788,
         "collided_with_vehicle": false,
-        "collided_with_non_actor": false,
+        "collided_with_non_actor": true,
         "closest_vehicle_meters": null,
         "closest_vehicle_meters_while_at_least_4kph": null,
-        "max_lane_deviation_meters": 5.2784271240234375
+        "max_lane_deviation_meters": 5.92427001953125
       },
-      "score": -17613.320499999998,
+      "score": -16453.879638157894,
       "problem_specific": {
-        "summary": "https://storage.googleapis.com/deepdriveio/artifacts/2019-11-12__01-58-30AM_cda4/csvs/2019-11-12__01-58-30AM_r0_summary.csv",
-        "episodes": "https://storage.googleapis.com/deepdriveio/artifacts/2019-11-12__01-58-30AM_cda4/csvs/2019-11-12__01-58-30AM_r1_episodes.csv",
+        "summary": "https://storage.googleapis.com/deepdriveio/artifacts/2019-11-12__02-10-10AM_0341/csvs/2019-11-12__02-10-10AM_r0_summary.csv",
+        "episodes": "https://storage.googleapis.com/deepdriveio/artifacts/2019-11-12__02-10-10AM_0341/csvs/2019-11-12__02-10-10AM_r1_episodes.csv",
         "hdf5_observations": [
-          "https://storage.googleapis.com/deepdriveio/artifacts/2019-11-12__01-58-30AM_cda4/hdf5/0000000000.hdf5"
+          "https://storage.googleapis.com/deepdriveio/artifacts/2019-11-12__02-10-10AM_0341/hdf5/0000000000.hdf5"
         ]
       },
       "youtube": "",
-      "mp4": "https://storage.googleapis.com/deepdriveio/artifacts/2019-11-12__01-58-30AM_cda4/mp4/deepdrive_2019-11-12__01-58-30AM.mp4",
-      "finished": 1573523965.600354,
+      "mp4": "https://storage.googleapis.com/deepdriveio/artifacts/2019-11-12__02-10-10AM_0341/mp4/deepdrive_2019-11-12__02-10-10AM.mp4",
+      "finished": 1573524800.6903405,
       "username": "crizcraig",
       "botname": "forward-agent",
       "problem": "deepdrive/domain_randomization",
-      "started": 1573523901.4806154,
-      "league_commit_sha": "d3c5686341978a1ec425f6fcfd3f2edefeedf8c5",
+      "started": 1573524412.0075715,
+      "league_commit_sha": "75ee336a1569f03961795cd3526fb1dc2619e29b",
       "source_commit": "https://github.com/crizCraig/forward-agent/tree/1782c2250c9683f92b6fca7d52463a5d57113487",
-      "seed": 519500,
-      "utc_timestamp": 1573523965.6549783,
-      "botleague_gist_time": "2019-11-12T01:59:26Z",
-      "botleague_results_raw_url": "https://gist.githubusercontent.com/botleague-results/0971ae63db1dccb097c74ea29c96a6ed/raw/b49d2eeaf27fb132783098d8d55dea77206a5cab/results.json",
-      "botleague_results_url": "https://api.github.com/gists/0971ae63db1dccb097c74ea29c96a6ed",
-      "botleague_results_html_url": "https://gist.github.com/0971ae63db1dccb097c74ea29c96a6ed",
+      "seed": 630601,
+      "utc_timestamp": 1573524800.7558715,
+      "botleague_gist_time": "2019-11-12T02:13:21Z",
+      "botleague_results_raw_url": "https://gist.githubusercontent.com/botleague-results/352976439e97fb849f5b62385e26690d/raw/fa1be603fb06678c2066567397f301a4ad24e471/results.json",
+      "botleague_results_url": "https://api.github.com/gists/352976439e97fb849f5b62385e26690d",
+      "botleague_results_html_url": "https://gist.github.com/352976439e97fb849f5b62385e26690d",
       "rank": 5
     }
   ]
