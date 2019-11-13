@@ -143,11 +143,15 @@ class SiteGenerator:
                 # TODO: Use offline renderer when it works
                 # readme = grip.render_content(problem.readme,
                 #                              render_offline=True)
+
+        problem_video = ''
+        if 'youtube' in problem.definition:
+            problem_video = get_youtube_embed_url(problem.definition['youtube'])
         write_template(out_filename, template, data=dict(
             # problem_domain=problem.definition['display_name'],
             problem_name=problem.definition['display_name'],
             problem_readme=readme,
-            problem_video=get_youtube_embed_url(problem.definition['youtube']),
+            problem_video=problem_video,
             submissions=submissions))
 
     @staticmethod
