@@ -51,6 +51,7 @@ def write_bot_score(problem_id, results):
     write_file(problem.results_safe_filepath,
                simplejson.dumps({"bots": results}, ignore_nan=True, indent=2))
 
+
 def get_problem_map(gists):
     problem_map = {}
     for gist in gists:
@@ -73,6 +74,11 @@ def get_problem_map(gists):
 
             if 'problem' not in result_json:
                 log.error('No "problem" in gist, skipping %s', url)
+            elif result_json.get('reason', '') == 'problem_changed':
+                # We don't want users scores changing randomly when problem
+                # CI is run.
+                log.info('Result not triggered by user, will skip and not '
+                         'update leaderboard.')
             else:
                 # Map results JSON into {problem: [results...]}
                 problem_map.setdefault(result_json['problem'], []).append(
