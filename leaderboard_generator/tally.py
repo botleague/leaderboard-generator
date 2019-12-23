@@ -16,7 +16,10 @@ def tally_bot_scores(results):
         botname = result['botname']
         username = result['username']
         full_botname = '%s/%s' % (username, botname)
-        if full_botname in ret:
+        if 'reason' in result and result['reason'] == 'problem_changed':
+            log.info(f'Not counting score for {botname} from {username} - '
+                     f'Was a CI test, not an eval initiated by user')
+        elif full_botname in ret:
             current = ret[full_botname]
             old_high_score = current['score']
             new_score = result['score']
