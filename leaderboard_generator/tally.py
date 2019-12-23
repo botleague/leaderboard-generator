@@ -19,6 +19,11 @@ def tally_bot_scores(results):
         if 'reason' in result and result['reason'] == 'problem_changed':
             log.info(f'Not counting score for {botname} from {username} - '
                      f'Was a CI test, not an eval initiated by user')
+        elif 'is_release' in result and not result['is_release']:
+            # This won't happen so long as we aren't including problem_changed
+            # evals
+            log.info(f'Not counting score for {botname} from {username} - '
+                     f'Eval was on a non-release branch.')
         elif full_botname in ret:
             current = ret[full_botname]
             old_high_score = current['score']
